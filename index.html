@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#050505">
 <title>Confere — Quiz dos Sinais da Relação</title>
-<meta name="description" content="Em 1 minuto, descubra o nível de alerta da sua relação: perguntas rápidas, anônimas, com resultado na hora.">
+<meta name="description" content="Meça seu índice de dúvida em 1 minuto: perguntas diretas, resultado na hora e a resposta para a dúvida que não te deixa em paz.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%23050505'/%3E%3Ccircle cx='28' cy='28' r='17' fill='none' stroke='%23ffffff' stroke-width='5'/%3E%3Cpath d='M41 41L54 54' stroke='%23ffffff' stroke-width='7' stroke-linecap='round'/%3E%3Cg transform='translate(17.6,17.2) scale(0.95)'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z' fill='%23ff2525'/%3E%3Cpath d='M12 5.4l-1.7 5.7 3.4 2.7-2.5 6' fill='none' stroke='%23050505' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3C/svg%3E">
 <style>
 :root{
@@ -190,34 +190,34 @@ a.btn:hover{filter:brightness(1.1)}
 <script>
 const BASE=[
  {id:"gender",t:()=>"Você é?",opts:[{l:"Homem",g:"m"},{l:"Mulher",g:"f"}]},
- {id:"horas",t:p=>`Seu ${p} fica horas vendo TikTok longe de você?`,s:"Fica horas no TikTok longe de você",
-  opts:[{l:"Nunca",v:0},{l:"Às vezes",v:1},{l:"Quase todo dia",v:2},{l:"Sim, quase sempre",v:3}]},
- {id:"tela",t:(p,pe)=>`Quando você chega perto, ${pe} esconde ou trava a tela do celular?`,s:"Esconde a tela quando você chega perto",
-  opts:[{l:"Nunca",v:0},{l:"Raramente",v:1},{l:"Às vezes",v:2},{l:"Sempre",v:3}]},
- {id:"tempo",t:()=>"O TikTok está roubando tempo de vocês (conversas, jantar, hora de dormir)?",s:"O TikTok está roubando tempo de vocês",
-  opts:[{l:"Nada disso",v:0},{l:"Um pouco",v:1},{l:"Bastante",v:2},{l:"Muito — já brigamos por isso",v:3}]},
- {id:"curtidas",t:(p,pe)=>`Você já viu ${pe} curtindo ou comentando vídeos de pessoas atraentes?`,s:"Curtindo vídeos de pessoas atraentes",
-  opts:[{l:"Nunca vi",v:0},{l:"Já vi uma vez",v:1},{l:"Várias vezes",v:2},{l:"É constante e me incomoda",v:3}]},
- {id:"conexao",t:()=>"Como está a conexão de vocês nos últimos 30 dias?",s:"Conexão fria nos últimos 30 dias",
-  opts:[{l:"Forte",v:0},{l:"Boa",v:1},{l:"Fria",v:2},{l:"Distante",v:3}]},
- {id:"brigas",t:()=>"Vocês já discutiram por causa do celular ou do TikTok?",s:"Discussões por causa do celular/TikTok",
-  opts:[{l:"Nunca",v:0},{l:"Uma vez",v:1},{l:"Algumas vezes",v:2},{l:"Muitas vezes",v:3}]},
- {id:"confianca",t:(p,pe)=>`O quanto você confia no que ${pe} assiste no TikTok?`,s:"Pouca confiança no que ele/ela assiste",
-  opts:[{l:"Totalmente",v:0},{l:"Na maior parte",v:1},{l:"Pouco",v:2},{l:"Nada",v:3}]},
- {id:"checar",t:(p,pe)=>`Você já pensou em verificar o que ${pe} vê no TikTok?`,s:"Vontade de verificar o que ele/ela vê",
+ {id:"horas",t:p=>`Quantas horas por dia ${p} some no TikTok — longe de você?`,s:"Some horas no TikTok longe de você",
+  opts:[{l:"Quase nenhuma",v:0},{l:"Algumas",v:1},{l:"Muitas",v:2},{l:"Tantas que você já perdeu a conta",v:3}]},
+ {id:"tela",t:(p,pe)=>`Já aconteceu de você chegar perto e ${pe} travar, virar ou esconder o celular na hora?`,s:"Trava ou vira o celular quando você chega",
+  opts:[{l:"Nunca",v:0},{l:"Raramente",v:1},{l:"Já aconteceu algumas vezes",v:2},{l:"É o padrão — toda vez",v:3}]},
+ {id:"tempo",t:()=>"Quanto o TikTok já roubou do tempo de vocês?",s:"O TikTok já roubou tempo de vocês",
+  opts:[{l:"Nada",v:0},{l:"Um pouco",v:1},{l:"Muito — já sentimos falta",v:2},{l:"Tanto que já brigamos por isso",v:3}]},
+ {id:"curtidas",t:(p,pe)=>`Você já pegou ${pe} curtindo ou comentando vídeo de gente atraente?`,s:"Curte vídeo de gente atraente",
+  opts:[{l:"Nunca",v:0},{l:"Uma vez",v:1},{l:"Várias vezes",v:2},{l:"Constantemente — e me incomoda",v:3}]},
+ {id:"conexao",t:()=>"Como está a conexão de vocês hoje?",s:"Conexão fria, como estranhos",
+  opts:[{l:"Firme",v:0},{l:"Boa",v:1},{l:"Fria",v:2},{l:"Distante como estranhos",v:3}]},
+ {id:"brigas",t:()=>"Vocês já brigaram por causa do celular ou do TikTok?",s:"Brigas por causa do celular/TikTok",
+  opts:[{l:"Nunca",v:0},{l:"Uma vez",v:1},{l:"Algumas vezes",v:2},{l:"Muitas — e nada mudou",v:3}]},
+ {id:"confianca",t:(p,pe)=>`Se você pudesse ver tudo que ${pe} assiste no TikTok, teria coragem de olhar?`,s:"Não teria coragem de olhar",
+  opts:[{l:"Olharia sem medo",v:0},{l:"Teria receio do que ver",v:1},{l:"Não teria coragem",v:2},{l:"Já sei que não confio",v:3}]},
+ {id:"checar",t:(p,pe)=>`Você já pensou em verificar o que ${pe} vê no TikTok?`,s:"Quer verificar o que ele/ela vê no TikTok",
   opts:[{l:"Nunca pensei",v:0},{l:"Passou pela minha cabeça",v:1},{l:"Penso sempre",v:2},{l:"Estou pensando agora",v:3}]},
- {id:"celular",t:(p,pe)=>`Você sente que ${pe} está mais perto do celular do que de você?`,s:"Mais perto do celular do que de você",
-  opts:[{l:"Nunca",v:0},{l:"Às vezes",v:1},{l:"Frequentemente",v:2},{l:"Sempre",v:3}]}
+ {id:"celular",t:(p,pe)=>`Hoje, quem ocupa mais espaço: você ou o celular de ${p}?`,s:"O celular ocupa o espaço de você",
+  opts:[{l:"Eu ocupo",v:0},{l:"Às vezes o celular",v:1},{l:"Mais o celular",v:2},{l:"O celular — e você sabe",v:3}]}
 ];
 const CONDS=[
- {id:"c_planos",trigger:"horas",min:2,bonus:true,s:"Desmarcou planos por causa do TikTok",
-  t:(p,pe)=>`Nos últimos meses, ${pe} desmarcou planos, cancelou saídas ou ignorou você por causa do TikTok?`,
-  opts:[{l:"Nunca",v:0},{l:"Uma vez",v:1},{l:"Algumas vezes",v:2},{l:"Várias vezes",v:3}]},
- {id:"c_tela",trigger:"tela",min:2,bonus:true,s:"Celular sempre virado, mudo ou longe de você",
-  t:(p,pe)=>`O celular de ${pe} fica sempre com a tela para baixo, no silencioso ou fora do seu alcance?`,
-  opts:[{l:"Nunca reparei",v:0},{l:"Às vezes",v:1},{l:"Frequentemente",v:2},{l:"Sempre",v:3}]},
- {id:"c_check",trigger:"checar",min:2,bonus:true,s:"Já mexeu no celular dele/ela por desconfiança",
-  t:(p,pe)=>`Você chegou a mexer no celular de ${pe} ou ler as notificações escondidas?`,
+ {id:"c_planos",trigger:"horas",min:2,bonus:true,s:"Cancelou planos por causa do TikTok",
+  t:(p,pe)=>`Nos últimos meses, ${pe} já cancelou planos, desmarcou saídas ou te ignorou por causa do TikTok?`,
+  opts:[{l:"Nunca",v:0},{l:"Uma vez",v:1},{l:"Algumas vezes",v:2},{l:"Várias vezes e sem explicação",v:3}]},
+ {id:"c_tela",trigger:"tela",min:2,bonus:true,s:"Celular sempre de costas ou fora de alcance",
+  t:(p,pe)=>`O celular ${po(pe)} vive de costas, no mudo ou fora do seu alcance?`,
+  opts:[{l:"Não reparei",v:0},{l:"Às vezes",v:1},{l:"Frequentemente",v:2},{l:"Sempre",v:3}]},
+ {id:"c_check",trigger:"checar",min:2,bonus:true,s:"Já verificou o celular por desconfiança",
+  t:(p,pe)=>`Você já mexeu no celular ${po(pe)} ou leu notificações escondidas por desconfiança?`,
   opts:[{l:"Nunca",v:0},{l:"Passei a mão uma vez",v:1},{l:"Várias vezes",v:2},{l:"Sim, com frequência",v:3}]}
 ];
 const CATS=[
@@ -240,6 +240,7 @@ st=freshState();
 
 function pc(){return st.gender==="m"?"sua esposa/namorada":"seu marido/namorado"}
 function pe(){return st.gender==="m"?"ela":"ele"}
+function po(x){return x==="ele"?"dele":"dela"}
 
 function tone(f,d,type,vol,delay){
   if(!soundOn)return;
@@ -288,7 +289,7 @@ function soundBtn(){
 }
 function chips(withSinais){
   const sn=withSinais
-    ?`<span class="sinais" id="sinaisChip">SINAIS <b>${st.sinais}</b></span>`:"";
+    ?`<span class="sinais" id="sinaisChip">DÚVIDA <b>${st.sinais}</b></span>`:"";
   return `<div class="chips">${sn}${soundBtn()}</div>`;
 }
 function bar(pct,label){
@@ -306,16 +307,16 @@ function viewIntro(){
       <div class="slogan">Descubra a verdade<br>antes que seja tarde.</div>
       <div class="rule"></div>
     </div>
-    <div class="kicker">Quiz da relação</div>
-    <h1>Será que o TikTok está roubando a sua relação?</h1>
-    <p class="lead">Em 1 minuto você descobre o nível de alerta da conexão de vocês — perguntas rápidas, diretas e sem enrolação.</p>
+    <div class="kicker">Teste da dúvida</div>
+    <h1>Quantas noites você já perdeu na dúvida?</h1>
+    <p class="lead">Você já sabe que algo mudou — só não sabe o quê. Este teste de 1 minuto mede o tamanho da sua dúvida e, no final, te leva até a resposta.</p>
     <ul class="ticks">
-      <li><b>1</b>Menos de 1 minuto — resultado na hora</li>
-      <li><b>2</b>As perguntas mudam conforme o que você responde</li>
-      <li><b>3</b>100% anônimo — nada é salvo sobre você</li>
-      <li><b>4</b>Nível de alerta + padrão dominante + o que fazer agora</li>
+      <li><b>1</b>Perguntas diretas, feitas para quem já não confia mais</li>
+      <li><b>2</b>Resultado na hora: seu Índice de Dúvida, em %</li>
+      <li><b>3</b>No final, a resposta para a dúvida que não te deixa em paz</li>
+      <li><b>4</b>100% anônimo — nada é salvo sobre você</li>
     </ul>
-    <button class="btn" data-action="start">COMEÇAR O QUIZ</button>
+    <button class="btn" data-action="start">QUERO SABER A VERDADE →</button>
     <p class="micro">Sem cadastro. Suas respostas ficam só no seu aparelho.</p>
   </div>
   <p class="disc">O Confere é um quiz informativo e não substitui aconselamento profissional.</p>`;
@@ -346,10 +347,10 @@ function viewHalf(){
   return `${bar(Math.round((st.idx/st.seq.length)*100),"Metade do caminho")}
   <div class="card" style="text-align:center">
     <div class="half-ico">50</div>
-    <h2>Você já passou da metade</h2>
-    <p class="lead">Suas respostas já desenham um padrão. Faltam só ${rest} pergunta${rest===1?"":"s"} para liberar o seu nível de alerta.</p>
-    <div class="half-sinais"><b>${sn}</b> sinal${sn===1?"":"is"} detectado${sn===1?"":"s"} até agora</div>
-    <div style="margin-top:24px"><button class="btn" data-action="continue">CONTINUAR →</button></div>
+    <h2>Metade do caminho — e já dá para ver o padrão</h2>
+    <p class="lead">Cada resposta é um espelho. Faltam só ${rest} pergunta${rest===1?"":"s"} para o seu Índice de Dúvida — e ele costuma surpreender.</p>
+    <div class="half-sinais"><b>${sn}</b> ponto${sn===1?"":"s"} de dúvida até agora</div>
+    <div style="margin-top:24px"><button class="btn" data-action="continue">QUERO O RESULTADO →</button></div>
   </div>`;
 }
 
@@ -357,35 +358,35 @@ function viewCalc(){
   return `${bar(100,"Calculando")}
   <div class="card" style="text-align:center;padding-top:56px;padding-bottom:56px">
     <div class="spin"></div>
-    <div class="calc-t">Analisando seus sinais...</div>
-    <div class="calc-s">Cruzando ${st.answers.length} respostas com o padrão de alerta</div>
+    <div class="calc-t">Traduzindo suas respostas em Índice de Dúvida...</div>
+    <div class="calc-s">Cruzando ${st.answers.length} respostas com o que você realmente sente</div>
   </div>`;
 }
 
 function levelOf(pct){
   if(pct<35)return{
-    c:"#22c55e",t:"Conexão Firme",
-    d:"Poucos sinais de desconfiança. O TikTok até pode estar presente na rotina de vocês, mas ainda não roubou a conexão — proteja o que já funciona.",
+    c:"#22c55e",t:"Dúvida Leve",
+    d:"Por enquanto nada forte te trouxe até aqui. Mas se você fez este teste, alguma coisa te incomoda — e incomodar não passa sozinho.",
     tips:[
-      "Criem um momento sem celular todo dia (jantar ou os 30 minutos antes de dormir) — para os dois lados.",
-      "Troque a acusação pela curiosidade: em vez de “por que você fica tanto no TikTok?”, peça “me mostra o que você tá vendo”.",
-      "Mantenham uma atividade sem tela que vocês já gostavam — é o que segura a conexão no longo prazo."
+      "Sem informação, sua mente preenche as lacunas com o pior cenário — e repete isso toda noite.",
+      "Observe por 7 dias sem acusar: quem esconde, repete o padrão — e o padrão aparece.",
+      "Marque no calendário o dia em que você vai parar de apenas observar. Dúvida parada vira desgaste."
     ]};
   if(pct<65)return{
-    c:"#f5b301",t:"Sinal de Atenção",
-    d:"Os sinais estão aparecendo: a tela roubou espaço da conexão de vocês. Ainda dá tempo de virar o jogo com uma conversa bem feita.",
+    c:"#f5b301",t:"Dúvida em Alta",
+    d:"A dúvida já virou rotina: você observa, compara, relembra conversas. E dúvida que não se resolve só cresce quando você não olha de frente.",
     tips:[
-      "Fale num momento calmo (nunca quando ele/ela estiver no celular) usando “eu senti”, não “você faz”.",
-      "Fechem um acordo de tela: jantar e quarto sem celular — regra vale para os dois.",
-      "Restaurem antes de cobrarem: marquem uma date sem tela nesta semana. Reconexão acontece no mundo real, não na conversa sobre regras."
+      "Cada tela virada dispara a mesma pergunta — e ela segue sem resposta.",
+      "Conversar sem informação vira “você está exagerando” — e a dúvida volta, maior.",
+      "Você já tentou de tudo menos saber. Chegou a hora de virar o jogo."
     ]};
   return{
-    c:"#ff2525",t:"Alerta na Relação",
-    d:"Os sinais se acumularam: distância, tela escondida e confiança abalada. Isso não se resolve vigiando em segredo — se resolve com uma conversa séria (ou uma decisão honesta).",
+    c:"#ff2525",t:"Dúvida Crítica",
+    d:"Você não consegue mais confiar sem prova. E viver no “será que?” rouba sono, paz e a relação — toda noite. Sua dúvida merece uma resposta, não mais especulação.",
     tips:[
-      "Tenha a conversa séria sem celular por perto e sem ataque: diga o que você viveu, não o que você imagina.",
-      "Defina limites claros e combinados — relação não sobrevive com um parceiro que some dentro de uma tela.",
-      "Se a confiança já foi, terapia de casal (ou uma decisão honesta sobre a relação) é o próximo passo — vigiar em segredo só adoece você."
+      "Você já perdeu noites contando os minutos. Isso não é ciúme — é informação faltando.",
+      "Sem prova, toda conversa termina em “você está louca/o” — e a dúvida volta dobrada.",
+      "A dúvida não vai embora sozinha. Ela só some quando você finalmente sabe."
     ]};
 }
 
@@ -403,23 +404,23 @@ function viewResult(){
         <div class="ringIn"><div><span id="num">0</span><em>%</em></div></div>
       </div>
       <div class="pill" style="color:${lv.c};border-color:${lv.c}44;background:${lv.c}1a">${lv.t}</div>
-      <div class="prof">Padrão dominante: <strong>${profile}</strong></div>
-      <div class="meta">${strong} de ${answeredN} respostas marcaram sinal</div>
-      <div class="res-title">Nível de alerta</div>
+      <div class="prof">Principal fonte da sua dúvida: <strong>${profile}</strong></div>
+      <div class="meta">${strong} de ${answeredN} respostas alimentaram sua dúvida</div>
+      <div class="res-title">Seu Índice de Dúvida</div>
       <p class="res-desc">${lv.d}</p>
     </div>
     <div class="sect">
-      <h3>O que mais chamou atenção</h3>
+      <h3>O que mais alimenta sua dúvida</h3>
       <ul>${hi}</ul>
     </div>
     <div class="sect">
-      <h3>O que fazer agora</h3>
+      <h3>Por que a dúvida não vai embora sozinha</h3>
       <ol>${tips}</ol>
     </div>
     <div class="cta-box">
-      <div class="kicker">Oferta</div>
-      <div class="cta-title">Leve o material completo da Confere para a sua relação</div>
-      <a class="btn rose" id="cta-checkout" data-action="cta" href="https://pay.cakto.com.br/awfje4i_1188792" target="_blank" rel="noopener">GARANTIR AGORA — R$ 49,90</a>
+      <div class="kicker">A resposta</div>
+      <div class="cta-title">Sua dúvida tem resposta — e ela está a um clique de distância</div>
+      <a class="btn rose" id="cta-checkout" data-action="cta" href="https://pay.cakto.com.br/awfje4i_1188792" target="_blank" rel="noopener">QUERO A RESPOSTA — R$ 49,90</a>
       <div class="cta-note">Pagamento único via Cakto · cartão, Pix ou PicPay</div>
     </div>
   </div>
@@ -459,14 +460,14 @@ function animateResult(){
 function feedback(v){
   const el=document.createElement("div");
   el.className="fb "+(v>=2?"warn":v===1?"mid":"ok");
-  el.textContent=v>=2?"+1 SINAL":v===1?"mais um ponto":"tudo certo";
+  el.textContent=v>=2?"+1 DÚVIDA":v===1?"DÚVIDA LEVE":"POR ORA, OK";
   document.body.appendChild(el);
   setTimeout(()=>el.remove(),750);
 }
 function bumpSinais(){
   const chip=document.getElementById("sinaisChip");
   if(!chip)return;
-  chip.innerHTML=`SINAIS <b>${st.sinais}</b>`;
+  chip.innerHTML=`DÚVIDA <b>${st.sinais}</b>`;
   chip.classList.remove("bump");
   void chip.offsetWidth;
   chip.classList.add("bump");
