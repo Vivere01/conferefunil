@@ -161,6 +161,20 @@ h2{font-size:25px;line-height:1.2;margin:10px 0 10px}
 a.btn{display:block;text-align:center;text-decoration:none;line-height:1.2}
 a.btn:hover{filter:brightness(1.1)}
 .cta-note{font-size:12.5px;color:var(--mut);margin-top:12px;line-height:1.5}
+.tk-wrap{
+  display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);
+  border-radius:14px;padding:12px 14px;background:#141414;margin-top:18px;
+}
+.tk-wrap:focus-within{border-color:#ff2525}
+.tk-wrap.err{animation:shake .55s ease}
+.tk-at{font-weight:800;font-size:18px;color:#ff2525}
+.tk-in{
+  flex:1;background:none;border:0;outline:none;color:#fff;
+  font-size:17px;font-weight:700;font-family:inherit;min-width:0;
+}
+.tk-in::placeholder{color:#666;font-weight:600}
+.tk-err{color:#ff2525;font-size:13px;margin-top:8px;display:none}
+.tk-wrap.err~.tk-err{display:block}
 .reveal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
 .feed-card{
   position:relative;aspect-ratio:9/16;border-radius:16px;overflow:hidden;
@@ -245,7 +259,7 @@ let ac=null;
 
 function freshState(stage){
   return {stage:stage||"intro",idx:0,gender:null,answers:[],seq:BASE.slice(),
-    answered:0,sinais:0,halfSeen:false};
+    answered:0,sinais:0,halfSeen:false,handle:"",handleSeen:false};
 }
 st=freshState();
 
@@ -365,19 +379,39 @@ function viewCalc(){
   </div>`;
 }
 
+function viewHandle(){
+  const pct=Math.round((st.idx/st.seq.length)*100);
+  return `${bar(pct,"Verificação")}
+  <div class="card">
+    <div class="kicker">Antes das perguntas</div>
+    <h2>Qual é o @ do TikTok dele?</h2>
+    <p class="lead">Digite o @ da conta que você desconfia para personalizar sua verificação.</p>
+    <div class="tk-wrap" id="tkWrap">
+      <span class="tk-at">@</span>
+      <input class="tk-in" id="tkHandle" type="text" placeholder="seu.exemplo"
+        maxlength="40" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus>
+    </div>
+    <div class="tk-err">Digite o @ para continuar</div>
+    <p class="micro" style="margin-top:14px">Não pedimos senha. Não avisamos ele. 100% anônimo.</p>
+    <div style="margin-top:16px"><button class="btn" data-action="handleGo">CONTINUAR →</button></div>
+  </div>`;
+}
+
 function viewReveal(){
+  const who=st.handle?"@"+st.handle:"Seu cônjuge";
   const cards=[1,2,3].map(i=>`
     <div class="feed-card">
       <div class="ph-img" style="background-image:url('img/feed${i}.jpg')"></div>
       <div class="play"><span>&#9654;</span></div>
     </div>`).join("");
-  return `${bar(100,"O segredo")}
+  const pct=Math.round((st.idx/st.seq.length)*100);
+  return `${bar(pct,"O segredo")}
   <div class="card">
-    <div class="kicker">O que ninguém conta</div>
-    <h2>Enquanto você acha que é nada, isso já está acontecendo</h2>
+    <div class="kicker">Verificação secreta</div>
+    <h2>${who} pode estar vendo vídeos como estes agora</h2>
     <div class="reveal-grid">${cards}</div>
-    <p class="lead" style="margin-top:18px">Milhões de pessoas estão vendo vídeos assim agora — e o cônjuge de alguém pode ser um deles. A pergunta que fica: e o seu?</p>
-    <div style="margin-top:22px"><button class="btn" data-action="toCalc">VER MEU RESULTADO →</button></div>
+    <p class="lead" style="margin-top:18px">Ele pode estar assistindo conteúdos assim todo dia — e você pode descobrir tudo com uma configuração secreta que quase ninguém conhece.</p>
+    <div style="margin-top:22px"><button class="btn" data-action="toQuestions">QUERO VERIFICAR →</button></div>
   </div>`;
 }
 
@@ -449,8 +483,9 @@ function render(){
   let html="";
   if(st.stage==="intro")html=viewIntro();
   else if(st.stage==="question")html=viewQuestion();
-  else if(st.stage==="halfway")html=viewHalf();
+  else if(st.stage==="handle")html=viewHandle();
   else if(st.stage==="reveal")html=viewReveal();
+  else if(st.stage==="halfway")html=viewHalf();
   else if(st.stage==="calc")html=viewCalc();
   else html=viewResult();
   app.classList.remove("fade");
@@ -517,8 +552,12 @@ function advance(){
   st.idx++;
   if(st.idx>=st.seq.length){
     computeResult();
-    st.stage="reveal";
+    startCalc();
+  }else if(st.gender&&!st.handleSeen){
+    st.handleSeen=true;
+    st.stage="handle";
     render();
+    setTimeout(()=>{const i=document.getElementById("tkHandle");if(i&&i.focus)i.focus();},60);
   }else if(st.answered===6&&!st.halfSeen){
     st.halfSeen=true;
     st.stage="halfway";
@@ -593,6 +632,20 @@ function confetti(){
   requestAnimationFrame(frame);
 }
 
+function submitHandle(){
+  const inp=document.getElementById("tkHandle");
+  const raw=inp&&inp.value?String(inp.value).trim():"";
+  if(!raw){
+    const w=document.getElementById("tkWrap");
+    if(w){w.classList.remove("err");void w.offsetWidth;w.classList.add("err")}
+    return;
+  }
+  st.handle=raw.replace(/^@+/,"");
+  sndBonus();
+  st.stage="reveal";
+  render();
+}
+
 app.addEventListener("click",e=>{
   const btn=e.target.closest("[data-action]");
   if(!btn)return;
@@ -626,9 +679,12 @@ app.addEventListener("click",e=>{
   }else if(action==="continue"){
     st.stage="question";
     render();
-  }else if(action==="toCalc"){
+  }else if(action==="handleGo"){
+    submitHandle();
+  }else if(action==="toQuestions"){
     sndBonus();
-    startCalc();
+    st.stage="question";
+    render();
   }else if(action==="cta"){
     document.dispatchEvent(new CustomEvent("ck_cta_click"));
   }else if(action==="sound"){
@@ -637,6 +693,10 @@ app.addEventListener("click",e=>{
     if(soundOn)tone(760,.1,"sine",.05);
     render();
   }
+});
+
+app.addEventListener("keydown",e=>{
+  if(e.key==="Enter"&&e.target&&e.target.id==="tkHandle")submitHandle();
 });
 
 render();
