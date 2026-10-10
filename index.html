@@ -3,18 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#08070d">
-<title>ConfereAki — Quiz dos Sinais da Relação</title>
+<meta name="theme-color" content="#050505">
+<title>Confere — Quiz dos Sinais da Relação</title>
 <meta name="description" content="Em 1 minuto, descubra o nível de alerta da sua relação: perguntas rápidas, anônimas, com resultado na hora.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%23050505'/%3E%3Ccircle cx='28' cy='28' r='17' fill='none' stroke='%23ffffff' stroke-width='5'/%3E%3Cpath d='M41 41L54 54' stroke='%23ffffff' stroke-width='7' stroke-linecap='round'/%3E%3Cg transform='translate(17.6,17.2) scale(0.95)'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z' fill='%23ff2525'/%3E%3Cpath d='M12 5.4l-1.7 5.7 3.4 2.7-2.5 6' fill='none' stroke='%23050505' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3C/svg%3E">
 <style>
 :root{
-  --bg:#08070d;
-  --card:#14121d;
-  --line:#272436;
-  --txt:#f4f2ff;
-  --mut:#a3a0b8;
-  --cy:#25f4ee;
-  --rose:#fe2c55;
+  --bg:#050505;
+  --card:#101010;
+  --line:#282828;
+  --txt:#f5f5f5;
+  --mut:#9b9b9b;
+  --red:#ff2525;
+  --rose:#a80f0f;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
@@ -22,58 +23,69 @@ body{
   font-family:"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
   background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden;
 }
-.bg{position:fixed;border-radius:50%;filter:blur(95px);opacity:.32;pointer-events:none;z-index:0}
-.fx1{width:340px;height:340px;background:var(--cy);top:-130px;left:-110px}
-.fx2{width:320px;height:320px;background:var(--rose);bottom:-120px;right:-100px}
+.bg{position:fixed;border-radius:50%;filter:blur(95px);opacity:.3;pointer-events:none;z-index:0}
+.fx1{width:340px;height:340px;background:var(--red);top:-130px;left:-110px}
+.fx2{width:320px;height:320px;background:#4a0404;bottom:-120px;right:-100px}
 #app{
   position:relative;z-index:1;max-width:520px;margin:0 auto;
   padding:24px 18px 46px;min-height:100vh;display:flex;flex-direction:column;
 }
 .fade{animation:fade .38s ease}
 @keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-.brand{font-size:21px;font-weight:800;letter-spacing:.4px}
-.brand i{font-style:normal;color:var(--cy)}
-.kicker{font-size:12px;font-weight:700;letter-spacing:2.4px;color:var(--cy);text-transform:uppercase}
+.brand{display:flex;align-items:center;gap:9px;font-size:21px;font-weight:800;letter-spacing:.4px}
+.brand svg{color:#fff;flex:0 0 auto}
+.wm{font-weight:850;letter-spacing:-.2px;color:#fff}
+.wm i{font-style:normal;color:var(--red)}
+.hero{text-align:center;padding:6px 0 24px}
+.appicon{
+  width:98px;height:98px;margin:0 auto 16px;border-radius:24px;
+  background:linear-gradient(160deg,#191919,#080808);border:1px solid #2e2e2e;
+  display:grid;place-items:center;box-shadow:0 0 46px #ff25253d,0 20px 44px #000000aa;
+}
+.appicon svg{color:#fff;filter:drop-shadow(0 0 7px #ff252555)}
+.hero-wm{display:block;font-size:50px;letter-spacing:-1.4px}
+.slogan{color:#ececec;font-size:19.5px;font-weight:750;line-height:1.35;margin-top:14px}
+.rule{width:76px;height:5px;border-radius:99px;background:var(--red);margin:20px auto 0}
+.kicker{font-size:12px;font-weight:700;letter-spacing:2.4px;color:var(--red);text-transform:uppercase}
 .top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.top.end{justify-content:flex-end}
 .chips{display:flex;gap:8px;align-items:center}
 .sinais{
-  font-size:11.5px;font-weight:800;letter-spacing:.8px;background:#fe2c5516;
-  border:1px solid #fe2c5555;color:#ff8098;padding:6px 11px;border-radius:99px;
+  font-size:11.5px;font-weight:800;letter-spacing:.8px;background:#ff252516;
+  border:1px solid #ff252555;color:#ff9494;padding:6px 11px;border-radius:99px;
   white-space:nowrap;transition:.2s;
 }
 .sinais b{color:#fff;font-size:13px}
 .sinais.bump{animation:bump .45s ease}
-@keyframes bump{40%{transform:scale(1.3);box-shadow:0 0 18px #fe2c5588}}
+@keyframes bump{40%{transform:scale(1.3);box-shadow:0 0 18px #ff252588}}
 .som{
   background:#ffffff0a;border:1px solid var(--line);color:var(--mut);font-size:11.5px;
   font-weight:800;letter-spacing:.8px;padding:6px 11px;border-radius:99px;cursor:pointer;
   font-family:inherit;transition:.2s;
 }
-.som:hover{border-color:var(--cy);color:var(--txt)}
+.som:hover{border-color:var(--red);color:var(--txt)}
 .som.off{opacity:.45;text-decoration:line-through}
 .qnum{font-size:12.5px;color:var(--mut);letter-spacing:1.6px;text-transform:uppercase;font-weight:700;margin:14px 0 9px}
 .progress{height:8px;background:#ffffff14;border-radius:99px;overflow:hidden;margin-bottom:22px}
-.progress i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--cy),var(--rose));transition:width .5s cubic-bezier(.22,1,.36,1)}
-.card{background:#14121deb;border:1px solid var(--line);border-radius:24px;padding:28px 22px;box-shadow:0 24px 60px #00000070}
+.progress i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#ff4444,var(--rose));transition:width .5s cubic-bezier(.22,1,.36,1)}
+.card{background:#0f0f0fe6;border:1px solid var(--line);border-radius:24px;padding:28px 22px;box-shadow:0 24px 60px #00000080}
 h1{font-size:31px;line-height:1.14;margin:14px 0 12px;letter-spacing:-.5px}
 h2{font-size:25px;line-height:1.2;margin:10px 0 10px}
 .lead{color:var(--mut);font-size:16.5px;line-height:1.55}
 .ticks{list-style:none;margin:22px 0 26px;display:grid;gap:12px}
 .ticks li{display:flex;gap:12px;align-items:flex-start;font-size:15.5px;font-weight:600;line-height:1.4}
 .ticks b{
-  flex:0 0 22px;height:22px;border-radius:50%;background:#25f4ee1f;color:var(--cy);
+  flex:0 0 22px;height:22px;border-radius:50%;background:#ff25251f;color:var(--red);
   display:grid;place-items:center;font-size:13px;margin-top:1px;
 }
 .btn{
   width:100%;padding:17px 18px;border:none;border-radius:16px;font-size:17px;font-weight:800;
-  cursor:pointer;background:linear-gradient(90deg,var(--cy),#45d7ff);color:#05131a;
+  cursor:pointer;background:linear-gradient(90deg,#ff4444,#c11111);color:#fff;
   transition:transform .15s ease,filter .2s ease;letter-spacing:.3px;
 }
-.btn:hover{filter:brightness(1.08)}
+.btn:hover{filter:brightness(1.1)}
 .btn:active{transform:scale(.98)}
-.btn.rose{background:linear-gradient(90deg,var(--rose),#ff6b8a);color:#fff}
-.btn.ghost{background:transparent;border:1.5px solid var(--line);color:var(--txt);font-weight:700}
-.btn.ghost:hover{border-color:var(--cy)}
+.btn.rose{background:linear-gradient(90deg,#ff4444,#d10f0f);color:#fff}
 .micro{font-size:12.5px;color:var(--mut);text-align:center;margin-top:14px;line-height:1.5}
 .bonus{
   display:inline-block;font-size:11.5px;font-weight:850;letter-spacing:1.4px;text-transform:uppercase;
@@ -83,29 +95,29 @@ h2{font-size:25px;line-height:1.2;margin:10px 0 10px}
 .qtext{font-size:22px;font-weight:750;line-height:1.35;margin:6px 0 22px}
 .opts{display:grid;gap:11px}
 .opt{
-  width:100%;text-align:left;background:#1b1828;border:1.5px solid var(--line);color:var(--txt);
+  width:100%;text-align:left;background:#161616;border:1.5px solid var(--line);color:var(--txt);
   padding:16px 15px;border-radius:15px;font-size:16.5px;font-weight:650;cursor:pointer;
   display:flex;align-items:center;gap:13px;transition:border-color .15s,transform .15s,background .15s;
 }
-.opt:hover{border-color:var(--cy);transform:translateY(-2px)}
+.opt:hover{border-color:var(--red);transform:translateY(-2px)}
 .opt:active{transform:scale(.985)}
-.opt.sel{border-color:var(--cy);background:#25f4ee14}
+.opt.sel{border-color:var(--red);background:#ff25251a}
 .opt .badge{
   flex:0 0 30px;height:30px;border-radius:10px;background:#ffffff0f;border:1px solid var(--line);
-  display:grid;place-items:center;font-size:13.5px;font-weight:800;color:var(--cy);
+  display:grid;place-items:center;font-size:13.5px;font-weight:800;color:var(--red);
 }
-.opt.sel .badge{background:var(--cy);color:#05131a;border-color:var(--cy)}
+.opt.sel .badge{background:var(--red);color:#fff;border-color:var(--red)}
 .half-ico{
-  width:56px;height:56px;border-radius:18px;background:#25f4ee18;border:1px solid #25f4ee44;
-  display:grid;place-items:center;color:var(--cy);font-size:26px;font-weight:800;margin-bottom:6px;
+  width:56px;height:56px;border-radius:18px;background:#ff252514;border:1px solid #ff252544;
+  display:grid;place-items:center;color:var(--red);font-size:26px;font-weight:800;margin-bottom:6px;
 }
 .half-sinais{
   display:inline-block;margin-top:14px;padding:10px 18px;border-radius:99px;font-size:14.5px;
-  font-weight:750;background:#fe2c5514;border:1px solid #fe2c5550;color:#ff9db1;
+  font-weight:750;background:#ff252514;border:1px solid #ff252550;color:#ff9d9d;
 }
 .half-sinais b{color:#fff;font-size:18px}
 .spin{
-  width:52px;height:52px;border-radius:50%;border:4px solid #ffffff14;border-top-color:var(--cy);
+  width:52px;height:52px;border-radius:50%;border:4px solid #ffffff14;border-top-color:var(--red);
   animation:sp .8s linear infinite;margin:0 auto 20px;
 }
 @keyframes sp{to{transform:rotate(360deg)}}
@@ -126,53 +138,48 @@ h2{font-size:25px;line-height:1.2;margin:10px 0 10px}
   width:176px;height:176px;border-radius:50%;margin:26px auto 6px;display:grid;place-items:center;
 }
 .ringIn{
-  width:76%;height:76%;border-radius:50%;background:#0c0b12;border:1px solid var(--line);
+  width:76%;height:76%;border-radius:50%;background:#0a0a0a;border:1px solid var(--line);
   display:grid;place-items:center;text-align:center;
 }
 .ringIn span{font-size:46px;font-weight:850;line-height:1}
 .ringIn em{font-style:normal;font-size:15px;color:var(--mut);font-weight:700}
 .res-title{font-size:26px;font-weight:850;margin-top:16px;letter-spacing:-.3px}
 .res-desc{color:var(--mut);font-size:15.5px;line-height:1.55;margin-top:10px}
-.sect{margin-top:22px;background:#1b1828;border:1px solid var(--line);border-radius:18px;padding:18px 17px}
-.sect h3{font-size:13px;letter-spacing:1.6px;text-transform:uppercase;color:var(--cy);margin-bottom:13px}
+.sect{margin-top:22px;background:#161616;border:1px solid var(--line);border-radius:18px;padding:18px 17px}
+.sect h3{font-size:13px;letter-spacing:1.6px;text-transform:uppercase;color:var(--red);margin-bottom:13px}
 .sect ul{list-style:none;display:grid;gap:11px}
 .sect li{display:flex;gap:11px;font-size:15px;line-height:1.45;font-weight:600}
 .sect li .dot{flex:0 0 8px;height:8px;border-radius:50%;margin-top:7px}
 .sect ol{margin-left:19px;display:grid;gap:12px}
-.sect ol li{font-size:15px;line-height:1.5;color:#d9d6ea}
-.sect ol li::marker{color:var(--cy);font-weight:800}
-.acts{display:grid;gap:11px;margin-top:24px}
+.sect ol li{font-size:15px;line-height:1.5;color:#d6d6d6}
+.sect ol li::marker{color:var(--red);font-weight:800}
 .cta-box{
-  margin-top:24px;background:linear-gradient(165deg,#fe2c5526,#25f4ee12);
-  border:1px solid #fe2c5566;border-radius:22px;padding:24px 18px;text-align:center;
+  margin-top:24px;background:linear-gradient(165deg,#ff25252b,#1a0505);
+  border:1px solid #ff252566;border-radius:22px;padding:24px 18px;text-align:center;
 }
 .cta-title{font-size:20px;font-weight:850;line-height:1.3;margin:10px 0 16px}
 a.btn{display:block;text-align:center;text-decoration:none;line-height:1.2}
 a.btn:hover{filter:brightness(1.1)}
 .cta-note{font-size:12.5px;color:var(--mut);margin-top:12px;line-height:1.5}
-.toast{
-  position:fixed;left:50%;bottom:30px;transform:translateX(-50%);z-index:9;
-  background:#1f1c2c;border:1px solid var(--cy);color:var(--txt);font-size:14.5px;font-weight:700;
-  padding:12px 20px;border-radius:99px;box-shadow:0 12px 30px #000a;animation:fade .3s ease;
-}
 .fb{
   position:fixed;left:50%;bottom:100px;z-index:9;padding:13px 24px;border-radius:99px;
   font-weight:900;font-size:15px;letter-spacing:1.4px;box-shadow:0 14px 34px #000000aa;
   animation:fbpop .35s cubic-bezier(.22,1.4,.36,1);white-space:nowrap;
 }
-.fb.warn{background:var(--rose);color:#fff;box-shadow:0 14px 34px #fe2c5555}
+.fb.warn{background:var(--red);color:#fff;box-shadow:0 14px 34px #ff252555}
 .fb.ok{background:#22c55e;color:#04150c;box-shadow:0 14px 34px #22c55e44}
 .fb.mid{background:#f5b301;color:#221a00}
 @keyframes fbpop{from{opacity:0;transform:translate(-50%,18px) scale(.7)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
 .shake{animation:shake .55s ease}
 @keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
 .confetti{position:fixed;inset:0;z-index:8;pointer-events:none}
-.disc{font-size:12px;color:#77748c;text-align:center;margin-top:22px;line-height:1.55}
+.disc{font-size:12px;color:#7a7a7a;text-align:center;margin-top:22px;line-height:1.55}
 @media (max-width:380px){
   h1{font-size:27px}
   .qtext{font-size:20px}
   .ring{width:158px;height:158px}
   .sinais{font-size:10.5px;padding:5px 9px}
+  .hero-wm{font-size:42px}
 }
 </style>
 </head>
@@ -264,7 +271,18 @@ function sndResult(pct){
 }
 function sndBonus(){tone(880,.1,"triangle",.05);tone(1320,.14,"triangle",.045,.1)}
 
-function brand(){return '<div class="brand">Confere<i>Aki</i></div>'}
+function logoSvg(size){
+  return `<svg width="${size}" height="${size}" viewBox="0 0 64 64" aria-hidden="true">
+  <circle cx="28" cy="28" r="17" fill="none" stroke="currentColor" stroke-width="5"/>
+  <path d="M41 41 54 54" stroke="currentColor" stroke-width="7" stroke-linecap="round" fill="none"/>
+  <g transform="translate(17.6,17.2) scale(0.95)">
+    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#ff2525"/>
+    <path d="M12 5.4l-1.7 5.7 3.4 2.7-2.5 6" fill="none" stroke="#0a0a0a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g></svg>`;
+}
+function brand(){
+  return `<div class="brand">${logoSvg(26)}<span class="wm">Con<i>fere</i></span></div>`;
+}
 function soundBtn(){
   return `<button class="som${soundOn?"":" off"}" data-action="sound" title="Ligar/desligar som">♪ SOM</button>`;
 }
@@ -280,8 +298,14 @@ function bar(pct,label){
 }
 
 function viewIntro(){
-  return `<div class="top">${brand()}${chips(false)}</div>
+  return `<div class="top end">${chips(false)}</div>
   <div class="card" style="margin-top:18px">
+    <div class="hero">
+      <div class="appicon">${logoSvg(66)}</div>
+      <div class="wm hero-wm">Con<i>fere</i></div>
+      <div class="slogan">Descubra a verdade<br>antes que seja tarde.</div>
+      <div class="rule"></div>
+    </div>
     <div class="kicker">Quiz da relação</div>
     <h1>Será que o TikTok está roubando a sua relação?</h1>
     <p class="lead">Em 1 minuto você descobre o nível de alerta da conexão de vocês — perguntas rápidas, diretas e sem enrolação.</p>
@@ -294,7 +318,7 @@ function viewIntro(){
     <button class="btn" data-action="start">COMEÇAR O QUIZ</button>
     <p class="micro">Sem cadastro. Suas respostas ficam só no seu aparelho.</p>
   </div>
-  <p class="disc">O ConfereAki é um quiz informativo e não substitui aconselamento profissional.</p>`;
+  <p class="disc">O Confere é um quiz informativo e não substitui aconselamento profissional.</p>`;
 }
 
 function viewQuestion(){
@@ -356,7 +380,7 @@ function levelOf(pct){
       "Restaurem antes de cobrarem: marquem uma date sem tela nesta semana. Reconexão acontece no mundo real, não na conversa sobre regras."
     ]};
   return{
-    c:"#fe2c55",t:"Alerta na Relação",
+    c:"#ff2525",t:"Alerta na Relação",
     d:"Os sinais se acumularam: distância, tela escondida e confiança abalada. Isso não se resolve vigiando em segredo — se resolve com uma conversa séria (ou uma decisão honesta).",
     tips:[
       "Tenha a conversa séria sem celular por perto e sem ataque: diga o que você viveu, não o que você imagina.",
@@ -398,12 +422,8 @@ function viewResult(){
       <a class="btn rose" id="cta-checkout" data-action="cta" href="https://pay.cakto.com.br/awfje4i_1188792" target="_blank" rel="noopener">GARANTIR AGORA — R$ 49,90</a>
       <div class="cta-note">Pagamento único via Cakto · cartão, Pix ou PicPay</div>
     </div>
-    <div class="acts">
-      <button class="btn ghost" data-action="share">COMPARTILHAR RESULTADO</button>
-      <button class="btn ghost" data-action="restart">REFAZER O QUIZ</button>
-    </div>
   </div>
-  <p class="disc">O ConfereAki é um quiz informativo e não substitui aconselamento profissional. Suas respostas nunca saem do seu aparelho.</p>`;
+  <p class="disc">O Confere é um quiz informativo e não substitui aconselamento profissional. Suas respostas nunca saem do seu aparelho.</p>`;
 }
 
 function render(){
@@ -514,7 +534,7 @@ function confetti(){
   const ctx=c.getContext("2d");
   const W=c.width=window.innerWidth;
   const H=c.height=window.innerHeight;
-  const colors=["#25f4ee","#fe2c55","#f5b301","#22c55e","#ffffff"];
+  const colors=["#ff2525","#ffffff","#a80f0f","#d9d9d9","#ff6b6b"];
   const parts=[];
   for(let i=0;i<130;i++){
     parts.push({
@@ -547,27 +567,6 @@ function confetti(){
     else c.remove();
   }
   requestAnimationFrame(frame);
-}
-
-function toast(msg){
-  const el=document.createElement("div");
-  el.className="toast";
-  el.textContent=msg;
-  document.body.appendChild(el);
-  setTimeout(()=>el.remove(),2200);
-}
-
-async function share(){
-  const txt=`ConfereAki: meu nível de alerta na relação foi ${RESULT.pct}% — ${RESULT.lv.t} (padrão ${RESULT.profile}). Faça o quiz em 1 minuto.`;
-  if(navigator.share){
-    try{await navigator.share({title:"ConfereAki",text:txt});return}catch(e){}
-  }
-  try{
-    await navigator.clipboard.writeText(txt);
-    toast("Resultado copiado!");
-  }catch(e){
-    toast("Não foi possível compartilhar");
-  }
 }
 
 app.addEventListener("click",e=>{
@@ -603,13 +602,6 @@ app.addEventListener("click",e=>{
   }else if(action==="continue"){
     st.stage="question";
     render();
-  }else if(action==="restart"){
-    clearTimeout(calcTimer);
-    RESULT=null;
-    st=freshState();
-    render();
-  }else if(action==="share"){
-    share();
   }else if(action==="cta"){
     document.dispatchEvent(new CustomEvent("ck_cta_click"));
   }else if(action==="sound"){
