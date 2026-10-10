@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#08070d">
+<title>ConfereAki — Quiz dos Sinais da Relação</title>
+<meta name="description" content="Em 1 minuto, descubra o nível de alerta da sua relação: perguntas rápidas, anônimas, com resultado na hora.">
+<style>
+:root{
+  --bg:#08070d;
+  --card:#14121d;
+  --line:#272436;
+  --txt:#f4f2ff;
+  --mut:#a3a0b8;
+  --cy:#25f4ee;
+  --rose:#fe2c55;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
+  background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden;
+}
+.bg{position:fixed;border-radius:50%;filter:blur(95px);opacity:.32;pointer-events:none;z-index:0}
+.fx1{width:340px;height:340px;background:var(--cy);top:-130px;left:-110px}
+.fx2{width:320px;height:320px;background:var(--rose);bottom:-120px;right:-100px}
+#app{
+  position:relative;z-index:1;max-width:520px;margin:0 auto;
+  padding:24px 18px 46px;min-height:100vh;display:flex;flex-direction:column;
+}
+.fade{animation:fade .38s ease}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.brand{font-size:21px;font-weight:800;letter-spacing:.4px}
+.brand i{font-style:normal;color:var(--cy)}
+.kicker{font-size:12px;font-weight:700;letter-spacing:2.4px;color:var(--cy);text-transform:uppercase}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chips{display:flex;gap:8px;align-items:center}
+.sinais{
+  font-size:11.5px;font-weight:800;letter-spacing:.8px;background:#fe2c5516;
+  border:1px solid #fe2c5555;color:#ff8098;padding:6px 11px;border-radius:99px;
+  white-space:nowrap;transition:.2s;
+}
+.sinais b{color:#fff;font-size:13px}
+.sinais.bump{animation:bump .45s ease}
+@keyframes bump{40%{transform:scale(1.3);box-shadow:0 0 18px #fe2c5588}}
+.som{
+  background:#ffffff0a;border:1px solid var(--line);color:var(--mut);font-size:11.5px;
+  font-weight:800;letter-spacing:.8px;padding:6px 11px;border-radius:99px;cursor:pointer;
+  font-family:inherit;transition:.2s;
+}
+.som:hover{border-color:var(--cy);color:var(--txt)}
+.som.off{opacity:.45;text-decoration:line-through}
+.qnum{font-size:12.5px;color:var(--mut);letter-spacing:1.6px;text-transform:uppercase;font-weight:700;margin:14px 0 9px}
+.progress{height:8px;background:#ffffff14;border-radius:99px;overflow:hidden;margin-bottom:22px}
+.progress i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--cy),var(--rose));transition:width .5s cubic-bezier(.22,1,.36,1)}
+.card{background:#14121deb;border:1px solid var(--line);border-radius:24px;padding:28px 22px;box-shadow:0 24px 60px #00000070}
+h1{font-size:31px;line-height:1.14;margin:14px 0 12px;letter-spacing:-.5px}
+h2{font-size:25px;line-height:1.2;margin:10px 0 10px}
+.lead{color:var(--mut);font-size:16.5px;line-height:1.55}
+.ticks{list-style:none;margin:22px 0 26px;display:grid;gap:12px}
+.ticks li{display:flex;gap:12px;align-items:flex-start;font-size:15.5px;font-weight:600;line-height:1.4}
+.ticks b{
+  flex:0 0 22px;height:22px;border-radius:50%;background:#25f4ee1f;color:var(--cy);
+  display:grid;place-items:center;font-size:13px;margin-top:1px;
+}
+.btn{
+  width:100%;padding:17px 18px;border:none;border-radius:16px;font-size:17px;font-weight:800;
+  cursor:pointer;background:linear-gradient(90deg,var(--cy),#45d7ff);color:#05131a;
+  transition:transform .15s ease,filter .2s ease;letter-spacing:.3px;
+}
+.btn:hover{filter:brightness(1.08)}
+.btn:active{transform:scale(.98)}
+.btn.rose{background:linear-gradient(90deg,var(--rose),#ff6b8a);color:#fff}
+.btn.ghost{background:transparent;border:1.5px solid var(--line);color:var(--txt);font-weight:700}
+.btn.ghost:hover{border-color:var(--cy)}
+.micro{font-size:12.5px;color:var(--mut);text-align:center;margin-top:14px;line-height:1.5}
+.bonus{
+  display:inline-block;font-size:11.5px;font-weight:850;letter-spacing:1.4px;text-transform:uppercase;
+  background:#f5b30118;border:1px solid #f5b30166;color:#f5b301;padding:6px 12px;
+  border-radius:99px;margin-bottom:12px;animation:fade .4s ease;
+}
+.qtext{font-size:22px;font-weight:750;line-height:1.35;margin:6px 0 22px}
+.opts{display:grid;gap:11px}
+.opt{
+  width:100%;text-align:left;background:#1b1828;border:1.5px solid var(--line);color:var(--txt);
+  padding:16px 15px;border-radius:15px;font-size:16.5px;font-weight:650;cursor:pointer;
+  display:flex;align-items:center;gap:13px;transition:border-color .15s,transform .15s,background .15s;
+}
+.opt:hover{border-color:var(--cy);transform:translateY(-2px)}
+.opt:active{transform:scale(.985)}
+.opt.sel{border-color:var(--cy);background:#25f4ee14}
+.opt .badge{
+  flex:0 0 30px;height:30px;border-radius:10px;background:#ffffff0f;border:1px solid var(--line);
+  display:grid;place-items:center;font-size:13.5px;font-weight:800;color:var(--cy);
+}
+.opt.sel .badge{background:var(--cy);color:#05131a;border-color:var(--cy)}
+.half-ico{
+  width:56px;height:56px;border-radius:18px;background:#25f4ee18;border:1px solid #25f4ee44;
+  display:grid;place-items:center;color:var(--cy);font-size:26px;font-weight:800;margin-bottom:6px;
+}
+.half-sinais{
+  display:inline-block;margin-top:14px;padding:10px 18px;border-radius:99px;font-size:14.5px;
+  font-weight:750;background:#fe2c5514;border:1px solid #fe2c5550;color:#ff9db1;
+}
+.half-sinais b{color:#fff;font-size:18px}
+.spin{
+  width:52px;height:52px;border-radius:50%;border:4px solid #ffffff14;border-top-color:var(--cy);
+  animation:sp .8s linear infinite;margin:0 auto 20px;
+}
+@keyframes sp{to{transform:rotate(360deg)}}
+.calc-t{text-align:center;font-size:19px;font-weight:750}
+.calc-s{text-align:center;color:var(--mut);font-size:14.5px;margin-top:8px}
+.res-head{text-align:center}
+.pill{
+  display:inline-block;padding:8px 16px;border-radius:99px;font-size:13.5px;font-weight:800;
+  letter-spacing:1.4px;text-transform:uppercase;margin-top:10px;border:1px solid;
+}
+.prof{
+  display:inline-block;margin-top:12px;padding:8px 16px;border-radius:12px;font-size:14.5px;
+  color:var(--mut);background:#ffffff08;border:1px solid var(--line);
+}
+.prof strong{color:var(--txt);font-weight:800}
+.meta{font-size:13px;color:var(--mut);margin-top:12px;letter-spacing:.4px}
+.ring{
+  width:176px;height:176px;border-radius:50%;margin:26px auto 6px;display:grid;place-items:center;
+}
+.ringIn{
+  width:76%;height:76%;border-radius:50%;background:#0c0b12;border:1px solid var(--line);
+  display:grid;place-items:center;text-align:center;
+}
+.ringIn span{font-size:46px;font-weight:850;line-height:1}
+.ringIn em{font-style:normal;font-size:15px;color:var(--mut);font-weight:700}
+.res-title{font-size:26px;font-weight:850;margin-top:16px;letter-spacing:-.3px}
+.res-desc{color:var(--mut);font-size:15.5px;line-height:1.55;margin-top:10px}
+.sect{margin-top:22px;background:#1b1828;border:1px solid var(--line);border-radius:18px;padding:18px 17px}
+.sect h3{font-size:13px;letter-spacing:1.6px;text-transform:uppercase;color:var(--cy);margin-bottom:13px}
+.sect ul{list-style:none;display:grid;gap:11px}
+.sect li{display:flex;gap:11px;font-size:15px;line-height:1.45;font-weight:600}
+.sect li .dot{flex:0 0 8px;height:8px;border-radius:50%;margin-top:7px}
+.sect ol{margin-left:19px;display:grid;gap:12px}
+.sect ol li{font-size:15px;line-height:1.5;color:#d9d6ea}
+.sect ol li::marker{color:var(--cy);font-weight:800}
+.acts{display:grid;gap:11px;margin-top:24px}
+.toast{
+  position:fixed;left:50%;bottom:30px;transform:translateX(-50%);z-index:9;
+  background:#1f1c2c;border:1px solid var(--cy);color:var(--txt);font-size:14.5px;font-weight:700;
+  padding:12px 20px;border-radius:99px;box-shadow:0 12px 30px #000a;animation:fade .3s ease;
+}
+.fb{
+  position:fixed;left:50%;bottom:100px;z-index:9;padding:13px 24px;border-radius:99px;
+  font-weight:900;font-size:15px;letter-spacing:1.4px;box-shadow:0 14px 34px #000000aa;
+  animation:fbpop .35s cubic-bezier(.22,1.4,.36,1);white-space:nowrap;
+}
+.fb.warn{background:var(--rose);color:#fff;box-shadow:0 14px 34px #fe2c5555}
+.fb.ok{background:#22c55e;color:#04150c;box-shadow:0 14px 34px #22c55e44}
+.fb.mid{background:#f5b301;color:#221a00}
+@keyframes fbpop{from{opacity:0;transform:translate(-50%,18px) scale(.7)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
+.shake{animation:shake .55s ease}
+@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.confetti{position:fixed;inset:0;z-index:8;pointer-events:none}
+.disc{font-size:12px;color:#77748c;text-align:center;margin-top:22px;line-height:1.55}
+@media (max-width:380px){
+  h1{font-size:27px}
+  .qtext{font-size:20px}
+  .ring{width:158px;height:158px}
+  .sinais{font-size:10.5px;padding:5px 9px}
+}
+</style>
+</head>
+<body>
+<div class="bg fx1"></div>
+<div class="bg fx2"></div>
+<div id="app"></div>
+<script>
+const BASE=[
+ {id:"gender",t:()=>"Você é?",opts:[{l:"Homem",g:"m"},{l:"Mulher",g:"f"}]},
+ {id:"horas",t:p=>`Seu ${p} fica horas vendo TikTok longe de você?`,s:"Fica horas no TikTok longe de você",
+  opts:[{l:"Nunca",v:0},{l:"Às vezes",v:1},{l:"Quase todo dia",v:2},{l:"Sim, quase sempre",v:3}]},
+ {id:"tela",t:(p,pe)=>`Quando você chega perto, ${pe} esconde ou trava a tela do celular?`,s:"Esconde a tela quando você chega perto",
+  opts:[{l:"Nunca",v:0},{l:"Raramente",v:1},{l:"Às vezes",v:2},{l:"Sempre",v:3}]},
+ {id:"tempo",t:()=>"O TikTok está roubando tempo de vocês (conversas, jantar, hora de dormir)?",s:"O TikTok está roubando tempo de vocês",
+  opts:[{l:"Nada disso",v:0},{l:"Um pouco",v:1},{l:"Bastante",v:2},{l:"Muito — já brigamos por isso",v:3}]},
+ {id:"curtidas",t:(p,pe)=>`Você já viu ${pe} curtindo ou comentando vídeos de pessoas atraentes?`,s:"Curtindo vídeos de pessoas atraentes",
+  opts:[{l:"Nunca vi",v:0},{l:"Já vi uma vez",v:1},{l:"Várias vezes",v:2},{l:"É constante e me incomoda",v:3}]},
+ {id:"conexao",t:()=>"Como está a conexão de vocês nos últimos 30 dias?",s:"Conexão fria nos últimos 30 dias",
+  opts:[{l:"Forte",v:0},{l:"Boa",v:1},{l:"Fria",v:2},{l:"Distante",v:3}]},
+ {id:"brigas",t:()=>"Vocês já discutiram por causa do celular ou do TikTok?",s:"Discussões por causa do celular/TikTok",
+  opts:[{l:"Nunca",v:0},{l:"Uma vez",v:1},{l:"Algumas vezes",v:2},{l:"Muitas vezes",v:3}]},
+ {id:"confianca",t:(p,pe)=>`O quanto você confia no que ${pe} assiste no TikTok?`,s:"Pouca confiança no que ele/ela assiste",
+  opts:[{l:"Totalmente",v:0},{l:"Na maior parte",v:1},{l:"Pouco",v:2},{l:"Nada",v:3}]},
+ {id:"checar",t:(p,pe)=>`Você já pensou em verificar o que ${pe} vê no TikTok?`,s:"Vontade de verificar o que ele/ela vê",
+  opts:[{l:"Nunca pensei",v:0},{l:"Passou pela minha cabeça",v:1},{l:"Penso sempre",v:2},{l:"Estou pensando agora",v:3}]},
+ {id:"celular",t:(p,pe)=>`Você sente que ${pe} está mais perto do celular do que de você?`,s:"Mais perto do celular do que de você",
+  opts:[{l:"Nunca",v:0},{l:"Às vezes",v:1},{l:"Frequentemente",v:2},{l:"Sempre",v:3}]}
+];
+const CONDS=[
+ {id:"c_planos",trigger:"horas",min:2,bonus:true,s:"Desmarcou planos por causa do TikTok",
+  t:(p,pe)=>`Nos últimos meses, ${pe} desmarcou planos, cancelou saídas ou ignorou você por causa do TikTok?`,
+  opts:[{l:"Nunca",v:0},{l:"Uma vez",v:1},{l:"Algumas vezes",v:2},{l:"Várias vezes",v:3}]},
+ {id:"c_tela",trigger:"tela",min:2,bonus:true,s:"Celular sempre virado, mudo ou longe de você",
+  t:(p,pe)=>`O celular de ${pe} fica sempre com a tela para baixo, no silencioso ou fora do seu alcance?`,
+  opts:[{l:"Nunca reparei",v:0},{l:"Às vezes",v:1},{l:"Frequentemente",v:2},{l:"Sempre",v:3}]},
+ {id:"c_check",trigger:"checar",min:2,bonus:true,s:"Já mexeu no celular dele/ela por desconfiança",
+  t:(p,pe)=>`Você chegou a mexer no celular de ${pe} ou ler as notificações escondidas?`,
+  opts:[{l:"Nunca",v:0},{l:"Passei a mão uma vez",v:1},{l:"Várias vezes",v:2},{l:"Sim, com frequência",v:3}]}
+];
+const CATS=[
+ {ids:["tela","curtidas","brigas","c_tela"],name:"Tela Fechada"},
+ {ids:["horas","tempo","conexao","celular","c_planos"],name:"Conexão Rompida"},
+ {ids:["confianca","checar","c_check"],name:"Confiança Abalada"}
+];
+const app=document.getElementById("app");
+let st=null;
+let RESULT=null;
+let calcTimer=null;
+let soundOn=localStorage.getItem("ck_sound")!=="0";
+let ac=null;
+
+function freshState(stage){
+  return {stage:stage||"intro",idx:0,gender:null,answers:[],seq:BASE.slice(),
+    answered:0,sinais:0,halfSeen:false};
+}
+st=freshState();
+
+function pc(){return st.gender==="m"?"sua esposa/namorada":"seu marido/namorado"}
+function pe(){return st.gender==="m"?"ela":"ele"}
+
+function tone(f,d,type,vol,delay){
+  if(!soundOn)return;
+  try{
+    ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+    const o=ac.createOscillator(),g=ac.createGain();
+    o.type=type||"sine";
+    o.frequency.value=f;
+    const t=ac.currentTime+(delay||0);
+    g.gain.setValueAtTime(.0001,t);
+    g.gain.linearRampToValueAtTime(vol||.05,t+.02);
+    g.gain.exponentialRampToValueAtTime(.0001,t+d);
+    o.connect(g);
+    g.connect(ac.destination);
+    o.start(t);
+    o.stop(t+d+.06);
+  }catch(e){}
+}
+function sndAnswer(v){
+  if(v>=3){tone(160,.16,"square",.05);tone(120,.2,"sine",.05,.09)}
+  else if(v===2){tone(200,.15,"sawtooth",.04)}
+  else if(v===1){tone(440,.09,"sine",.04)}
+  else{tone(660,.1,"sine",.045);tone(880,.12,"sine",.04,.07)}
+}
+function sndResult(pct){
+  if(pct<35){[523,659,784].forEach((f,i)=>tone(f,.22,"sine",.05,i*.13))}
+  else if(pct<65){[440,554].forEach((f,i)=>tone(f,.2,"sine",.05,i*.15))}
+  else{[330,262,196].forEach((f,i)=>tone(f,.3,"sawtooth",.045,i*.16))}
+}
+function sndBonus(){tone(880,.1,"triangle",.05);tone(1320,.14,"triangle",.045,.1)}
+
+function brand(){return '<div class="brand">Confere<i>Aki</i></div>'}
+function soundBtn(){
+  return `<button class="som${soundOn?"":" off"}" data-action="sound" title="Ligar/desligar som">♪ SOM</button>`;
+}
+function chips(withSinais){
+  const sn=withSinais
+    ?`<span class="sinais" id="sinaisChip">SINAIS <b>${st.sinais}</b></span>`:"";
+  return `<div class="chips">${sn}${soundBtn()}</div>`;
+}
+function bar(pct,label){
+  return `<div class="top">${brand()}${chips(true)}</div>
+  <div class="qnum">${label}</div>
+  <div class="progress"><i style="width:${pct}%"></i></div>`;
+}
+
+function viewIntro(){
+  return `<div class="top">${brand()}${chips(false)}</div>
+  <div class="card" style="margin-top:18px">
+    <div class="kicker">Quiz da relação</div>
+    <h1>Será que o TikTok está roubando a sua relação?</h1>
+    <p class="lead">Em 1 minuto você descobre o nível de alerta da conexão de vocês — perguntas rápidas, diretas e sem enrolação.</p>
+    <ul class="ticks">
+      <li><b>1</b>Menos de 1 minuto — resultado na hora</li>
+      <li><b>2</b>As perguntas mudam conforme o que você responde</li>
+      <li><b>3</b>100% anônimo — nada é salvo sobre você</li>
+      <li><b>4</b>Nível de alerta + padrão dominante + o que fazer agora</li>
+    </ul>
+    <button class="btn" data-action="start">COMEÇAR O QUIZ</button>
+    <p class="micro">Sem cadastro. Suas respostas ficam só no seu aparelho.</p>
+  </div>
+  <p class="disc">O ConfereAki é um quiz informativo e não substitui aconselamento profissional.</p>`;
+}
+
+function viewQuestion(){
+  const q=st.seq[st.idx];
+  const text=q.t(pc(),pe());
+  const badges="ABCDEFGHIJ";
+  const bonus=q.bonus?`<div class="bonus">★ Bônus — esta pergunta apareceu só para você</div>`:"";
+  const opts=q.opts.map((o,i)=>{
+    const attrs=(o.g?`data-g="${o.g}"`:"")+(o.v!==undefined?` data-v="${o.v}"`:"");
+    return `<button class="opt" data-action="answer" ${attrs}>
+      <span class="badge">${badges[i]}</span><span>${o.l}</span></button>`;
+  }).join("");
+  const total=st.seq.length;
+  return `${bar(Math.round(((st.idx+1)/total)*100),`Pergunta ${st.idx+1} de ${total}`)}
+  <div class="card">
+    ${bonus}
+    <div class="qtext">${text}</div>
+    <div class="opts">${opts}</div>
+  </div>`;
+}
+
+function viewHalf(){
+  const rest=st.seq.length-st.idx;
+  const sn=st.sinais;
+  return `${bar(Math.round((st.idx/st.seq.length)*100),"Metade do caminho")}
+  <div class="card" style="text-align:center">
+    <div class="half-ico">50</div>
+    <h2>Você já passou da metade</h2>
+    <p class="lead">Suas respostas já desenham um padrão. Faltam só ${rest} pergunta${rest===1?"":"s"} para liberar o seu nível de alerta.</p>
+    <div class="half-sinais"><b>${sn}</b> sinal${sn===1?"":"is"} detectado${sn===1?"":"s"} até agora</div>
+    <div style="margin-top:24px"><button class="btn" data-action="continue">CONTINUAR →</button></div>
+  </div>`;
+}
+
+function viewCalc(){
+  return `${bar(100,"Calculando")}
+  <div class="card" style="text-align:center;padding-top:56px;padding-bottom:56px">
+    <div class="spin"></div>
+    <div class="calc-t">Analisando seus sinais...</div>
+    <div class="calc-s">Cruzando ${st.answers.length} respostas com o padrão de alerta</div>
+  </div>`;
+}
+
+function levelOf(pct){
+  if(pct<35)return{
+    c:"#22c55e",t:"Conexão Firme",
+    d:"Poucos sinais de desconfiança. O TikTok até pode estar presente na rotina de vocês, mas ainda não roubou a conexão — proteja o que já funciona.",
+    tips:[
+      "Criem um momento sem celular todo dia (jantar ou os 30 minutos antes de dormir) — para os dois lados.",
+      "Troque a acusação pela curiosidade: em vez de “por que você fica tanto no TikTok?”, peça “me mostra o que você tá vendo”.",
+      "Mantenham uma atividade sem tela que vocês já gostavam — é o que segura a conexão no longo prazo."
+    ]};
+  if(pct<65)return{
+    c:"#f5b301",t:"Sinal de Atenção",
+    d:"Os sinais estão aparecendo: a tela roubou espaço da conexão de vocês. Ainda dá tempo de virar o jogo com uma conversa bem feita.",
+    tips:[
+      "Fale num momento calmo (nunca quando ele/ela estiver no celular) usando “eu senti”, não “você faz”.",
+      "Fechem um acordo de tela: jantar e quarto sem celular — regra vale para os dois.",
+      "Restaurem antes de cobrarem: marquem uma date sem tela nesta semana. Reconexão acontece no mundo real, não na conversa sobre regras."
+    ]};
+  return{
+    c:"#fe2c55",t:"Alerta na Relação",
+    d:"Os sinais se acumularam: distância, tela escondida e confiança abalada. Isso não se resolve vigiando em segredo — se resolve com uma conversa séria (ou uma decisão honesta).",
+    tips:[
+      "Tenha a conversa séria sem celular por perto e sem ataque: diga o que você viveu, não o que você imagina.",
+      "Defina limites claros e combinados — relação não sobrevive com um parceiro que some dentro de uma tela.",
+      "Se a confiança já foi, terapia de casal (ou uma decisão honesta sobre a relação) é o próximo passo — vigiar em segredo só adoece você."
+    ]};
+}
+
+function viewResult(){
+  const {pct,lv,highlights,profile,strong,answeredN}=RESULT;
+  const hi=highlights.length
+    ? highlights.map(h=>`<li><span class="dot" style="background:${lv.c}"></span>${h}</li>`).join("")
+    : `<li><span class="dot" style="background:${lv.c}"></span>Nenhum sinal forte nas suas respostas — mantenha o que funciona.</li>`;
+  const tips=lv.tips.map(t=>`<li>${t}</li>`).join("");
+  return `${bar(100,"Resultado")}
+  <div class="card" id="resCard">
+    <div class="res-head">
+      <div class="kicker">Seu resultado</div>
+      <div class="ring" id="ring" style="background:conic-gradient(${lv.c} 0deg,#ffffff12 0deg)">
+        <div class="ringIn"><div><span id="num">0</span><em>%</em></div></div>
+      </div>
+      <div class="pill" style="color:${lv.c};border-color:${lv.c}44;background:${lv.c}1a">${lv.t}</div>
+      <div class="prof">Padrão dominante: <strong>${profile}</strong></div>
+      <div class="meta">${strong} de ${answeredN} respostas marcaram sinal</div>
+      <div class="res-title">Nível de alerta</div>
+      <p class="res-desc">${lv.d}</p>
+    </div>
+    <div class="sect">
+      <h3>O que mais chamou atenção</h3>
+      <ul>${hi}</ul>
+    </div>
+    <div class="sect">
+      <h3>O que fazer agora</h3>
+      <ol>${tips}</ol>
+    </div>
+    <div class="acts">
+      <button class="btn rose" data-action="share">COMPARTILHAR RESULTADO</button>
+      <button class="btn ghost" data-action="restart">REFAZER O QUIZ</button>
+    </div>
+  </div>
+  <p class="disc">O ConfereAki é um quiz informativo e não substitui aconselamento profissional. Suas respostas nunca saem do seu aparelho.</p>`;
+}
+
+function render(){
+  let html="";
+  if(st.stage==="intro")html=viewIntro();
+  else if(st.stage==="question")html=viewQuestion();
+  else if(st.stage==="halfway")html=viewHalf();
+  else if(st.stage==="calc")html=viewCalc();
+  else html=viewResult();
+  app.classList.remove("fade");
+  void app.offsetWidth;
+  app.innerHTML=html;
+  app.classList.add("fade");
+  if(st.stage==="result")animateResult();
+}
+
+function animateResult(){
+  const ring=document.getElementById("ring");
+  const num=document.getElementById("num");
+  const pct=RESULT.pct,c=RESULT.lv.c;
+  const t0=performance.now(),dur=1400;
+  function frame(t){
+    const k=Math.min(1,(t-t0)/dur);
+    const e=1-Math.pow(1-k,3);
+    const val=Math.round(pct*e);
+    if(num)num.textContent=val;
+    if(ring)ring.style.background=`conic-gradient(${c} ${val*3.6}deg,#ffffff12 0deg)`;
+    if(k<1)requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+function feedback(v){
+  const el=document.createElement("div");
+  el.className="fb "+(v>=2?"warn":v===1?"mid":"ok");
+  el.textContent=v>=2?"+1 SINAL":v===1?"mais um ponto":"tudo certo";
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),750);
+}
+function bumpSinais(){
+  const chip=document.getElementById("sinaisChip");
+  if(!chip)return;
+  chip.innerHTML=`SINAIS <b>${st.sinais}</b>`;
+  chip.classList.remove("bump");
+  void chip.offsetWidth;
+  chip.classList.add("bump");
+}
+function insertConds(qid,v){
+  const add=CONDS.filter(c=>c.trigger===qid&&v>=c.min);
+  if(add.length){
+    st.seq.splice(st.idx+1,0,...add);
+    sndBonus();
+  }
+}
+function advance(){
+  st.lock=false;
+  st.idx++;
+  if(st.idx>=st.seq.length){
+    computeResult();
+    st.stage="calc";
+    render();
+    calcTimer=setTimeout(()=>{
+      st.stage="result";
+      render();
+      sndResult(RESULT.pct);
+      if(RESULT.pct<35)confetti();
+      else if(RESULT.pct>=65){
+        const card=document.getElementById("resCard");
+        if(card){card.classList.add("shake");setTimeout(()=>card.classList.remove("shake"),600)}
+      }
+    },1700);
+  }else if(st.answered===6&&!st.halfSeen){
+    st.halfSeen=true;
+    st.stage="halfway";
+    render();
+  }else{
+    st.stage="question";
+    render();
+  }
+}
+
+function computeResult(){
+  const sum=st.answers.reduce((a,b)=>a+b.v,0);
+  const n=st.answers.length;
+  const pct=Math.round((sum/(n*3))*100);
+  const lv=levelOf(pct);
+  const strong=st.answers.filter(a=>a.v>=2).length;
+  const highlights=st.answers
+    .filter(a=>a.v>=2)
+    .sort((a,b)=>b.v-a.v)
+    .slice(0,3)
+    .map(a=>a.s);
+  let profile=lv.t;
+  let best=0;
+  for(const cat of CATS){
+    const w=st.answers
+      .filter(a=>cat.ids.includes(a.id)&&a.v>=2)
+      .reduce((s,a)=>s+a.v,0);
+    if(w>best){best=w;profile=cat.name}
+  }
+  RESULT={pct,lv,highlights,profile,strong,answeredN:n};
+}
+
+function confetti(){
+  const c=document.createElement("canvas");
+  c.className="confetti";
+  document.body.appendChild(c);
+  const ctx=c.getContext("2d");
+  const W=c.width=window.innerWidth;
+  const H=c.height=window.innerHeight;
+  const colors=["#25f4ee","#fe2c55","#f5b301","#22c55e","#ffffff"];
+  const parts=[];
+  for(let i=0;i<130;i++){
+    parts.push({
+      x:Math.random()*W,y:-20-Math.random()*H*.4,
+      vx:(Math.random()-.5)*3.4,vy:2.4+Math.random()*3.6,
+      w:5+Math.random()*7,h:7+Math.random()*9,
+      rot:Math.random()*Math.PI,vr:(Math.random()-.5)*.24,
+      c:colors[i%colors.length],life:1
+    });
+  }
+  const t0=performance.now();
+  function frame(t){
+    ctx.clearRect(0,0,W,H);
+    for(const p of parts){
+      p.x+=p.vx;
+      p.y+=p.vy;
+      p.vy+=.05;
+      p.rot+=p.vr;
+      if(t-t0>2600)p.life-=.02;
+      if(p.life<=0)continue;
+      ctx.save();
+      ctx.globalAlpha=Math.max(0,p.life);
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle=p.c;
+      ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+      ctx.restore();
+    }
+    if(t-t0<3400)requestAnimationFrame(frame);
+    else c.remove();
+  }
+  requestAnimationFrame(frame);
+}
+
+function toast(msg){
+  const el=document.createElement("div");
+  el.className="toast";
+  el.textContent=msg;
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),2200);
+}
+
+async function share(){
+  const txt=`ConfereAki: meu nível de alerta na relação foi ${RESULT.pct}% — ${RESULT.lv.t} (padrão ${RESULT.profile}). Faça o quiz em 1 minuto.`;
+  if(navigator.share){
+    try{await navigator.share({title:"ConfereAki",text:txt});return}catch(e){}
+  }
+  try{
+    await navigator.clipboard.writeText(txt);
+    toast("Resultado copiado!");
+  }catch(e){
+    toast("Não foi possível compartilhar");
+  }
+}
+
+app.addEventListener("click",e=>{
+  const btn=e.target.closest("[data-action]");
+  if(!btn)return;
+  const action=btn.dataset.action;
+  if(action==="start"){
+    st=freshState("question");
+    render();
+  }else if(action==="answer"){
+    if(st.lock)return;
+    const q=st.seq[st.idx];
+    if(q.id==="gender"&&!btn.dataset.g)return;
+    st.lock=true;
+    btn.classList.add("sel");
+    if(btn.dataset.g)st.gender=btn.dataset.g;
+    let v=null;
+    if(q.id!=="gender"&&btn.dataset.v!==undefined){
+      v=+btn.dataset.v;
+      st.answers.push({id:q.id,v:v,s:q.s});
+      st.answered++;
+      if(v>=2){
+        st.sinais++;
+        setTimeout(bumpSinais,60);
+      }
+      feedback(v);
+      sndAnswer(v);
+    }
+    setTimeout(()=>{
+      if(v!==null)insertConds(q.id,v);
+      advance();
+    },v===null?140:430);
+  }else if(action==="continue"){
+    st.stage="question";
+    render();
+  }else if(action==="restart"){
+    clearTimeout(calcTimer);
+    RESULT=null;
+    st=freshState();
+    render();
+  }else if(action==="share"){
+    share();
+  }else if(action==="sound"){
+    soundOn=!soundOn;
+    localStorage.setItem("ck_sound",soundOn?"1":"0");
+    if(soundOn)tone(760,.1,"sine",.05);
+    render();
+  }
+});
+
+render();
+</script>
+</body>
+</html>
