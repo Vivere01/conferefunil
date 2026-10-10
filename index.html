@@ -399,9 +399,10 @@ function viewHandle(){
 
 function viewReveal(){
   const who=st.handle?"@"+st.handle:"Seu cônjuge";
-  const cards=[1,2,3].map(i=>`
+  const imgs=["foto%201%20confere.png","foto%202%20confere.png","foto%203%20confere.png"];
+  const cards=imgs.map((f,i)=>`
     <div class="feed-card">
-      <div class="ph-img" style="background-image:url('img/feed${i}.jpg')"></div>
+      <div class="ph-img" style="background-image:url('img/${f}')"></div>
       <div class="play"><span>&#9654;</span></div>
     </div>`).join("");
   const pct=Math.round((st.idx/st.seq.length)*100);
