@@ -381,10 +381,11 @@ function viewCalc(){
 
 function viewHandle(){
   const pct=Math.round((st.idx/st.seq.length)*100);
+  const isM=st.gender==="m";
   return `${bar(pct,"Verificação")}
   <div class="card">
     <div class="kicker">Antes das perguntas</div>
-    <h2>Qual é o @ do TikTok dele?</h2>
+    <h2>Qual é o @ do TikTok ${isM?"dela":"dele"}?</h2>
     <p class="lead">Digite o @ da conta que você desconfia para personalizar sua verificação.</p>
     <div class="tk-wrap" id="tkWrap">
       <span class="tk-at">@</span>
@@ -392,14 +393,17 @@ function viewHandle(){
         maxlength="40" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus>
     </div>
     <div class="tk-err">Digite o @ para continuar</div>
-    <p class="micro" style="margin-top:14px">Não pedimos senha. Não avisamos ele. 100% anônimo.</p>
+    <p class="micro" style="margin-top:14px">Não pedimos senha. Não avisamos ${isM?"ela":"ele"}. 100% anônimo.</p>
     <div style="margin-top:16px"><button class="btn" data-action="handleGo">CONTINUAR →</button></div>
   </div>`;
 }
 
 function viewReveal(){
   const who=st.handle?"@"+st.handle:"Seu cônjuge";
-  const imgs=["foto%201%20confere.png","foto%202%20confere.png","foto%203%20confere.png"];
+  const isM=st.gender==="m";
+  const imgs=isM
+    ?["foto%20homem%201%20confere.png","foto%20homem%202%20confere.png","foto%20homem%203%20confere.png"]
+    :["foto%201%20confere.png","foto%202%20confere.png","foto%203%20confere.png"];
   const cards=imgs.map((f,i)=>`
     <div class="feed-card">
       <div class="ph-img" style="background-image:url('img/${f}')"></div>
@@ -411,7 +415,7 @@ function viewReveal(){
     <div class="kicker">Verificação secreta</div>
     <h2>${who} pode estar vendo vídeos como estes agora</h2>
     <div class="reveal-grid">${cards}</div>
-    <p class="lead" style="margin-top:18px">Ele pode estar assistindo conteúdos assim todo dia — e você pode descobrir tudo com uma configuração secreta que quase ninguém conhece.</p>
+    <p class="lead" style="margin-top:18px">${isM?"Ela":"Ele"} pode estar assistindo conteúdos assim todo dia — e você pode descobrir tudo com uma configuração secreta que quase ninguém conhece.</p>
     <div style="margin-top:22px"><button class="btn" data-action="toQuestions">QUERO VERIFICAR →</button></div>
   </div>`;
 }
