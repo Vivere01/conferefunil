@@ -243,8 +243,8 @@ const BASE=[
   opts:[{l:"Eu ocupo",v:0},{l:"Às vezes o celular",v:1},{l:"Mais o celular",v:2},{l:"O celular — e você sabe",v:3}]}
 ];
 const CONDS=[
- {id:"c_planos",trigger:"horas",min:2,bonus:true,s:"Cancelou planos por causa do TikTok",
-  t:(p,pe)=>`Nos últimos meses, ${pe} já cancelou planos, desmarcou saídas ou te ignorou por causa do TikTok?`,
+ {id:"c_planos",trigger:"horas",min:2,bonus:true,s:"Cancelou planos de última hora e ficou no celular",
+  t:(p,pe)=>`Nos últimos meses, ${pe} já cancelou planos ou desmarcou saídas de última hora — e depois ficou mexendo no celular?`,
   opts:[{l:"Nunca",v:0},{l:"Uma vez",v:1},{l:"Algumas vezes",v:2},{l:"Várias vezes e sem explicação",v:3}]},
  {id:"c_tela",trigger:"tela",min:2,bonus:true,s:"Celular sempre de costas ou fora de alcance",
   t:(p,pe)=>`O celular ${po(pe)} vive de costas, no mudo ou fora do seu alcance?`,
