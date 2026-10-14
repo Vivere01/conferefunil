@@ -175,6 +175,14 @@ a.btn:hover{filter:brightness(1.1)}
 .tk-in::placeholder{color:#666;font-weight:600}
 .tk-err{color:#ff2525;font-size:13px;margin-top:8px;display:none}
 .tk-wrap.err~.tk-err{display:block}
+.chat{background:#0d0d0d;border:1px solid var(--line);border-radius:16px;margin-top:16px;overflow:hidden}
+.chat-head{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.chat-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#ff2525,#7a0e0e);display:grid;place-items:center;font-weight:800;color:#fff;font-size:14px}
+.chat-name{font-weight:800;font-size:14.5px}
+.chat-on{font-size:12px;color:#4ade80;display:flex;align-items:center;gap:5px}
+.chat-on i{width:7px;height:7px;border-radius:50%;background:#4ade80;display:inline-block}
+.bub-in{background:#1f1f1f;border-radius:4px 16px 16px 16px;padding:10px 14px;margin:14px;max-width:88%;font-size:15.5px;line-height:1.45}
+.tm{display:block;font-size:11px;color:#888;margin-top:6px;text-align:right}
 .reveal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
 .feed-card{
   position:relative;aspect-ratio:9/16;border-radius:16px;overflow:hidden;
@@ -416,7 +424,27 @@ function viewReveal(){
     <h2>${who} pode estar vendo vídeos como estes agora</h2>
     <div class="reveal-grid">${cards}</div>
     <p class="lead" style="margin-top:18px">${isM?"Ela":"Ele"} pode estar assistindo conteúdos assim todo dia — e você pode descobrir tudo com uma configuração secreta que quase ninguém conhece.</p>
-    <div style="margin-top:22px"><button class="btn" data-action="toQuestions">QUERO VERIFICAR →</button></div>
+    <div style="margin-top:22px"><button class="btn" data-action="toAnalise">QUERO VERIFICAR →</button></div>
+  </div>`;
+}
+
+function viewAnalise(){
+  const isM=st.gender==="m";
+  const msg=isM?"Nossa que gostoso, sentava muito!":"Nossa que gostosa, posso te visitar?";
+  const alvo=st.handle?"@"+st.handle:"seu cônjuge";
+  const pct=Math.round((st.idx/st.seq.length)*100);
+  return `${bar(pct,"Desconfiança")}
+  <div class="card">
+    <div class="kicker">Análise de desconfiança</div>
+    <h2>É assim que começa — um comentário vira conversa no inbox</h2>
+    <div class="chat">
+      <div class="chat-head"><div class="chat-av">TT</div>
+        <div><div class="chat-name">Inbox do TikTok</div><div class="chat-on"><i></i>online agora</div></div>
+      </div>
+      <div class="bub-in">${msg}<span class="tm">23:47</span></div>
+    </div>
+    <p class="lead" style="margin-top:18px">Mensagens como esta chegam todos os dias para quem vive nesses vídeos. E se no inbox de ${alvo} tiver uma conversa assim?</p>
+    <div style="margin-top:22px"><button class="btn" data-action="toQuestions">TEM CERTEZA QUE DESEJA CONTINUAR? →</button></div>
   </div>`;
 }
 
@@ -490,6 +518,7 @@ function render(){
   else if(st.stage==="question")html=viewQuestion();
   else if(st.stage==="handle")html=viewHandle();
   else if(st.stage==="reveal")html=viewReveal();
+  else if(st.stage==="analise")html=viewAnalise();
   else if(st.stage==="halfway")html=viewHalf();
   else if(st.stage==="calc")html=viewCalc();
   else html=viewResult();
@@ -686,6 +715,10 @@ app.addEventListener("click",e=>{
     render();
   }else if(action==="handleGo"){
     submitHandle();
+  }else if(action==="toAnalise"){
+    sndBonus();
+    st.stage="analise";
+    render();
   }else if(action==="toQuestions"){
     sndBonus();
     st.stage="question";
