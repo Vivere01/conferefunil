@@ -183,6 +183,17 @@ a.btn:hover{filter:brightness(1.1)}
 .chat-on i{width:7px;height:7px;border-radius:50%;background:#4ade80;display:inline-block}
 .bub-in{background:#1f1f1f;border-radius:4px 16px 16px 16px;padding:10px 14px;margin:14px;max-width:88%;font-size:15.5px;line-height:1.45}
 .tm{display:block;font-size:11px;color:#888;margin-top:6px;text-align:right}
+.rush{text-align:center;font-size:12.5px;color:#ffb4b4;margin-top:14px;font-weight:700}
+.cta-loss{font-size:14px;color:#ffb4b4;margin:10px 0 2px;line-height:1.5}
+.trust{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.trust span{font-size:11.5px;color:var(--mut);border:1px solid var(--line);border-radius:999px;padding:5px 11px}
+.who{font-size:13px;color:var(--mut);margin-top:6px}
+@keyframes pulse{0%{box-shadow:0 0 0 0 #ff252566}70%{box-shadow:0 0 0 14px #ff252500}100%{box-shadow:0 0 0 0 #ff252500}}
+.pulse{animation:pulse 2s infinite}
+#stickyCta{position:fixed;left:12px;right:12px;bottom:12px;z-index:9;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#160808f2;border:1px solid #ff252555;border-radius:14px;padding:10px 12px 10px 16px;box-shadow:0 10px 30px #000c}
+#stickyCta .sp{font-size:13px;font-weight:800}
+#stickyCta .sp small{display:block;font-size:11px;color:var(--mut);font-weight:600}
+#stickyCta .go{background:var(--rose);color:#fff;font-weight:800;border-radius:10px;padding:11px 18px;text-decoration:none;font-size:14px;white-space:nowrap}
 .reveal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
 .feed-card{
   position:relative;aspect-ratio:9/16;border-radius:16px;overflow:hidden;
@@ -357,11 +368,14 @@ function viewQuestion(){
       <span class="badge">${badges[i]}</span><span>${o.l}</span></button>`;
   }).join("");
   const total=st.seq.length;
+  const left=total-(st.idx+1);
+  const rush=left>0&&left<=3?`<div class="rush">Última${left>1?"s "+left:""} — seu resultado está quase pronto</div>`:"";
   return `${bar(Math.round(((st.idx+1)/total)*100),`Pergunta ${st.idx+1} de ${total}`)}
   <div class="card">
     ${bonus}
     <div class="qtext">${text}</div>
     <div class="opts">${opts}</div>
+    ${rush}
   </div>`;
 }
 
@@ -372,7 +386,7 @@ function viewHalf(){
   <div class="card" style="text-align:center">
     <div class="half-ico">50</div>
     <h2>Metade do caminho — e já dá para ver o padrão</h2>
-    <p class="lead">Cada resposta é um espelho. Faltam só ${rest} pergunta${rest===1?"":"s"} para o seu Índice de Dúvida — e ele costuma surpreender.</p>
+    <p class="lead">Cada resposta é um espelho. Faltam só ${rest} pergunta${rest===1?"":"s"} para o seu Índice de Dúvida — e ele costuma surpreender. Tem um padrão escondido nas suas respostas que só o cálculo final revela.</p>
     <div class="half-sinais"><b>${sn}</b> ponto${sn===1?"":"s"} de dúvida até agora</div>
     <div style="margin-top:24px"><button class="btn" data-action="continue">QUERO O RESULTADO →</button></div>
   </div>`;
@@ -382,8 +396,8 @@ function viewCalc(){
   return `${bar(100,"Calculando")}
   <div class="card" style="text-align:center;padding-top:56px;padding-bottom:56px">
     <div class="spin"></div>
-    <div class="calc-t">Traduzindo suas respostas em Índice de Dúvida...</div>
-    <div class="calc-s">Cruzando ${st.answers.length} respostas com o que você realmente sente</div>
+    <div class="calc-t">Revelando o que suas respostas escondem...</div>
+    <div class="calc-s">Cruzando ${st.answers.length} respostas com o que você realmente sente — o resultado sai em segundos</div>
   </div>`;
 }
 
@@ -491,6 +505,7 @@ function viewResult(){
       <div class="pill" style="color:${lv.c};border-color:${lv.c}44;background:${lv.c}1a">${lv.t}</div>
       <div class="prof">Principal fonte da sua dúvida: <strong>${profile}</strong></div>
       <div class="meta">${strong} de ${answeredN} respostas alimentaram sua dúvida</div>
+      <div class="who">Análise de ${st.handle?"@"+st.handle:"você"} — feita em 1 minuto</div>
       <div class="res-title">Seu Índice de Dúvida</div>
       <p class="res-desc">${lv.d}</p>
     </div>
@@ -505,11 +520,15 @@ function viewResult(){
     <div class="cta-box">
       <div class="kicker">A resposta</div>
       <div class="cta-title">Sua dúvida tem resposta — e ela está a um clique de distância</div>
-      <a class="btn rose" id="cta-checkout" data-action="cta" href="https://pay.cakto.com.br/awfje4i_1188792" target="_blank" rel="noopener">QUERO A RESPOSTA — R$ 49,90</a>
-      <div class="cta-note">Pagamento único via Cakto · cartão, Pix ou PicPay</div>
+      <div class="cta-loss">A dúvida não some sozinha — ela cobra juros toda noite em sono e paz.</div>
+      <a class="btn rose pulse" id="cta-checkout" data-action="cta" href="https://pay.cakto.com.br/awfje4i_1188792" target="_blank" rel="noopener">QUERO A RESPOSTA — R$ 49,90</a>
+      <div class="cta-note">Menos que uma pizza · pagamento único via Cakto · cartão, Pix ou PicPay</div>
+      <div class="trust"><span>100% anônimo</span><span>Sem cadastro</span><span>Resposta na hora</span></div>
     </div>
   </div>
-  <p class="disc">O Confere é um quiz informativo e não substitui aconselamento profissional. Suas respostas nunca saem do seu aparelho.</p>`;
+  <p class="disc">O Confere é um quiz informativo e não substitui aconselamento profissional. Suas respostas nunca saem do seu aparelho.</p>
+  <a id="stickyCta" data-action="cta" href="https://pay.cakto.com.br/awfje4i_1188792" target="_blank" rel="noopener"><span class="sp">Resposta<small>R$ 49,90 · pagamento único</small></span><span class="go">VER →</span></a>
+  <div style="height:78px"></div>`;
 }
 
 function render(){
