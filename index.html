@@ -465,11 +465,11 @@ function viewAnalise(){
 function levelOf(pct){
   if(pct<35)return{
     c:"#22c55e",t:"Dúvida Leve",
-    d:"Por enquanto nada forte te trouxe até aqui. Mas se você fez este teste, alguma coisa te incomoda — e incomodar não passa sozinho.",
+    d:"Você marcou “nunca” em quase tudo — nenhum sinal visível. Mas repara: quem está 100% tranquila não faz um teste desses até o fim. Este teste mede o que você VÊ. A configuração secreta mostra o que você NÃO vê.",
     tips:[
-      "Sem informação, sua mente preenche as lacunas com o pior cenário — e repete isso toda noite.",
-      "Observe por 7 dias sem acusar: quem esconde, repete o padrão — e o padrão aparece.",
-      "Marque no calendário o dia em que você vai parar de apenas observar. Dúvida parada vira desgaste."
+      "Responder “nunca” em tudo não apaga o motivo que te trouxe até aqui — ele continua aí, cutucando.",
+      "O perigo mora no invisível: feed, curtidas e inbox que você nunca viu não aparecem em nenhuma pergunta.",
+      "Existe uma diferença enorme entre “acho que está tudo bem” e “EU SEI que está tudo bem”. Só uma delas deixa você dormir em paz."
     ]};
   if(pct<65)return{
     c:"#f5b301",t:"Dúvida em Alta",
@@ -493,8 +493,9 @@ function viewResult(){
   const {pct,lv,highlights,profile,strong,answeredN}=RESULT;
   const hi=highlights.length
     ? highlights.map(h=>`<li><span class="dot" style="background:${lv.c}"></span>${h}</li>`).join("")
-    : `<li><span class="dot" style="background:${lv.c}"></span>Nenhum sinal forte nas suas respostas — mantenha o que funciona.</li>`;
+    : `<li><span class="dot" style="background:${lv.c}"></span>Nenhum sinal visível nas respostas — o resto só vendo por dentro.</li>`;
   const tips=lv.tips.map(t=>`<li>${t}</li>`).join("");
+  const low=pct<35;
   return `${bar(100,"Resultado")}
   <div class="card" id="resCard">
     <div class="res-head">
@@ -518,8 +519,8 @@ function viewResult(){
       <ol>${tips}</ol>
     </div>
     <div class="cta-box">
-      <div class="kicker">A resposta</div>
-      <div class="cta-title">Sua dúvida tem resposta — e ela está a um clique de distância</div>
+      <div class="kicker">${low?"O passo que falta":"A resposta"}</div>
+      <div class="cta-title">${low?"Suas respostas estão limpas — falta conferir o invisível":"Sua dúvida tem resposta — e ela está a um clique de distância"}</div>
       <div class="cta-loss">A dúvida não some sozinha — ela cobra juros toda noite em sono e paz.</div>
       <a class="btn rose pulse" id="cta-checkout" data-action="cta" href="https://pay.cakto.com.br/awfje4i_1188792" target="_blank" rel="noopener">QUERO A RESPOSTA — R$ 49,90</a>
       <div class="cta-note">Menos que uma pizza · pagamento único via Cakto · cartão, Pix ou PicPay</div>
