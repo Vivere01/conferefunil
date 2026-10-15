@@ -392,6 +392,7 @@ function viewHalf(){
   const rest=st.seq.length-st.idx;
   const sn=st.sinais;
   const p=pe();
+  const par=st.gender==="m"?"a sua parceira":"o seu parceiro";
   return `${bar(Math.round((st.idx/st.seq.length)*100),"Metade do caminho")}
   <div class="card" style="text-align:center">
     <div class="half-ico">50</div>
@@ -400,9 +401,9 @@ function viewHalf(){
     <div class="half-sinais"><b>${sn}</b> ponto${sn===1?"":"s"} de dúvida até agora</div>
     <div class="mech">
       <div class="mech-t">COMO A DÚVIDA SE RESOLVE</div>
-      <div class="mech-row"><b>1</b><span>Você ativa a configuração secreta no seu próprio celular</span></div>
-      <div class="mech-row"><b>2</b><span>Ela revela os vídeos que ${p} realmente assiste, curte e comenta</span></div>
-      <div class="mech-row"><b>3</b><span>Você vê com os próprios olhos — e a dúvida morre na hora</span></div>
+      <div class="mech-row"><b>1</b><span>Você descobre onde fica um botão simples que mostra todos os vídeos, curtidas e comentários que ${par} vê no TikTok</span></div>
+      <div class="mech-row"><b>2</b><span>Você confere com os próprios olhos o que ${p} realmente assiste — sem perguntar, sem brigar</span></div>
+      <div class="mech-row"><b>3</b><span>E a dúvida morre na hora, substituída por certeza</span></div>
     </div>
     <div style="margin-top:24px"><button class="btn" data-action="continue">QUERO O RESULTADO →</button></div>
   </div>`;
