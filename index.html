@@ -198,6 +198,12 @@ a.btn:hover{filter:brightness(1.1)}
 .vslot-t{text-align:center;font-weight:800;font-size:14px;margin-bottom:10px}
 .vwrap{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000}
 .vwrap iframe,.vwrap video{position:absolute;inset:0;width:100%;height:100%}
+.depo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.depo-card{min-width:0}
+.depo-vwrap{position:relative;padding-top:177.78%;border-radius:12px;overflow:hidden;background:#000;border:1px solid var(--line)}
+.depo-vwrap iframe,.depo-vwrap video{position:absolute;inset:0;width:100%;height:100%}
+.depo-cap{font-size:12px;color:var(--mut);margin-top:6px;line-height:1.4}
+.depo-cap b{color:#fff;display:block;font-size:12.5px}
 .who{font-size:13px;color:var(--mut);margin-top:6px}
 @keyframes pulse{0%{box-shadow:0 0 0 0 #ff252566}70%{box-shadow:0 0 0 14px #ff252500}100%{box-shadow:0 0 0 0 #ff252500}}
 .pulse{animation:pulse 2s infinite}
@@ -514,6 +520,24 @@ function levelOf(pct){
 }
 
 const VIDEO_URL="";
+const DEPOIMENTOS=[
+  {url:"",nome:"",texto:""},
+  {url:"",nome:"",texto:""},
+  {url:"",nome:"",texto:""}
+];
+function depoSlot(){
+  const ativos=DEPOIMENTOS.filter(d=>d.url);
+  if(!ativos.length)return "";
+  const cards=ativos.map(d=>{
+    const m=d.url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([\w-]{6,})/);
+    const inner=m
+      ?`<iframe src="https://www.youtube-nocookie.com/embed/${m[1]}?rel=0" title="Depoimento" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+      :`<video src="${d.url}" controls playsinline preload="metadata"></video>`;
+    const cap=(d.nome||d.texto)?`<div class="depo-cap">${d.nome?`<b>${d.nome}</b>`:""}${d.texto?`<span>${d.texto}</span>`:""}</div>`:"";
+    return `<div class="depo-card"><div class="depo-vwrap">${inner}</div>${cap}</div>`;
+  }).join("");
+  return `<div class="sect"><h3>Quem já descobriu a verdade</h3><div class="depo-grid">${cards}</div></div>`;
+}
 function videoSlot(){
   if(!VIDEO_URL)return "";
   const m=VIDEO_URL.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]{6,})/);
@@ -554,6 +578,7 @@ function viewResult(){
       <ol>${tips}</ol>
     </div>
     ${videoSlot()}
+    ${depoSlot()}
     <div class="cta-box">
       <div class="kicker">${low?"O passo que falta":"A resposta"}</div>
       <div class="cta-title">${low?"Suas respostas estão limpas — falta conferir o invisível":"Sua dúvida tem resposta — e ela está a um clique de distância"}</div>
