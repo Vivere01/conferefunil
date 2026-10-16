@@ -190,6 +190,8 @@ a.btn:hover{filter:brightness(1.1)}
 .mech-row{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;margin-top:9px;line-height:1.45}
 .mech-row b{flex:none;width:22px;height:22px;border-radius:50%;background:#ff2525;color:#fff;font-size:12px;display:grid;place-items:center;margin-top:1px}
 .cta-loss{font-size:14px;color:#ffb4b4;margin:10px 0 2px;line-height:1.5}
+.cta-hoje{font-size:14px;font-weight:800;margin:10px 0 2px;line-height:1.5}
+.instinto{text-align:center;font-size:13.5px;font-weight:800;margin-top:14px;line-height:1.5}
 .trust{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap}
 .trust span{font-size:11.5px;color:var(--mut);border:1px solid var(--line);border-radius:999px;padding:5px 11px}
 .vslot{margin:18px 0 4px}
@@ -399,6 +401,7 @@ function viewHalf(){
     <h2>Metade do caminho — e já dá para ver o padrão</h2>
     <p class="lead">Cada resposta é um espelho. Faltam só ${rest} pergunta${rest===1?"":"s"} para o seu Índice de Dúvida — e ele costuma surpreender. Tem um padrão escondido nas suas respostas que só o cálculo final revela.</p>
     <div class="half-sinais"><b>${sn}</b> ponto${sn===1?"":"s"} de dúvida até agora</div>
+    <div class="instinto">Se você chegou até aqui, seu instinto já falou. Agora falta a prova.</div>
     <div class="mech">
       <div class="mech-t">COMO A DÚVIDA SE RESOLVE</div>
       <div class="mech-row"><b>1</b><span>Você descobre onde fica um botão simples que mostra todos os vídeos, curtidas e comentários que ${par} vê no TikTok</span></div>
@@ -486,7 +489,7 @@ function viewAnalise(){
 function levelOf(pct){
   if(pct<35)return{
     c:"#22c55e",t:"Dúvida Leve",
-    d:"Você marcou “nunca” em quase tudo — nenhum sinal visível. Mas repara: quem está 100% tranquila não faz um teste desses até o fim. Este teste mede o que você VÊ. A configuração secreta mostra o que você NÃO vê.",
+    d:"Você marcou “nunca” em quase tudo — nenhum sinal visível. Mas repara: quem está 100% "+(st.gender==="m"?"tranquilo":"tranquila")+" não faz um teste desses até o fim. Este teste mede o que você VÊ. A configuração secreta mostra o que você NÃO vê.",
     tips:[
       "Responder “nunca” em tudo não apaga o motivo que te trouxe até aqui — ele continua aí, cutucando.",
       "O perigo mora no invisível: feed, curtidas e inbox que você nunca viu não aparecem em nenhuma pergunta.",
@@ -527,6 +530,7 @@ function viewResult(){
     : `<li><span class="dot" style="background:${lv.c}"></span>Nenhum sinal visível nas respostas — o resto só vendo por dentro.</li>`;
   const tips=lv.tips.map(t=>`<li>${t}</li>`).join("");
   const low=pct<35;
+  const pe2=pe();
   return `${bar(100,"Resultado")}
   <div class="card" id="resCard">
     <div class="res-head">
@@ -554,9 +558,10 @@ function viewResult(){
       <div class="kicker">${low?"O passo que falta":"A resposta"}</div>
       <div class="cta-title">${low?"Suas respostas estão limpas — falta conferir o invisível":"Sua dúvida tem resposta — e ela está a um clique de distância"}</div>
       <div class="cta-loss">A dúvida não some sozinha — ela cobra juros toda noite em sono e paz.</div>
+      <div class="cta-hoje">Certeza — pro bem ou pro mal, mas certeza. Hoje à noite, você dorme sabendo.</div>
       <a class="btn rose pulse" id="cta-checkout" data-action="cta" href="https://pay.cakto.com.br/awfje4i_1188792" target="_blank" rel="noopener">QUERO A RESPOSTA — R$ 49,90</a>
-      <div class="cta-note">Menos que uma pizza · pagamento único via Cakto · cartão, Pix ou PicPay</div>
-      <div class="trust"><span>100% anônimo</span><span>Sem cadastro</span><span>Resposta na hora</span></div>
+      <div class="cta-note">Menos que 1 sessão de terapia · pagamento único via Cakto · cartão, Pix ou PicPay</div>
+      <div class="trust"><span>100% anônimo</span><span>Sem cadastro</span><span>Resposta na hora</span><span>${pe2==="ele"?"Ele":"Ela"} nunca fica sabendo</span></div>
     </div>
   </div>
   <p class="disc">O Confere é um quiz informativo e não substitui aconselamento profissional. Suas respostas nunca saem do seu aparelho.</p>
