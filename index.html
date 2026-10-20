@@ -202,8 +202,11 @@ a.btn:hover{filter:brightness(1.1)}
 .vslot-t{text-align:center;font-weight:800;font-size:14px;margin-bottom:10px}
 .vwrap{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000}
 .vwrap iframe,.vwrap video{position:absolute;inset:0;width:100%;height:100%}
-.depo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.depo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
 .depo-card{min-width:0}
+.depo-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:14px;text-align:center;border:1.5px dashed var(--line);color:var(--mut)}
+.depo-ph b{font-size:13px;color:#fff}
+.ph-play{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#ff2525,#7a0e0e);color:#fff;font-size:13px;padding-left:3px}
 .depo-vwrap{position:relative;padding-top:177.78%;border-radius:12px;overflow:hidden;background:#000;border:1px solid var(--line)}
 .depo-vwrap iframe,.depo-vwrap video{position:absolute;inset:0;width:100%;height:100%}
 .depo-cap{font-size:12px;color:var(--mut);margin-top:6px;line-height:1.4}
@@ -531,18 +534,20 @@ function levelOf(pct){
 
 const VIDEO_URL="";
 const DEPOIMENTOS=[
-  {url:"",nome:"",texto:""},
-  {url:"",nome:"",texto:""},
-  {url:"",nome:"",texto:""}
+  {perfil:"f",url:"",nome:"",texto:""},
+  {perfil:"m",url:"",nome:"",texto:""}
 ];
 function depoSlot(){
-  const ativos=DEPOIMENTOS.filter(d=>d.url);
-  if(!ativos.length)return "";
-  const cards=ativos.map(d=>{
-    const m=d.url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([\w-]{6,})/);
-    const inner=m
-      ?`<iframe src="https://www.youtube-nocookie.com/embed/${m[1]}?rel=0" title="Depoimento" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
-      :`<video src="${d.url}" controls playsinline preload="metadata"></video>`;
+  const cards=DEPOIMENTOS.map(d=>{
+    let inner;
+    if(d.url){
+      const m=d.url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([\w-]{6,})/);
+      inner=m
+        ?`<iframe src="https://www.youtube-nocookie.com/embed/${m[1]}?rel=0" title="Depoimento" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+        :`<video src="${d.url}" controls playsinline preload="metadata"></video>`;
+    }else{
+      inner=`<div class="depo-ph"><span class="ph-play">&#9654;</span><b>${d.perfil==="f"?"Espaço do depoimento da compradora":"Espaço do depoimento do comprador"}</b></div>`;
+    }
     const cap=(d.nome||d.texto)?`<div class="depo-cap">${d.nome?`<b>${d.nome}</b>`:""}${d.texto?`<span>${d.texto}</span>`:""}</div>`:"";
     return `<div class="depo-card"><div class="depo-vwrap">${inner}</div>${cap}</div>`;
   }).join("");
