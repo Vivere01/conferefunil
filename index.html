@@ -168,6 +168,10 @@ a.btn:hover{filter:brightness(1.1)}
 .tk-wrap:focus-within{border-color:#ff2525}
 .tk-wrap.err{animation:shake .55s ease}
 .tk-at{font-weight:800;font-size:18px;color:#ff2525}
+.tk-sep{color:var(--mut);font-size:12.5px;font-weight:600;margin-top:14px}
+.tk-sep span{opacity:.7;font-weight:500}
+.tk-wa{width:18px;height:18px;color:#25d366;flex:none}
+.tk-wa svg{width:100%;height:100%;display:block}
 .tk-in{
   flex:1;background:none;border:0;outline:none;color:#fff;
   font-size:17px;font-weight:700;font-family:inherit;min-width:0;
@@ -295,7 +299,7 @@ let ac=null;
 
 function freshState(stage){
   return {stage:stage||"intro",idx:0,gender:null,answers:[],seq:BASE.slice(),
-    answered:0,sinais:0,halfSeen:false,handle:"",handleSeen:false};
+    answered:0,sinais:0,halfSeen:false,handle:"",wa:"",handleSeen:false};
 }
 st=freshState();
 
@@ -368,7 +372,7 @@ function viewIntro(){
       <div class="slogan">Descubra a verdade<br>antes que seja tarde.</div>
       <div class="rule"></div>
     </div>
-    <h1 style="text-transform:uppercase;text-align:center;margin-top:20px">Espione os vídeos que seu parceiro vê no TTK</h1>
+    <h1 style="text-transform:uppercase;text-align:center;margin-top:20px">Espione tudo que ele vê e faz no celular pelo Tiktok</h1>
     <button class="btn" data-action="start">QUERO SABER A VERDADE →</button>
   </div>
   <p class="disc">O Confere é um quiz informativo e não substitui aconselamento profissional.</p>`;
@@ -440,7 +444,13 @@ function viewHandle(){
       <input class="tk-in" id="tkHandle" type="text" placeholder="seu.exemplo"
         maxlength="40" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus>
     </div>
-    <div class="tk-err">Digite o @ para continuar</div>
+    <div class="tk-sep">Ou número WhatsApp <span>(para quem não sabe o @ do parceiro)</span></div>
+    <div class="tk-wrap" id="waWrap">
+      <span class="tk-wa"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span>
+      <input class="tk-in" id="waNumber" type="tel" inputmode="numeric" placeholder="(11) 98765-4321"
+        maxlength="20" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="tk-err">Digite o @ ou o número do WhatsApp para continuar</div>
     <p class="micro" style="margin-top:14px">Não pedimos senha. Não avisamos ${isM?"ela":"ele"}. 100% anônimo.</p>
     <div style="margin-top:16px"><button class="btn" data-action="handleGo">CONTINUAR →</button></div>
   </div>`;
@@ -750,13 +760,20 @@ function confetti(){
 
 function submitHandle(){
   const inp=document.getElementById("tkHandle");
+  const wai=document.getElementById("waNumber");
   const raw=inp&&inp.value?String(inp.value).trim():"";
-  if(!raw){
+  const wa=wai&&wai.value?String(wai.value).trim():"";
+  if(!raw&&!wa){
     const w=document.getElementById("tkWrap");
     if(w){w.classList.remove("err");void w.offsetWidth;w.classList.add("err")}
     return;
   }
-  st.handle=raw.replace(/^@+/,"");
+  if(raw){
+    st.handle=raw.replace(/^@+/,"");
+    st.wa=wa||null;
+  }else{
+    st.wa=wa;
+  }
   sndBonus();
   st.stage="reveal";
   render();
@@ -816,7 +833,7 @@ app.addEventListener("click",e=>{
 });
 
 app.addEventListener("keydown",e=>{
-  if(e.key==="Enter"&&e.target&&e.target.id==="tkHandle")submitHandle();
+  if(e.key==="Enter"&&(e.target.id==="tkHandle"||e.target.id==="waNumber"))submitHandle();
 });
 
 render();
