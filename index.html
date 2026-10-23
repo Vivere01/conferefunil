@@ -202,6 +202,44 @@ a.btn:hover{filter:brightness(1.1)}
 .vslot-t{text-align:center;font-weight:800;font-size:14px;margin-bottom:10px}
 .vwrap{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000}
 .vwrap iframe,.vwrap video{position:absolute;inset:0;width:100%;height:100%}
+.depo-sect{margin-top:22px}
+.depo-tag{
+  display:inline-flex;align-items:center;font-size:11px;font-weight:800;letter-spacing:.8px;
+  text-transform:uppercase;color:#25d366;background:#25d36618;border:1px solid #25d36640;
+  padding:4px 10px;border-radius:99px;margin-bottom:8px;
+}
+.wa-dot{width:7px;height:7px;border-radius:50%;background:#25d366;box-shadow:0 0 6px #25d366;margin-right:6px}
+.wa-proof-card{
+  background:#141414;border:1px solid var(--line);border-radius:18px;overflow:hidden;
+  box-shadow:0 12px 30px #00000066;margin-top:10px;max-width:380px;margin-left:auto;margin-right:auto;
+}
+.wa-proof-img{width:100%;height:auto;display:block;border-bottom:1px solid var(--line)}
+.wa-proof-caption{padding:12px 14px;background:#181818;text-align:left}
+.wa-proof-check{font-size:11.5px;font-weight:800;color:#25d366;display:flex;align-items:center;gap:5px;margin-bottom:4px}
+.wa-proof-caption p{font-size:13px;line-height:1.45;color:#ddd;font-style:italic}
+
+.anchor-card{
+  background:linear-gradient(180deg,#ff252514 0%,#141414 100%);
+  border:1.5px dashed #ff252555;border-radius:18px;padding:16px 14px;margin:14px 0 16px;text-align:center;
+}
+.anchor-badge{
+  display:inline-block;font-size:11px;font-weight:900;letter-spacing:1px;text-transform:uppercase;
+  color:#ffb4b4;background:#ff252526;border:1px solid #ff252550;padding:4px 12px;border-radius:99px;margin-bottom:10px;
+}
+.anchor-prices{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.price-old{font-size:14px;color:var(--mut);font-weight:600}
+.price-old del{color:#888;text-decoration:line-through;text-decoration-color:#ff4444;text-decoration-thickness:2px}
+.price-pill{
+  font-size:12px;font-weight:850;color:#22c55e;background:#22c55e1c;border:1px solid #22c55e44;
+  padding:3px 10px;border-radius:99px;
+}
+.price-now{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.pn-label{font-size:11.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.8px;font-weight:700}
+.pn-val{display:flex;align-items:flex-start;justify-content:center;line-height:1;margin:3px 0 5px}
+.pn-cur{font-size:19px;font-weight:800;color:#ff4444;margin-top:5px;margin-right:2px}
+.pn-int{font-size:44px;font-weight:900;color:#fff;letter-spacing:-1.2px}
+.pn-dec{font-size:22px;font-weight:800;color:#fff;margin-top:4px}
+.pn-sub{font-size:11.5px;color:var(--mut);font-weight:600}
 .depo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
 .depo-card{min-width:0}
 .depo-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:14px;text-align:center;border:1.5px dashed var(--line);color:var(--mut)}
@@ -538,20 +576,17 @@ const DEPOIMENTOS=[
   {perfil:"m",url:"",nome:"",texto:""}
 ];
 function depoSlot(){
-  const cards=DEPOIMENTOS.map(d=>{
-    let inner;
-    if(d.url){
-      const m=d.url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([\w-]{6,})/);
-      inner=m
-        ?`<iframe src="https://www.youtube-nocookie.com/embed/${m[1]}?rel=0" title="Depoimento" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
-        :`<video src="${d.url}" controls playsinline preload="metadata"></video>`;
-    }else{
-      inner=`<div class="depo-ph"><span class="ph-play">&#9654;</span><b>${d.perfil==="f"?"Espaço do depoimento da compradora":"Espaço do depoimento do comprador"}</b></div>`;
-    }
-    const cap=(d.nome||d.texto)?`<div class="depo-cap">${d.nome?`<b>${d.nome}</b>`:""}${d.texto?`<span>${d.texto}</span>`:""}</div>`:"";
-    return `<div class="depo-card"><div class="depo-vwrap">${inner}</div>${cap}</div>`;
-  }).join("");
-  return `<div class="sect"><h3>Quem já descobriu a verdade</h3><div class="depo-grid">${cards}</div></div>`;
+  return `<div class="sect depo-sect">
+    <div class="depo-tag"><span class="wa-dot"></span>Depoimento Real via WhatsApp</div>
+    <h3 style="margin-bottom:8px">Quem já descobriu a verdade</h3>
+    <div class="wa-proof-card">
+      <img src="img/depoimento-whatsapp.jpg" alt="Depoimento no WhatsApp de Jossie Oliveira" class="wa-proof-img" loading="lazy">
+      <div class="wa-proof-caption">
+        <div class="wa-proof-check">&#10003; Conversa real verificada</div>
+        <p>“Parei de ser trouxa... o tutorial é bem simples e recomendo para todas que estavam com a pulga atrás da orelha.”</p>
+      </div>
+    </div>
+  </div>`;
 }
 function videoSlot(){
   if(!VIDEO_URL)return "";
@@ -565,9 +600,8 @@ function videoSlot(){
 function viewResult(){
   const {pct,lv,highlights,profile,strong,answeredN}=RESULT;
   const hi=highlights.length
-    ? highlights.map(h=>`<li><span class="dot" style="background:${lv.c}"></span>${h}</li>`).join("")
+    ? highlights.slice(0,3).map(h=>`<li><span class="dot" style="background:${lv.c}"></span>${h}</li>`).join("")
     : `<li><span class="dot" style="background:${lv.c}"></span>Nenhum sinal visível nas respostas — o resto só vendo por dentro.</li>`;
-  const tips=lv.tips.map(t=>`<li>${t}</li>`).join("");
   const low=pct<35;
   const pe2=pe();
   return `${bar(100,"Resultado")}
@@ -578,34 +612,43 @@ function viewResult(){
         <div class="ringIn"><div><span id="num">0</span><em>%</em></div></div>
       </div>
       <div class="pill" style="color:${lv.c};border-color:${lv.c}44;background:${lv.c}1a">${lv.t}</div>
-      <div class="prof">Principal fonte da sua dúvida: <strong>${profile}</strong></div>
-      <div class="meta">${strong} de ${answeredN} respostas alimentaram sua dúvida</div>
-      <div class="who">Análise de ${st.handle?"@"+st.handle:"você"} — feita em 1 minuto</div>
-      <div class="res-title">Seu Índice de Dúvida</div>
-      <p class="res-desc">${lv.d}</p>
+      <p class="res-desc" style="margin-top:14px">${lv.d}</p>
+      <div class="prof" style="margin-top:12px">Principal fonte: <strong>${profile}</strong> · ${strong} de ${answeredN} sinais</div>
     </div>
     <div class="sect">
       <h3>O que mais alimenta sua dúvida</h3>
       <ul>${hi}</ul>
     </div>
-    <div class="sect">
-      <h3>Por que a dúvida não vai embora sozinha</h3>
-      <ol>${tips}</ol>
-    </div>
     ${videoSlot()}
     ${depoSlot()}
     <div class="cta-box">
-      <div class="kicker">${low?"O passo que falta":"A resposta"}</div>
-      <div class="cta-title">${low?"Suas respostas estão limpas — falta conferir o invisível":"Sua dúvida tem resposta — e ela está a um clique de distância"}</div>
-      <div class="cta-loss">A dúvida não some sozinha — ela cobra juros toda noite em sono e paz.</div>
-      <div class="cta-hoje">Certeza — pro bem ou pro mal, mas certeza. Hoje à noite, você dorme sabendo.</div>
-      <a class="btn rose pulse" id="cta-checkout" data-action="cta" href="https://pay.cakto.com.br/awfje4i_1188792" target="_blank" rel="noopener">QUERO A RESPOSTA — R$ 49,90</a>
-      <div class="cta-note">Menos que 1 sessão de terapia · pagamento único via Cakto · cartão, Pix ou PicPay</div>
+      <div class="kicker">${low?"O passo que falta":"Acesso Liberado"}</div>
+      <div class="cta-title" style="margin-bottom:6px">${low?"Suas respostas estão limpas — falta conferir o invisível":"Sua dúvida tem resposta — descubra hoje"}</div>
+      
+      <div class="anchor-card">
+        <div class="anchor-badge">⚡ ACESSO ILIMITADO • PAGAMENTO ÚNICO</div>
+        <div class="anchor-prices">
+          <span class="price-old">De <del>R$ 107,90</del></span>
+          <span class="price-pill">Por menos de R$ 57,00</span>
+        </div>
+        <div class="price-now">
+          <span class="pn-label">Hoje por apenas</span>
+          <div class="pn-val">
+            <span class="pn-cur">R$</span>
+            <span class="pn-int">49</span>
+            <span class="pn-dec">,90</span>
+          </div>
+          <span class="pn-sub">Acesso vitalício e ilimitado · Sem mensalidades</span>
+        </div>
+      </div>
+
+      <a class="btn rose pulse" id="cta-checkout" data-action="cta" href="https://pay.cakto.com.br/awfje4i_1188792" target="_blank" rel="noopener">QUERO ACESSO ILIMITADO — R$ 49,90</a>
+      <div class="cta-note">Menos que 1 sessão de terapia · Pagamento seguro via Cakto · Cartão, Pix ou PicPay</div>
       <div class="trust"><span>100% anônimo</span><span>Sem cadastro</span><span>Resposta na hora</span><span>${pe2==="ele"?"Ele":"Ela"} nunca fica sabendo</span></div>
     </div>
   </div>
   <p class="disc">O Confere é um quiz informativo e não substitui aconselamento profissional. Suas respostas nunca saem do seu aparelho.</p>
-  <a id="stickyCta" data-action="cta" href="https://pay.cakto.com.br/awfje4i_1188792" target="_blank" rel="noopener"><span class="sp">Resposta<small>R$ 49,90 · pagamento único</small></span><span class="go">VER →</span></a>
+  <a id="stickyCta" data-action="cta" href="https://pay.cakto.com.br/awfje4i_1188792" target="_blank" rel="noopener"><span class="sp">Acesso Ilimitado<small><del>R$ 107,90</del> · menos de R$ 57 (R$ 49,90)</small></span><span class="go">VER AGORA →</span></a>
   <div style="height:78px"></div>`;
 }
 
