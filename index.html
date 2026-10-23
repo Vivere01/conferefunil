@@ -220,6 +220,17 @@ a.btn:hover{filter:brightness(1.1)}
 .wa-card-cap b{font-size:11.5px;color:#fff;display:flex;align-items:center;gap:4px}
 .wa-card-cap b i{font-style:normal;color:#25d366;font-size:11px}
 .wa-card-cap span{font-size:10.5px;color:var(--mut);display:block;margin-top:2px;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wa-card-wide{
+  background:#141414;border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  box-shadow:0 8px 24px #00000066;margin-top:10px;display:flex;flex-direction:column;
+  max-width:340px;margin-left:auto;margin-right:auto;
+}
+.wa-card-wide-top{
+  padding:5px 10px;background:#181818;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+}
+.wa-safe-badge{font-size:10.5px;font-weight:800;color:#22c55e;letter-spacing:.4px}
+.wa-wide-img{width:100%;height:auto;display:block;background:#0a0a0a}
 
 .anchor-card{
   background:linear-gradient(180deg,#ff252514 0%,#141414 100%);
@@ -637,8 +648,18 @@ function depoSlot(){
         <img src="img/depoimento-whatsapp-2.png" alt="Depoimento WhatsApp Giovanna Kardeli" class="wa-card-img" loading="lazy">
         <div class="wa-card-cap">
           <b><i>✓</i> Giovanna K.</b>
-          <span>“Vendo tudo que faz”</span>
+          <span>“Vendo tudo que ele faz”</span>
         </div>
+      </div>
+    </div>
+    <div class="wa-card-wide">
+      <div class="wa-card-wide-top">
+        <span class="wa-safe-badge">&#128737;&#65039; Compra 100% Segura & Verificada</span>
+      </div>
+      <img src="img/depoimento-whatsapp-3.jpg" alt="Depoimento WhatsApp Maria Helena" class="wa-wide-img" loading="lazy">
+      <div class="wa-card-cap">
+        <b><i>✓</i> Maria Helena</b>
+        <span>“Fiquei com medo de golpe... mas deu certo moço, estou vendo tudo”</span>
       </div>
     </div>
   </div>`;
