@@ -209,14 +209,17 @@ a.btn:hover{filter:brightness(1.1)}
   padding:4px 10px;border-radius:99px;margin-bottom:8px;
 }
 .wa-dot{width:7px;height:7px;border-radius:50%;background:#25d366;box-shadow:0 0 6px #25d366;margin-right:6px}
-.wa-proof-card{
-  background:#141414;border:1px solid var(--line);border-radius:18px;overflow:hidden;
-  box-shadow:0 12px 30px #00000066;margin-top:10px;max-width:380px;margin-left:auto;margin-right:auto;
+
+.wa-collage{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.wa-card{
+  background:#141414;border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  box-shadow:0 8px 24px #00000066;display:flex;flex-direction:column;
 }
-.wa-proof-img{width:100%;height:auto;display:block;border-bottom:1px solid var(--line)}
-.wa-proof-caption{padding:12px 14px;background:#181818;text-align:left}
-.wa-proof-check{font-size:11.5px;font-weight:800;color:#25d366;display:flex;align-items:center;gap:5px;margin-bottom:4px}
-.wa-proof-caption p{font-size:13px;line-height:1.45;color:#ddd;font-style:italic}
+.wa-card-img{width:100%;height:auto;display:block;background:#0a0a0a}
+.wa-card-cap{padding:7px 9px;background:#171717;border-top:1px solid var(--line);text-align:left}
+.wa-card-cap b{font-size:11.5px;color:#fff;display:flex;align-items:center;gap:4px}
+.wa-card-cap b i{font-style:normal;color:#25d366;font-size:11px}
+.wa-card-cap span{font-size:10.5px;color:var(--mut);display:block;margin-top:2px;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 .anchor-card{
   background:linear-gradient(180deg,#ff252514 0%,#141414 100%);
@@ -240,6 +243,49 @@ a.btn:hover{filter:brightness(1.1)}
 .pn-int{font-size:44px;font-weight:900;color:#fff;letter-spacing:-1.2px}
 .pn-dec{font-size:22px;font-weight:800;color:#fff;margin-top:4px}
 .pn-sub{font-size:11.5px;color:var(--mut);font-weight:600}
+
+.modal-overlay{
+  position:fixed;inset:0;background:#000000d0;backdrop-filter:blur(6px);
+  z-index:999;display:none;place-items:center;padding:18px;animation:fade .25s ease;
+}
+.modal-card{
+  background:linear-gradient(170deg,#1c1212,#0f0707);border:1.5px solid #ff252566;
+  border-radius:24px;padding:24px 20px;max-width:410px;width:100%;text-align:center;
+  box-shadow:0 24px 60px #000000f0,0 0 40px #ff252533;position:relative;animation:modalpop .3s cubic-bezier(.22,1.3,.36,1);
+}
+@keyframes modalpop{from{opacity:0;transform:scale(.85) translateY(20px)}to{opacity:1;transform:none}}
+.modal-close{
+  position:absolute;top:14px;right:16px;width:32px;height:32px;border-radius:50%;
+  background:#ffffff14;border:none;color:#aaa;font-size:20px;cursor:pointer;display:grid;place-items:center;transition:.2s;line-height:1;
+}
+.modal-close:hover{background:#ff252533;color:#fff}
+.modal-tag{
+  display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:900;letter-spacing:1px;
+  text-transform:uppercase;color:#22c55e;background:#22c55e1a;border:1px solid #22c55e44;
+  padding:5px 12px;border-radius:99px;margin-bottom:12px;
+}
+.modal-title{font-size:20px;font-weight:850;line-height:1.25;margin-bottom:8px}
+.modal-title em{font-style:normal;color:#22c55e}
+.modal-desc{font-size:13px;color:var(--mut);line-height:1.45;margin-bottom:16px}
+.modal-box{
+  background:#0a0a0ae6;border:1px solid #282828;border-radius:16px;padding:14px 16px;
+  margin-bottom:18px;text-align:left;
+}
+.modal-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--mut);margin-bottom:7px}
+.modal-row.discount{color:#22c55e;font-weight:750}
+.modal-row.total{
+  border-top:1px dashed #333;padding-top:10px;margin-top:10px;margin-bottom:0;
+  font-size:14.5px;color:#fff;font-weight:800;
+}
+.modal-row.total .m-tot{font-size:24px;font-weight:900;color:#22c55e}
+.modal-btn{
+  width:100%;padding:17px;font-size:16px;font-weight:900;border-radius:15px;
+  background:linear-gradient(90deg,#22c55e,#16a34a);color:#fff;border:none;cursor:pointer;
+  display:block;text-decoration:none;box-shadow:0 8px 24px #22c55e40;letter-spacing:.3px;
+  text-align:center;line-height:1.2;
+}
+.modal-btn:hover{filter:brightness(1.1)}
+.modal-note{font-size:11.5px;color:var(--mut);margin-top:10px;line-height:1.4}
 .depo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
 .depo-card{min-width:0}
 .depo-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:14px;text-align:center;border:1.5px dashed var(--line);color:var(--mut)}
@@ -577,13 +623,22 @@ const DEPOIMENTOS=[
 ];
 function depoSlot(){
   return `<div class="sect depo-sect">
-    <div class="depo-tag"><span class="wa-dot"></span>Depoimento Real via WhatsApp</div>
+    <div class="depo-tag"><span class="wa-dot"></span>Depoimentos Reais via WhatsApp</div>
     <h3 style="margin-bottom:8px">Quem já descobriu a verdade</h3>
-    <div class="wa-proof-card">
-      <img src="img/depoimento-whatsapp.jpg" alt="Depoimento no WhatsApp de Jossie Oliveira" class="wa-proof-img" loading="lazy">
-      <div class="wa-proof-caption">
-        <div class="wa-proof-check">&#10003; Conversa real verificada</div>
-        <p>“Parei de ser trouxa... o tutorial é bem simples e recomendo para todas que estavam com a pulga atrás da orelha.”</p>
+    <div class="wa-collage">
+      <div class="wa-card">
+        <img src="img/depoimento-whatsapp.jpg" alt="Depoimento WhatsApp Jossie Oliveira" class="wa-card-img" loading="lazy">
+        <div class="wa-card-cap">
+          <b><i>✓</i> Jossie O.</b>
+          <span>“Parei de ser trouxa”</span>
+        </div>
+      </div>
+      <div class="wa-card">
+        <img src="img/depoimento-whatsapp-2.png" alt="Depoimento WhatsApp Giovanna Kardeli" class="wa-card-img" loading="lazy">
+        <div class="wa-card-cap">
+          <b><i>✓</i> Giovanna K.</b>
+          <span>“Vendo tudo que faz”</span>
+        </div>
       </div>
     </div>
   </div>`;
@@ -629,26 +684,25 @@ function viewResult(){
         <div class="anchor-badge">⚡ ACESSO ILIMITADO • PAGAMENTO ÚNICO</div>
         <div class="anchor-prices">
           <span class="price-old">De <del>R$ 107,90</del></span>
-          <span class="price-pill">Por menos de R$ 57,00</span>
+          <span class="price-pill">Condição Especial</span>
         </div>
         <div class="price-now">
-          <span class="pn-label">Hoje por apenas</span>
+          <span class="pn-label">Hoje por</span>
           <div class="pn-val">
             <span class="pn-cur">R$</span>
-            <span class="pn-int">49</span>
-            <span class="pn-dec">,90</span>
+            <span class="pn-int">57</span>
+            <span class="pn-dec">,00</span>
           </div>
-          <span class="pn-sub">Acesso vitalício e ilimitado · Sem mensalidades</span>
+          <span class="pn-sub">Acesso vitalício e ilimitado · Pagamento único</span>
         </div>
       </div>
 
-      <a class="btn rose pulse" id="cta-checkout" data-action="cta" href="https://pay.cakto.com.br/awfje4i_1188792" target="_blank" rel="noopener">QUERO ACESSO ILIMITADO — R$ 49,90</a>
+      <button class="btn rose pulse" id="cta-checkout" data-action="openDiscount">QUERO ACESSO ILIMITADO — R$ 57,00</button>
       <div class="cta-note">Menos que 1 sessão de terapia · Pagamento seguro via Cakto · Cartão, Pix ou PicPay</div>
       <div class="trust"><span>100% anônimo</span><span>Sem cadastro</span><span>Resposta na hora</span><span>${pe2==="ele"?"Ele":"Ela"} nunca fica sabendo</span></div>
     </div>
   </div>
-  <p class="disc">O Confere é um quiz informativo e não substitui aconselamento profissional. Suas respostas nunca saem do seu aparelho.</p>
-  <a id="stickyCta" data-action="cta" href="https://pay.cakto.com.br/awfje4i_1188792" target="_blank" rel="noopener"><span class="sp">Acesso Ilimitado<small><del>R$ 107,90</del> · menos de R$ 57 (R$ 49,90)</small></span><span class="go">VER AGORA →</span></a>
+  <a id="stickyCta" data-action="openDiscount" href="javascript:void(0)"><span class="sp">Acesso Ilimitado<small><del>R$ 107,90</del> · por R$ 57,00</small></span><span class="go">VER AGORA →</span></a>
   <div style="height:78px"></div>`;
 }
 
@@ -827,6 +881,65 @@ function submitHandle(){
   render();
 }
 
+function openDiscountModal(){
+  let m=document.getElementById("discountModal");
+  if(!m){
+    m=document.createElement("div");
+    m.id="discountModal";
+    m.className="modal-overlay";
+    m.innerHTML=`
+      <div class="modal-card">
+        <button class="modal-close" data-action="closeModal" aria-label="Fechar">&times;</button>
+        <div class="modal-tag">🎉 DESCONTO EXCLUSIVO LIBERADO</div>
+        <div class="modal-title">Você ganhou um <em>desconto imediato</em>!</div>
+        <p class="modal-desc">Não deixe sua paz para depois. Liberamos um cupom especial com todas as taxas inclusas para você saber a verdade hoje:</p>
+        
+        <div class="modal-box">
+          <div class="modal-row">
+            <span>Valor de tabela:</span>
+            <span><del>R$ 57,00</del></span>
+          </div>
+          <div class="modal-row discount">
+            <span>Cupom exclusivo aplicado:</span>
+            <span>- R$ 7,10 OFF</span>
+          </div>
+          <div class="modal-row">
+            <span>Taxa de serviço Cakto:</span>
+            <span>+ R$ 0,99</span>
+          </div>
+          <div class="modal-row total">
+            <span>TOTAL NO CHECKOUT:</span>
+            <span class="m-tot">R$ 50,89</span>
+          </div>
+        </div>
+
+        <a class="modal-btn" href="https://pay.cakto.com.br/awfje4i_1188792" target="_blank" rel="noopener" data-action="ctaDiscount">
+          GARANTIR ACESSO POR R$ 50,89 →
+        </a>
+        <div class="modal-note">Valor final exato no checkout oficial Cakto · Pagamento único · Acesso Ilimitado</div>
+      </div>
+    `;
+    document.body.appendChild(m);
+    m.addEventListener("click",e=>{
+      if(e.target===m||e.target.closest("[data-action='closeModal']")){
+        closeDiscountModal();
+      }else if(e.target.closest("[data-action='ctaDiscount']")){
+        document.dispatchEvent(new CustomEvent("ck_cta_click"));
+      }
+    });
+  }
+  m.style.display="grid";
+  if(typeof confetti==="function")confetti();
+  if(soundOn)sndBonus();
+}
+function closeDiscountModal(){
+  const m=document.getElementById("discountModal");
+  if(m)m.style.display="none";
+}
+window.addEventListener("keydown",e=>{
+  if(e.key==="Escape")closeDiscountModal();
+});
+
 app.addEventListener("click",e=>{
   const btn=e.target.closest("[data-action]");
   if(!btn)return;
@@ -870,6 +983,10 @@ app.addEventListener("click",e=>{
     sndBonus();
     st.stage="question";
     render();
+  }else if(action==="openDiscount"){
+    openDiscountModal();
+  }else if(action==="closeModal"){
+    closeDiscountModal();
   }else if(action==="cta"){
     document.dispatchEvent(new CustomEvent("ck_cta_click"));
   }else if(action==="sound"){
