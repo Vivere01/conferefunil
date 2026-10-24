@@ -211,20 +211,32 @@ a.btn:hover{filter:brightness(1.1)}
 .wa-dot{width:7px;height:7px;border-radius:50%;background:#25d366;box-shadow:0 0 6px #25d366;margin-right:6px}
 
 .wa-video-card{
-  background:#141414;border:1px solid var(--line);border-radius:14px;
-  overflow:hidden;box-shadow:0 8px 24px #00000066;margin:12px 0 16px;
+  background:#0d0d0d;border:1px solid #25d36640;border-radius:18px;
+  overflow:hidden;box-shadow:0 0 0 1px #25d36622,0 16px 40px #00000088;
+  margin:14px 0 18px;max-width:280px;margin-left:auto;margin-right:auto;
+  position:relative;
 }
 .wa-video-top{
-  padding:7px 12px;background:#181818;border-bottom:1px solid var(--line);
+  padding:8px 12px;background:#111;border-bottom:1px solid #25d36628;
   display:flex;align-items:center;justify-content:space-between;
 }
 .wa-video-tag{font-size:11px;font-weight:800;color:#25d366;display:flex;align-items:center;gap:6px;letter-spacing:.3px}
-.wa-video-wrap{position:relative;width:100%;padding-top:56.25%;background:#000}
-.wa-video-wrap iframe,.wa-video-wrap video{position:absolute;inset:0;width:100%;height:100%;border:none}
-.wa-video-cap{padding:9px 12px;background:#171717;border-top:1px solid var(--line);text-align:left}
-.wa-video-cap b{font-size:12px;color:#fff;display:flex;align-items:center;gap:4px}
-.wa-video-cap b i{font-style:normal;color:#25d366;font-size:11px}
-.wa-video-cap span{font-size:11px;color:var(--mut);display:block;margin-top:2px;line-height:1.35}
+.wa-video-badge{font-size:10px;font-weight:800;color:#25d366;background:#25d36618;border:1px solid #25d36640;padding:2px 8px;border-radius:99px;display:flex;align-items:center;gap:4px}
+/* 9:16 vertical ratio */
+.wa-video-wrap{position:relative;width:100%;padding-top:177.78%;background:#000}
+.wa-video-wrap video{position:absolute;inset:0;width:100%;height:100%;border:none;object-fit:cover;display:block}
+.wa-video-name{
+  padding:10px 13px 4px;background:#0f0f0f;
+  display:flex;align-items:center;gap:8px;
+}
+.wa-video-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#25d366,#128c5e);display:grid;place-items:center;font-size:13px;font-weight:800;color:#fff;flex:none}
+.wa-video-name-info{flex:1;min-width:0}
+.wa-video-name-info b{font-size:12.5px;color:#fff;display:block;line-height:1.2}
+.wa-video-name-info span{font-size:10.5px;color:#25d366;display:flex;align-items:center;gap:4px}
+.wa-video-cap{padding:6px 13px 13px;background:#0f0f0f;border-top:1px solid #ffffff08;text-align:left}
+.wa-video-cap p{font-size:12.5px;color:#ccc;line-height:1.5;font-style:italic;}
+.wa-video-cap p em{font-style:normal;color:#fff;font-weight:700}
+.wa-video-cta{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;padding:9px 12px;background:linear-gradient(90deg,#25d36618,#128c5e18);border:1px solid #25d36640;border-radius:10px;font-size:11.5px;font-weight:800;color:#25d366;cursor:pointer;text-decoration:none;letter-spacing:.3px}
 .wa-subtitle{font-size:11px;font-weight:750;letter-spacing:.8px;text-transform:uppercase;color:var(--mut);margin:16px 0 6px;display:flex;align-items:center;gap:6px}
 .wa-subtitle::after{content:"";flex:1;height:1px;background:var(--line)}
 
@@ -646,7 +658,7 @@ function levelOf(pct){
 }
 
 const VIDEO_URL="";
-const VIDEO_DEPO_URL="https://drive.google.com/file/d/13BmKFpqYL1nDmrDO-xnUsKnlSOR6PBvE/view?usp=sharing";
+const VIDEO_DEPO_URL="img/depoimento-laura-confere.mp4";
 const DEPOIMENTOS=[
   {perfil:"f",url:"",nome:"",texto:""},
   {perfil:"m",url:"",nome:"",texto:""}
@@ -669,15 +681,21 @@ function depoSlot(){
   const videoDepo=VIDEO_DEPO_URL?`
     <div class="wa-video-card">
       <div class="wa-video-top">
-        <span class="wa-video-tag"><span class="wa-dot"></span>Depoimento em Vídeo</span>
-        <span class="wa-safe-badge">&#128737;&#65039; Verificado</span>
+        <span class="wa-video-tag"><span class="wa-dot"></span>Depoimento Real</span>
+        <span class="wa-video-badge">&#10003; Verificado</span>
       </div>
       <div class="wa-video-wrap">
-        ${renderVideoEmbed(VIDEO_DEPO_URL, "Depoimento de cliente em vídeo")}
+        <video src="${VIDEO_DEPO_URL}" controls playsinline preload="metadata"></video>
+      </div>
+      <div class="wa-video-name">
+        <div class="wa-video-avatar">L</div>
+        <div class="wa-video-name-info">
+          <b>Laura</b>
+          <span>&#10003;&nbsp;Cliente verificada</span>
+        </div>
       </div>
       <div class="wa-video-cap">
-        <b><i>✓</i> Relato Real em Vídeo</b>
-        <span>Assista ao relato de quem já usou o método e tirou suas dúvidas.</span>
+        <p><em>&#8220;Finalmente descobri a verdade&#8221;</em> &mdash; Assista ao relato real de quem usou o m&eacute;todo e saiu da d&uacute;vida de uma vez.</p>
       </div>
     </div>`: "";
 
