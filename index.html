@@ -210,6 +210,24 @@ a.btn:hover{filter:brightness(1.1)}
 }
 .wa-dot{width:7px;height:7px;border-radius:50%;background:#25d366;box-shadow:0 0 6px #25d366;margin-right:6px}
 
+.wa-video-card{
+  background:#141414;border:1px solid var(--line);border-radius:14px;
+  overflow:hidden;box-shadow:0 8px 24px #00000066;margin:12px 0 16px;
+}
+.wa-video-top{
+  padding:7px 12px;background:#181818;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.wa-video-tag{font-size:11px;font-weight:800;color:#25d366;display:flex;align-items:center;gap:6px;letter-spacing:.3px}
+.wa-video-wrap{position:relative;width:100%;padding-top:56.25%;background:#000}
+.wa-video-wrap iframe,.wa-video-wrap video{position:absolute;inset:0;width:100%;height:100%;border:none}
+.wa-video-cap{padding:9px 12px;background:#171717;border-top:1px solid var(--line);text-align:left}
+.wa-video-cap b{font-size:12px;color:#fff;display:flex;align-items:center;gap:4px}
+.wa-video-cap b i{font-style:normal;color:#25d366;font-size:11px}
+.wa-video-cap span{font-size:11px;color:var(--mut);display:block;margin-top:2px;line-height:1.35}
+.wa-subtitle{font-size:11px;font-weight:750;letter-spacing:.8px;text-transform:uppercase;color:var(--mut);margin:16px 0 6px;display:flex;align-items:center;gap:6px}
+.wa-subtitle::after{content:"";flex:1;height:1px;background:var(--line)}
+
 .wa-collage{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
 .wa-card{
   background:#141414;border:1px solid var(--line);border-radius:14px;overflow:hidden;
@@ -628,14 +646,46 @@ function levelOf(pct){
 }
 
 const VIDEO_URL="";
+const VIDEO_DEPO_URL="https://drive.google.com/file/d/13BmKFpqYL1nDmrDO-xnUsKnlSOR6PBvE/view?usp=sharing";
 const DEPOIMENTOS=[
   {perfil:"f",url:"",nome:"",texto:""},
   {perfil:"m",url:"",nome:"",texto:""}
 ];
+
+function renderVideoEmbed(url, title){
+  if(!url)return "";
+  const driveMatch=url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if(driveMatch){
+    return `<iframe src="https://drive.google.com/file/d/${driveMatch[1]}/preview" title="${title||'Depoimento em vídeo'}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+  }
+  const ytMatch=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]{6,})/);
+  if(ytMatch){
+    return `<iframe src="https://www.youtube-nocookie.com/embed/${ytMatch[1]}?rel=0" title="${title||'Depoimento em vídeo'}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+  }
+  return `<video src="${url}" controls playsinline preload="metadata"></video>`;
+}
+
 function depoSlot(){
+  const videoDepo=VIDEO_DEPO_URL?`
+    <div class="wa-video-card">
+      <div class="wa-video-top">
+        <span class="wa-video-tag"><span class="wa-dot"></span>Depoimento em Vídeo</span>
+        <span class="wa-safe-badge">&#128737;&#65039; Verificado</span>
+      </div>
+      <div class="wa-video-wrap">
+        ${renderVideoEmbed(VIDEO_DEPO_URL, "Depoimento de cliente em vídeo")}
+      </div>
+      <div class="wa-video-cap">
+        <b><i>✓</i> Relato Real em Vídeo</b>
+        <span>Assista ao relato de quem já usou o método e tirou suas dúvidas.</span>
+      </div>
+    </div>`: "";
+
   return `<div class="sect depo-sect">
-    <div class="depo-tag"><span class="wa-dot"></span>Depoimentos Reais via WhatsApp</div>
+    <div class="depo-tag"><span class="wa-dot"></span>Depoimentos Reais</div>
     <h3 style="margin-bottom:8px">Quem já descobriu a verdade</h3>
+    ${videoDepo}
+    <div class="wa-subtitle">Conversas no WhatsApp</div>
     <div class="wa-collage">
       <div class="wa-card">
         <img src="img/depoimento-whatsapp.jpg" alt="Depoimento WhatsApp Jossie Oliveira" class="wa-card-img" loading="lazy">
@@ -666,11 +716,7 @@ function depoSlot(){
 }
 function videoSlot(){
   if(!VIDEO_URL)return "";
-  const m=VIDEO_URL.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]{6,})/);
-  const inner=m
-    ?`<iframe src="https://www.youtube-nocookie.com/embed/${m[1]}?rel=0" title="Assista antes de decidir" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
-    :`<video src="${VIDEO_URL}" controls playsinline preload="metadata"></video>`;
-  return `<div class="vslot"><div class="vslot-t">Assista antes de decidir — 1 minuto</div><div class="vwrap">${inner}</div></div>`;
+  return `<div class="vslot"><div class="vslot-t">Assista antes de decidir — 1 minuto</div><div class="vwrap">${renderVideoEmbed(VIDEO_URL, "Assista antes de decidir")}</div></div>`;
 }
 
 function viewResult(){
