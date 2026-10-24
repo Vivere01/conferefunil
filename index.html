@@ -348,6 +348,25 @@ a.btn:hover{filter:brightness(1.1)}
   position:relative;aspect-ratio:9/16;border-radius:16px;overflow:hidden;
   border:1px solid var(--line);background:linear-gradient(165deg,#2b0b0b,#120404);
 }
+.feed-card.feed-card-video{
+  border-color:#ff2525aa;
+  box-shadow:0 0 18px #ff252538,0 8px 24px #00000088;
+}
+.feed-card video{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+}
+.feed-live-badge{
+  position:absolute;top:8px;left:8px;z-index:2;
+  background:#ff2525e6;color:#fff;font-size:9.5px;font-weight:850;
+  letter-spacing:.6px;text-transform:uppercase;padding:2px 7px;border-radius:6px;
+  display:inline-flex;align-items:center;gap:4px;box-shadow:0 2px 6px #000000aa;
+  pointer-events:none;
+}
+.feed-live-badge i{
+  width:5px;height:5px;border-radius:50%;background:#fff;display:inline-block;
+  animation:feedpulse 1.2s infinite ease-in-out;
+}
+@keyframes feedpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.75)}}
 .ph-img{position:absolute;inset:0;background-size:cover;background-position:center}
 .play{position:absolute;inset:0;display:grid;place-items:center}
 .play span{
@@ -590,11 +609,20 @@ function viewReveal(){
   const imgs=isM
     ?["prova%20-%20homem%20-%20confere.png","prova%202%20-%20homens%20-%20confere.png","prova%203%20-%20homens%20-%20confere.png"]
     :["foto%201%20confere.png","foto%202%20confere.png","foto%203%20confere.png"];
-  const cards=imgs.map((f,i)=>`
+  const cards=imgs.map((f,i)=>{
+    if(!isM && i===1){
+      return `
+    <div class="feed-card feed-card-video">
+      <video class="feed-video" src="img/card-do-meio-video-loop.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto" poster="img/${f}"></video>
+      <span class="feed-live-badge"><i></i>Ao vivo</span>
+    </div>`;
+    }
+    return `
     <div class="feed-card">
       <div class="ph-img" style="background-image:url('img/${f}')"></div>
       <div class="play"><span>&#9654;</span></div>
-    </div>`).join("");
+    </div>`;
+  }).join("");
   const pct=Math.round((st.idx/st.seq.length)*100);
   return `${bar(pct,"O segredo")}
   <div class="card">
@@ -805,6 +833,10 @@ function render(){
   void app.offsetWidth;
   app.innerHTML=html;
   app.classList.add("fade");
+  if(st.stage==="reveal"){
+    const v=app.querySelector(".feed-video");
+    if(v){v.muted=true;v.play().catch(()=>{});}
+  }
   if(st.stage==="result")animateResult();
 }
 
