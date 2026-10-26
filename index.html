@@ -210,55 +210,38 @@ a.btn:hover{filter:brightness(1.1)}
 }
 .wa-dot{width:7px;height:7px;border-radius:50%;background:#25d366;box-shadow:0 0 6px #25d366;margin-right:6px}
 
-.wa-video-tabs{
-  display:flex;gap:8px;justify-content:center;margin:12px 0 10px;
+.wa-videos-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin:10px 0 14px;
 }
-.wa-vtab{
-  background:#141414;border:1px solid #25d36638;color:#a0a0a0;
-  padding:6px 14px;border-radius:99px;font-size:11.5px;font-weight:750;
-  cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.2s;
-  font-family:inherit;
-}
-.wa-vtab i{font-style:normal;font-size:9px;color:#25d366}
-.wa-vtab.active{
-  background:#25d36618;border-color:#25d366;color:#fff;
-  box-shadow:0 0 12px #25d36625;
-}
-.wa-videos-slider{
-  display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;padding:4px 2px 10px;
-  scrollbar-width:thin;scrollbar-color:#25d36640 transparent;
-}
-.wa-videos-slider::-webkit-scrollbar{height:4px}
-.wa-videos-slider::-webkit-scrollbar-thumb{background:#25d36640;border-radius:99px}
 .wa-video-card{
-  background:#0d0d0d;border:1px solid #25d36640;border-radius:18px;
-  overflow:hidden;box-shadow:0 0 0 1px #25d36622,0 16px 40px #00000088;
-  flex:0 0 280px;max-width:280px;scroll-snap-align:center;
-  position:relative;margin:0 auto;
+  background:#141414;border:1px solid #25d36640;border-radius:14px;
+  overflow:hidden;box-shadow:0 8px 24px #00000066;
+  display:flex;flex-direction:column;min-width:0;
+  position:relative;
 }
 .wa-video-top{
-  padding:8px 12px;background:#111;border-bottom:1px solid #25d36628;
+  padding:5px 8px;background:#111;border-bottom:1px solid #25d36622;
   display:flex;align-items:center;justify-content:space-between;
 }
-.wa-video-tag{font-size:11px;font-weight:800;color:#25d366;display:flex;align-items:center;gap:6px;letter-spacing:.3px}
-.wa-video-badge{font-size:10px;font-weight:800;color:#25d366;background:#25d36618;border:1px solid #25d36640;padding:2px 8px;border-radius:99px;display:flex;align-items:center;gap:4px}
+.wa-video-tag{font-size:9.5px;font-weight:800;color:#25d366;display:flex;align-items:center;gap:4px;letter-spacing:.2px}
+.wa-video-badge{font-size:9px;font-weight:800;color:#25d366;background:#25d36618;border:1px solid #25d36640;padding:1px 6px;border-radius:99px}
 /* 9:16 vertical ratio */
-.wa-video-wrap{position:relative;width:100%;padding-top:177.78%;background:#000}
+.wa-video-wrap{position:relative;width:100%;aspect-ratio:9/16;background:#000;overflow:hidden}
 .wa-video-wrap video{position:absolute;inset:0;width:100%;height:100%;border:none;object-fit:cover;display:block}
 .wa-video-name{
-  padding:10px 13px 4px;background:#0f0f0f;
-  display:flex;align-items:center;gap:8px;
+  padding:6px 8px 3px;background:#141414;
+  display:flex;align-items:center;gap:6px;
 }
-.wa-video-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#25d366,#128c5e);display:grid;place-items:center;font-size:13px;font-weight:800;color:#fff;flex:none}
+.wa-video-avatar{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#25d366,#128c5e);display:grid;place-items:center;font-size:11px;font-weight:800;color:#fff;flex:none}
 .wa-video-name-info{flex:1;min-width:0}
-.wa-video-name-info b{font-size:12.5px;color:#fff;display:block;line-height:1.2}
-.wa-video-name-info span{font-size:10.5px;color:#25d366;display:flex;align-items:center;gap:4px}
-.wa-video-cap{padding:6px 13px 13px;background:#0f0f0f;border-top:1px solid #ffffff08;text-align:left}
-.wa-video-cap p{font-size:12px;color:#ccc;line-height:1.45;font-style:italic;}
+.wa-video-name-info b{font-size:11.5px;color:#fff;display:block;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wa-video-name-info span{font-size:9.5px;color:#25d366;display:flex;align-items:center;gap:3px;white-space:nowrap}
+.wa-video-cap{padding:5px 8px 8px;background:#171717;border-top:1px solid var(--line);text-align:left;flex:1;display:flex;align-items:center}
+.wa-video-cap p{font-size:10.5px;color:#d5d5d5;line-height:1.35;font-style:italic;margin:0}
 .wa-video-cap p em{font-style:normal;color:#fff;font-weight:700}
-.wa-video-hint{text-align:center;font-size:10.5px;color:var(--mut);margin-top:2px;letter-spacing:.3px}
-.wa-video-cta{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;padding:9px 12px;background:linear-gradient(90deg,#25d36618,#128c5e18);border:1px solid #25d36640;border-radius:10px;font-size:11.5px;font-weight:800;color:#25d366;cursor:pointer;text-decoration:none;letter-spacing:.3px}
 .wa-subtitle{font-size:11px;font-weight:750;letter-spacing:.8px;text-transform:uppercase;color:var(--mut);margin:16px 0 6px;display:flex;align-items:center;gap:6px}
 .wa-subtitle::after{content:"";flex:1;height:1px;background:var(--line)}
 
@@ -714,16 +697,14 @@ const DEPOIMENTOS_VIDEO=[
     avatar:"L",
     video:"img/depoimento-laura-confere.mp4",
     poster:"img/depoimento-laura-poster.jpg",
-    destaque:"“Finalmente descobri a verdade”",
-    desc:"Assista ao relato real de quem usou o m&eacute;todo e saiu da d&uacute;vida de uma vez."
+    destaque:"“Finalmente descobri a verdade e saí da dúvida”"
   },
   {
     nome:"Gabriela",
     avatar:"G",
     video:"img/depoimento-gabriela-confere.mp4",
     poster:"img/depoimento-gabriela-poster.jpg",
-    destaque:"“Minha intuição não estava errada”",
-    desc:"&ldquo;Descobri v&iacute;deos da ex dele no TikTok... recomendo o Confere para quem quer a verdade sem pagar de louca.&rdquo;"
+    destaque:"“Minha intuição não errou, vi tudo pelo app”"
   }
 ];
 
@@ -744,7 +725,7 @@ function depoSlot(){
   const videoCards=DEPOIMENTOS_VIDEO.map((d, i)=>`
     <div class="wa-video-card" id="depoCard${i}">
       <div class="wa-video-top">
-        <span class="wa-video-tag"><span class="wa-dot"></span>Depoimento Real</span>
+        <span class="wa-video-tag"><span class="wa-dot"></span>Vídeo Real</span>
         <span class="wa-video-badge">&#10003; Verificado</span>
       </div>
       <div class="wa-video-wrap">
@@ -754,30 +735,20 @@ function depoSlot(){
         <div class="wa-video-avatar">${d.avatar}</div>
         <div class="wa-video-name-info">
           <b>${d.nome}</b>
-          <span>&#10003;&nbsp;Cliente verificada</span>
+          <span>&#10003;&nbsp;Verificada</span>
         </div>
       </div>
       <div class="wa-video-cap">
-        <p><em>&#8220;${d.destaque.replace(/[“”]/g,'')}&#8221;</em> &mdash; ${d.desc}</p>
+        <p><em>&#8220;${d.destaque.replace(/[“”]/g,'')}&#8221;</em></p>
       </div>
     </div>`).join("");
-
-  const tabs=`
-    <div class="wa-video-tabs">
-      ${DEPOIMENTOS_VIDEO.map((d, i)=>`
-        <button class="wa-vtab ${i===0?'active':''}" data-action="selectDepo" data-idx="${i}">
-          <i>▶</i> Relato de ${d.nome}
-        </button>`).join("")}
-    </div>`;
 
   return `<div class="sect depo-sect">
     <div class="depo-tag"><span class="wa-dot"></span>Depoimentos Reais</div>
     <h3 style="margin-bottom:8px">Quem já descobriu a verdade</h3>
-    ${tabs}
-    <div class="wa-videos-slider" id="depoSlider">
+    <div class="wa-videos-grid">
       ${videoCards}
     </div>
-    <div class="wa-video-hint"><span>⇄ Deslize para ver os dois relatos em vídeo</span></div>
     <div class="wa-subtitle">Conversas no WhatsApp</div>
     <div class="wa-collage">
       <div class="wa-card">
@@ -868,9 +839,7 @@ function viewResult(){
       <div class="cta-note">Menos que 1 sessão de terapia · Pagamento seguro via Cakto · Cartão, Pix ou PicPay</div>
       <div class="trust"><span>100% anônimo</span><span>Sem cadastro</span><span>Resposta na hora</span><span>${pe2==="ele"?"Ele":"Ela"} nunca fica sabendo</span></div>
     </div>
-  </div>
-  <a id="stickyCta" data-action="openDiscount" href="javascript:void(0)"><span class="sp">Acesso Ilimitado<small><del>R$ 107,90</del> · por R$ 57,00</small></span><span class="go">VER AGORA →</span></a>
-  <div style="height:78px"></div>`;
+  </div>`;
 }
 
 function render(){
@@ -1160,15 +1129,6 @@ app.addEventListener("click",e=>{
     closeDiscountModal();
   }else if(action==="cta"){
     document.dispatchEvent(new CustomEvent("ck_cta_click"));
-  }else if(action==="selectDepo"){
-    const idx=+btn.dataset.idx;
-    const target=document.getElementById("depoCard"+idx);
-    if(target){
-      target.scrollIntoView({behavior:"smooth",block:"nearest",inline:"center"});
-    }
-    document.querySelectorAll(".wa-vtab").forEach((tab, i)=>{
-      tab.classList.toggle("active", i===idx);
-    });
   }else if(action==="sound"){
     soundOn=!soundOn;
     localStorage.setItem("ck_sound",soundOn?"1":"0");
@@ -1182,26 +1142,6 @@ document.addEventListener("play", e=>{
   if(e.target && e.target.tagName==="VIDEO"){
     document.querySelectorAll("video").forEach(v=>{
       if(v!==e.target && !v.classList.contains("feed-video")) v.pause();
-    });
-  }
-}, true);
-
-// Atualiza a tab ativa ao rolar o slider horizontal
-app.addEventListener("scroll", e=>{
-  const slider=document.getElementById("depoSlider");
-  if(slider && (e.target===slider || slider.contains(e.target))){
-    const cards=slider.querySelectorAll(".wa-video-card");
-    const slRect=slider.getBoundingClientRect();
-    const slCenter=slRect.left + slRect.width/2;
-    let closestIdx=0, minDiff=Infinity;
-    cards.forEach((c, idx)=>{
-      const cRect=c.getBoundingClientRect();
-      const cCenter=cRect.left + cRect.width/2;
-      const diff=Math.abs(slCenter - cCenter);
-      if(diff<minDiff){minDiff=diff;closestIdx=idx;}
-    });
-    document.querySelectorAll(".wa-vtab").forEach((tab, i)=>{
-      tab.classList.toggle("active", i===closestIdx);
     });
   }
 }, true);
