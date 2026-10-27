@@ -245,27 +245,125 @@ a.btn:hover{filter:brightness(1.1)}
 .wa-subtitle{font-size:11px;font-weight:750;letter-spacing:.8px;text-transform:uppercase;color:var(--mut);margin:16px 0 6px;display:flex;align-items:center;gap:6px}
 .wa-subtitle::after{content:"";flex:1;height:1px;background:var(--line)}
 
-.wa-collage{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
-.wa-card{
-  background:#141414;border:1px solid var(--line);border-radius:14px;overflow:hidden;
-  box-shadow:0 8px 24px #00000066;display:flex;flex-direction:column;
+.wa-feed-list{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  margin-top:12px;
 }
-.wa-card-img{width:100%;height:auto;display:block;background:#0a0a0a}
-.wa-card-cap{padding:7px 9px;background:#171717;border-top:1px solid var(--line);text-align:left}
-.wa-card-cap b{font-size:11.5px;color:#fff;display:flex;align-items:center;gap:4px}
-.wa-card-cap b i{font-style:normal;color:#25d366;font-size:11px}
-.wa-card-cap span{font-size:10.5px;color:var(--mut);display:block;margin-top:2px;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.wa-card-wide{
-  background:#141414;border:1px solid var(--line);border-radius:14px;overflow:hidden;
-  box-shadow:0 8px 24px #00000066;margin-top:10px;display:flex;flex-direction:column;
-  max-width:340px;margin-left:auto;margin-right:auto;
+.wa-feed-card{
+  background:#141414;
+  border:1px solid #282828;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 10px 30px #00000080;
+  text-align:left;
 }
-.wa-card-wide-top{
-  padding:5px 10px;background:#181818;border-bottom:1px solid var(--line);
-  display:flex;align-items:center;justify-content:center;
+.wa-feed-head{
+  padding:10px 14px;
+  background:#191919;
+  border-bottom:1px solid #282828;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
-.wa-safe-badge{font-size:10.5px;font-weight:800;color:#22c55e;letter-spacing:.4px}
-.wa-wide-img{width:100%;height:auto;display:block;background:#0a0a0a}
+.wa-feed-user{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.wa-feed-avatar{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#25d366,#128c5e);
+  color:#fff;
+  font-weight:800;
+  font-size:13px;
+  display:grid;
+  place-items:center;
+  flex:none;
+}
+.wa-feed-meta b{
+  font-size:13px;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+.wa-check{
+  color:#25d366;
+  font-style:normal;
+  font-weight:900;
+  font-size:11.5px;
+}
+.wa-feed-meta span{
+  font-size:11px;
+  color:var(--mut);
+  display:block;
+  margin-top:1px;
+}
+.wa-feed-badge{
+  font-size:10.5px;
+  font-weight:800;
+  color:#22c55e;
+  background:#22c55e16;
+  border:1px solid #22c55e33;
+  padding:3px 9px;
+  border-radius:99px;
+  letter-spacing:.3px;
+}
+.wa-feed-img-wrap{
+  width:100%;
+  background:#080808;
+  cursor:pointer;
+  position:relative;
+  border-bottom:1px solid #25d36620;
+  transition:opacity .15s;
+}
+.wa-feed-img-wrap:active{opacity:.85}
+.wa-feed-img{
+  width:100%;
+  height:auto;
+  display:block;
+  image-rendering:auto;
+}
+.wa-feed-zoom-hint{
+  position:absolute;
+  bottom:8px;
+  right:8px;
+  background:#000000cc;
+  backdrop-filter:blur(6px);
+  color:#fff;
+  font-size:11px;
+  font-weight:800;
+  padding:5px 11px;
+  border-radius:99px;
+  border:1px solid #ffffff2a;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  pointer-events:none;
+  box-shadow:0 2px 10px #000000aa;
+  letter-spacing:.2px;
+}
+.wa-feed-cap{
+  padding:11px 14px 13px;
+  background:#141414;
+  border-top:1px solid #242424;
+}
+.wa-feed-cap p{
+  font-size:13px;
+  color:#f0f0f0;
+  line-height:1.45;
+  font-style:italic;
+  margin:0;
+}
+.wa-feed-cap p em{
+  font-style:normal;
+  color:#fff;
+  font-weight:700;
+}
 
 .anchor-card{
   background:linear-gradient(180deg,#ff252514 0%,#141414 100%);
@@ -289,6 +387,45 @@ a.btn:hover{filter:brightness(1.1)}
 .pn-int{font-size:44px;font-weight:900;color:#fff;letter-spacing:-1.2px}
 .pn-dec{font-size:22px;font-weight:800;color:#fff;margin-top:4px}
 .pn-sub{font-size:11.5px;color:var(--mut);font-weight:600}
+
+/* ===== IMG LIGHTBOX MODAL ===== */
+.img-modal-overlay{
+  position:fixed;inset:0;background:#000000f0;backdrop-filter:blur(8px);
+  z-index:1000;display:none;place-items:center;padding:12px;
+  animation:fade .2s ease;
+  touch-action:none;
+}
+.img-modal-overlay.active{display:grid}
+.img-modal-inner{
+  position:relative;max-width:100%;max-height:100%;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+}
+.img-modal-img{
+  max-width:min(100vw - 24px, 600px);
+  max-height:calc(100dvh - 80px);
+  width:auto;height:auto;
+  border-radius:14px;
+  box-shadow:0 0 80px #00000099;
+  display:block;
+  object-fit:contain;
+  user-select:none;
+}
+.img-modal-close{
+  position:fixed;top:14px;right:14px;
+  width:40px;height:40px;border-radius:50%;
+  background:#ffffff22;backdrop-filter:blur(6px);
+  border:1.5px solid #ffffff33;color:#fff;font-size:22px;
+  cursor:pointer;display:grid;place-items:center;
+  transition:.2s;line-height:1;z-index:1001;
+  -webkit-tap-highlight-color:transparent;
+}
+.img-modal-close:hover{background:#ff252544;border-color:#ff252566}
+.img-modal-hint{
+  font-size:12px;color:#aaa;font-weight:600;text-align:center;
+  background:#ffffff10;padding:5px 14px;border-radius:99px;
+  border:1px solid #ffffff18;
+}
+/* ===== FIM IMG LIGHTBOX ===== */
 
 .modal-overlay{
   position:fixed;inset:0;background:#000000d0;backdrop-filter:blur(6px);
@@ -708,6 +845,37 @@ const DEPOIMENTOS_VIDEO=[
   }
 ];
 
+const CONVERSAS_WA=[
+  {
+    avatar:"J",
+    nome:"Jossie Oliveira",
+    status:"Cliente Verificada",
+    img:"img/depoimento-whatsapp.jpg",
+    destaque:"“Parei de ser trouxa... descobri tudo o que ele escondia de mim no celular.”"
+  },
+  {
+    avatar:"G",
+    nome:"Giovanna Kardeli",
+    status:"Cliente Verificada",
+    img:"img/depoimento-whatsapp-2.png",
+    destaque:"“Vendo tudo o que ele faz em tempo real... o método realmente funciona.”"
+  },
+  {
+    avatar:"M",
+    nome:"Maria Helena",
+    status:"Cliente Verificada",
+    img:"img/depoimento-whatsapp-3.jpg",
+    destaque:"“Fiquei com medo de golpe... mas deu certo moço, estou vendo tudo agora.”"
+  },
+  {
+    avatar:"R",
+    nome:"Roberto Silva",
+    status:"Cliente Verificado",
+    img:"img/depoimento-whatsapp-4.jpg",
+    destaque:"“Peguei conversas e vídeos no TikTok sem que ninguém desconfiasse.”"
+  }
+];
+
 function renderVideoEmbed(url, title){
   if(!url)return "";
   const driveMatch=url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
@@ -743,47 +911,43 @@ function depoSlot(){
       </div>
     </div>`).join("");
 
+  const waFeed=CONVERSAS_WA.map((c, i)=>`
+    <div class="wa-feed-card">
+      <div class="wa-feed-head">
+        <div class="wa-feed-user">
+          <div class="wa-feed-avatar">${c.avatar}</div>
+          <div class="wa-feed-meta">
+            <b>${c.nome} <i class="wa-check">✓</i></b>
+            <span>${c.status} · WhatsApp</span>
+          </div>
+        </div>
+        <span class="wa-feed-badge">&#128737;&#65039; Verificado</span>
+      </div>
+      <div class="wa-feed-img-wrap" onclick="openImgModal('${c.img}')" title="Toque para ampliar">
+        <img src="${c.img}" alt="Conversa de WhatsApp de ${c.nome}" class="wa-feed-img" loading="lazy">
+        <span class="wa-feed-zoom-hint">&#128269; Toque p/ ampliar</span>
+      </div>
+      <div class="wa-feed-cap">
+        <p><em>&#8220;${c.destaque.replace(/[“”]/g,'')}&#8221;</em></p>
+      </div>
+    </div>`).join("");
+
   return `<div class="sect depo-sect">
     <div class="depo-tag"><span class="wa-dot"></span>Depoimentos Reais</div>
     <h3 style="margin-bottom:8px">Quem já descobriu a verdade</h3>
     <div class="wa-videos-grid">
       ${videoCards}
     </div>
-    <div class="wa-subtitle">Conversas no WhatsApp</div>
-    <div class="wa-collage">
-      <div class="wa-card">
-        <img src="img/depoimento-whatsapp.jpg" alt="Depoimento WhatsApp Jossie Oliveira" class="wa-card-img" loading="lazy">
-        <div class="wa-card-cap">
-          <b><i>✓</i> Jossie O.</b>
-          <span>“Parei de ser trouxa”</span>
-        </div>
-      </div>
-      <div class="wa-card">
-        <img src="img/depoimento-whatsapp-2.png" alt="Depoimento WhatsApp Giovanna Kardeli" class="wa-card-img" loading="lazy">
-        <div class="wa-card-cap">
-          <b><i>✓</i> Giovanna K.</b>
-          <span>“Vendo tudo que ele faz”</span>
-        </div>
-      </div>
-      <div class="wa-card">
-        <img src="img/depoimento-whatsapp-3.jpg" alt="Depoimento WhatsApp Maria Helena" class="wa-card-img" loading="lazy">
-        <div class="wa-card-cap">
-          <b><i>✓</i> Maria Helena</b>
-          <span>“Fiquei com medo de golpe... mas deu certo moço, estou vendo tudo”</span>
-        </div>
-      </div>
-      <div class="wa-card">
-        <img src="img/depoimento-whatsapp-4.jpg" alt="Depoimento WhatsApp Roberto Silva" class="wa-card-img" loading="lazy">
-        <div class="wa-card-cap">
-          <b><i>✓</i> Roberto S.</b>
-          <span>“Peguei conversas e vídeos no tiktok”</span>
-        </div>
-      </div>
+    <div class="wa-subtitle">Conversas Reais no WhatsApp</div>
+    <p style="font-size:12.5px;color:var(--mut);line-height:1.45;margin-bottom:12px">Prints enviados por clientes reais que usaram o método e confirmaram os fatos:</p>
+    <div class="wa-feed-list">
+      ${waFeed}
     </div>
-    <div style="display:flex;justify-content:center;margin-top:12px">
-      <span style="font-size:11px;font-weight:800;color:#22c55e;background:#22c55e14;border:1px solid #22c55e33;padding:5px 12px;border-radius:99px;display:inline-flex;align-items:center;gap:4px">&#128737;&#65039; Relatos 100% Reais &amp; Verificados</span>
+    <div style="display:flex;justify-content:center;margin-top:14px">
+      <span style="font-size:11.5px;font-weight:800;color:#22c55e;background:#22c55e14;border:1px solid #22c55e33;padding:6px 14px;border-radius:99px;display:inline-flex;align-items:center;gap:5px">&#128737;&#65039; Relatos 100% Reais &amp; Verificados</span>
     </div>
   </div>`;
+}
 }
 function videoSlot(){
   if(!VIDEO_URL)return "";
@@ -1076,8 +1240,41 @@ function closeDiscountModal(){
   const m=document.getElementById("discountModal");
   if(m)m.style.display="none";
 }
+
+/* ===== IMG LIGHTBOX ===== */
+let _imgModalEl=null;
+function openImgModal(src){
+  if(!_imgModalEl){
+    _imgModalEl=document.createElement("div");
+    _imgModalEl.className="img-modal-overlay";
+    _imgModalEl.innerHTML=`
+      <button class="img-modal-close" id="imgModalClose" aria-label="Fechar imagem">&#x2715;</button>
+      <div class="img-modal-inner">
+        <img class="img-modal-img" id="imgModalImg" src="" alt="Print de conversa no WhatsApp">
+        <div class="img-modal-hint">Toque fora para fechar</div>
+      </div>`;
+    document.body.appendChild(_imgModalEl);
+    // Fechar ao clicar no overlay (fora da imagem)
+    _imgModalEl.addEventListener("click",e=>{
+      if(e.target===_imgModalEl||e.target.id==="imgModalClose")closeImgModal();
+    });
+    // Swipe down para fechar
+    let _ty0=0;
+    _imgModalEl.addEventListener("touchstart",e=>{_ty0=e.touches[0].clientY;},{passive:true});
+    _imgModalEl.addEventListener("touchend",e=>{
+      if(e.changedTouches[0].clientY - _ty0 > 60)closeImgModal();
+    },{passive:true});
+  }
+  document.getElementById("imgModalImg").src=src;
+  _imgModalEl.classList.add("active");
+  document.body.style.overflow="hidden";
+}
+function closeImgModal(){
+  if(_imgModalEl)_imgModalEl.classList.remove("active");
+  document.body.style.overflow="";
+}
 window.addEventListener("keydown",e=>{
-  if(e.key==="Escape")closeDiscountModal();
+  if(e.key==="Escape"){closeDiscountModal();closeImgModal();}
 });
 
 app.addEventListener("click",e=>{
