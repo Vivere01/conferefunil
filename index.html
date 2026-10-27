@@ -591,6 +591,7 @@ function freshState(stage){
     answered:0,sinais:0,halfSeen:false,handle:"",wa:"",handleSeen:false};
 }
 st=freshState();
+render();
 
 function pc(){return st.gender==="m"?"sua esposa/namorada":"seu marido/namorado"}
 function pe(){return st.gender==="m"?"ela":"ele"}
@@ -948,7 +949,7 @@ function depoSlot(){
     </div>
   </div>`;
 }
-}
+
 function videoSlot(){
   if(!VIDEO_URL)return "";
   return `<div class="vslot"><div class="vslot-t">Assista antes de decidir — 1 minuto</div><div class="vwrap">${renderVideoEmbed(VIDEO_URL, "Assista antes de decidir")}</div></div>`;
