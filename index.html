@@ -7,6 +7,19 @@
 <title>Confere — Quiz dos Sinais da Relação</title>
 <meta name="description" content="Meça seu índice de dúvida em 1 minuto: perguntas diretas, resultado na hora e a resposta para a dúvida que não te deixa em paz.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%23050505'/%3E%3Ccircle cx='28' cy='28' r='17' fill='none' stroke='%23ffffff' stroke-width='5'/%3E%3Cpath d='M41 41L54 54' stroke='%23ffffff' stroke-width='7' stroke-linecap='round'/%3E%3Cg transform='translate(17.6,17.2) scale(0.95)'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z' fill='%23ff2525'/%3E%3Cpath d='M12 5.4l-1.7 5.7 3.4 2.7-2.5 6' fill='none' stroke='%23050505' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3C/svg%3E">
+<!-- TikTok Pixel Code Start -->
+<script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
+var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
+;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+
+
+  ttq.load('DBHDHNJC77U4J2JQL880');
+  ttq.page();
+}(window, document, 'ttq');
+</script>
+<!-- TikTok Pixel Code End -->
 <style>
 :root{
   --bg:#050505;
@@ -891,62 +904,36 @@ function renderVideoEmbed(url, title){
 }
 
 function depoSlot(){
-  const videoCards=DEPOIMENTOS_VIDEO.map((d, i)=>`
-    <div class="wa-video-card" id="depoCard${i}">
-      <div class="wa-video-top">
-        <span class="wa-video-tag"><span class="wa-dot"></span>Vídeo Real</span>
-        <span class="wa-video-badge">&#10003; Verificado</span>
-      </div>
+  const videoCards=DEPOIMENTOS_VIDEO.map(d=>`
+    <div class="wa-video-card">
       <div class="wa-video-wrap">
         <video src="${d.video}" poster="${d.poster}" controls playsinline preload="metadata"></video>
       </div>
-      <div class="wa-video-name">
-        <div class="wa-video-avatar">${d.avatar}</div>
-        <div class="wa-video-name-info">
-          <b>${d.nome}</b>
-          <span>&#10003;&nbsp;Verificada</span>
-        </div>
-      </div>
-      <div class="wa-video-cap">
-        <p><em>&#8220;${d.destaque.replace(/[“”]/g,'')}&#8221;</em></p>
+      <div class="wa-video-cap" style="justify-content:center">
+        <p><em>${d.nome}</em></p>
       </div>
     </div>`).join("");
 
-  const waFeed=CONVERSAS_WA.map((c, i)=>`
-    <div class="wa-feed-card">
-      <div class="wa-feed-head">
-        <div class="wa-feed-user">
-          <div class="wa-feed-avatar">${c.avatar}</div>
-          <div class="wa-feed-meta">
-            <b>${c.nome} <i class="wa-check">✓</i></b>
-            <span>${c.status} · WhatsApp</span>
-          </div>
-        </div>
-        <span class="wa-feed-badge">&#128737;&#65039; Verificado</span>
-      </div>
-      <div class="wa-feed-img-wrap" onclick="openImgModal('${c.img}')" title="Toque para ampliar">
-        <img src="${c.img}" alt="Conversa de WhatsApp de ${c.nome}" class="wa-feed-img" loading="lazy">
-        <span class="wa-feed-zoom-hint">&#128269; Toque p/ ampliar</span>
-      </div>
-      <div class="wa-feed-cap">
-        <p><em>&#8220;${c.destaque.replace(/[“”]/g,'')}&#8221;</em></p>
-      </div>
-    </div>`).join("");
+  const j=CONVERSAS_WA.find(c=>c.nome==="Jossie Oliveira")||CONVERSAS_WA[0];
 
   return `<div class="sect depo-sect">
     <div class="depo-tag"><span class="wa-dot"></span>Depoimentos Reais</div>
-    <h3 style="margin-bottom:8px">Quem já descobriu a verdade</h3>
-    <div class="wa-videos-grid">
-      ${videoCards}
+    <h3 style="margin-bottom:10px">Quem já descobriu a verdade</h3>
+    <div class="wa-videos-grid">${videoCards}</div>
+    <div class="wa-feed-card">
+      <div class="wa-feed-head">
+        <div class="wa-feed-user">
+          <div class="wa-feed-avatar">${j.avatar}</div>
+          <div class="wa-feed-meta"><b>${j.nome}</b><span>WhatsApp</span></div>
+        </div>
+        <span class="wa-feed-badge">&#10003; Verificado</span>
+      </div>
+      <div class="wa-feed-img-wrap" onclick="openImgModal('${j.img}')" title="Toque para ampliar">
+        <img src="${j.img}" alt="Depoimento de WhatsApp de ${j.nome}" class="wa-feed-img" loading="lazy">
+        <span class="wa-feed-zoom-hint">&#128269; Toque p/ ampliar</span>
+      </div>
     </div>
-    <div class="wa-subtitle">Conversas Reais no WhatsApp</div>
-    <p style="font-size:12.5px;color:var(--mut);line-height:1.45;margin-bottom:12px">Prints enviados por clientes reais que usaram o método e confirmaram os fatos:</p>
-    <div class="wa-feed-list">
-      ${waFeed}
-    </div>
-    <div style="display:flex;justify-content:center;margin-top:14px">
-      <span style="font-size:11.5px;font-weight:800;color:#22c55e;background:#22c55e14;border:1px solid #22c55e33;padding:6px 14px;border-radius:99px;display:inline-flex;align-items:center;gap:5px">&#128737;&#65039; Relatos 100% Reais &amp; Verificados</span>
-    </div>
+    <button class="btn" data-action="openDiscount" style="margin-top:16px">QUERO A RESPOSTA — MENOS DE R$ 51</button>
   </div>`;
 }
 
@@ -986,21 +973,21 @@ function viewResult(){
       <div class="anchor-card">
         <div class="anchor-badge">⚡ ACESSO ILIMITADO • PAGAMENTO ÚNICO</div>
         <div class="anchor-prices">
-          <span class="price-old">De <del>R$ 107,90</del></span>
+          <span class="price-old">De <del>R$ 97,00</del></span>
           <span class="price-pill">Condição Especial</span>
         </div>
         <div class="price-now">
-          <span class="pn-label">Hoje por</span>
+          <span class="pn-label">Hoje por menos de</span>
           <div class="pn-val">
             <span class="pn-cur">R$</span>
-            <span class="pn-int">57</span>
-            <span class="pn-dec">,00</span>
+            <span class="pn-int">50</span>
+            <span class="pn-dec">,89</span>
           </div>
-          <span class="pn-sub">Acesso vitalício e ilimitado · Pagamento único</span>
+          <span class="pn-sub">Menos de R$ 51,00 · Acesso vitalício e ilimitado · Pagamento único</span>
         </div>
       </div>
 
-      <button class="btn rose pulse" id="cta-checkout" data-action="openDiscount">QUERO ACESSO ILIMITADO — R$ 57,00</button>
+      <button class="btn rose pulse" id="cta-checkout" data-action="openDiscount">QUERO ACESSO ILIMITADO — POR MENOS DE R$ 51,00</button>
       <div class="cta-note">Menos que 1 sessão de terapia · Pagamento seguro via Cakto · Cartão, Pix ou PicPay</div>
       <div class="trust"><span>100% anônimo</span><span>Sem cadastro</span><span>Resposta na hora</span><span>${pe2==="ele"?"Ele":"Ela"} nunca fica sabendo</span></div>
     </div>
@@ -1202,11 +1189,11 @@ function openDiscountModal(){
         <div class="modal-box">
           <div class="modal-row">
             <span>Valor de tabela:</span>
-            <span><del>R$ 57,00</del></span>
+            <span><del>R$ 97,00</del></span>
           </div>
           <div class="modal-row discount">
             <span>Cupom exclusivo aplicado:</span>
-            <span>- R$ 7,10 OFF</span>
+            <span>- R$ 47,10 OFF</span>
           </div>
           <div class="modal-row">
             <span>Taxa de serviço Cakto:</span>
