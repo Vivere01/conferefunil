@@ -235,7 +235,6 @@ a.btn:hover{filter:brightness(1.1)}
   display:flex;flex-direction:column;min-width:0;
   position:relative;
 }
-.wa-video-card:last-child:nth-child(odd){grid-column:1 / -1}
 .wa-video-top{
   padding:5px 8px;background:#111;border-bottom:1px solid #25d36622;
   display:flex;align-items:center;justify-content:space-between;
@@ -923,23 +922,35 @@ function depoSlot(){
     </div>`).join("");
 
   const j=CONVERSAS_WA.find(c=>c.nome==="Jossie Oliveira")||CONVERSAS_WA[0];
+  const waFeed=CONVERSAS_WA.map((c, i)=>`
+    <div class="wa-feed-card">
+      <div class="wa-feed-head">
+        <div class="wa-feed-user">
+          <div class="wa-feed-avatar">${c.avatar}</div>
+          <div class="wa-feed-meta">
+            <b>${c.nome} <i class="wa-check">✓</i></b>
+            <span>${c.status} · WhatsApp</span>
+          </div>
+        </div>
+        <span class="wa-feed-badge">&#128737;&#65039; Verificado</span>
+      </div>
+      <div class="wa-feed-img-wrap" onclick="openImgModal('${c.img}')" title="Toque para ampliar">
+        <img src="${c.img}" alt="Conversa de WhatsApp de ${c.nome}" class="wa-feed-img" loading="lazy">
+        <span class="wa-feed-zoom-hint">&#128269; Toque p/ ampliar</span>
+      </div>
+      <div class="wa-feed-cap">
+        <p><em>&#8220;${c.destaque.replace(/[“”]/g,'')}&#8221;</em></p>
+      </div>
+    </div>`).join("");
 
   return `<div class="sect depo-sect">
     <div class="depo-tag"><span class="wa-dot"></span>Depoimentos Reais</div>
     <h3 style="margin-bottom:10px">Quem já descobriu a verdade</h3>
     <div class="wa-videos-grid">${videoCards}</div>
-    <div class="wa-feed-card">
-      <div class="wa-feed-head">
-        <div class="wa-feed-user">
-          <div class="wa-feed-avatar">${j.avatar}</div>
-          <div class="wa-feed-meta"><b>${j.nome}</b><span>WhatsApp</span></div>
-        </div>
-        <span class="wa-feed-badge">&#10003; Verificado</span>
-      </div>
-      <div class="wa-feed-img-wrap" onclick="openImgModal('${j.img}')" title="Toque para ampliar">
-        <img src="${j.img}" alt="Depoimento de WhatsApp de ${j.nome}" class="wa-feed-img" loading="lazy">
-        <span class="wa-feed-zoom-hint">&#128269; Toque p/ ampliar</span>
-      </div>
+    <div class="wa-subtitle">Conversas Reais no WhatsApp</div>
+    <p style="font-size:12.5px;color:var(--mut);line-height:1.45;margin-bottom:12px">Prints enviados por clientes reais que usaram o método e confirmaram os fatos:</p>
+    <div class="wa-feed-list">
+      ${waFeed}
     </div>
     <button class="btn" data-action="openDiscount" style="margin-top:16px">QUERO A RESPOSTA — MENOS DE R$ 51</button>
   </div>`;
