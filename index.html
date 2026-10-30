@@ -915,7 +915,8 @@ function depoSlot(){
       </div>
     </div>`).join("");
 
-  const g=CONVERSAS_WA.find(c=>c.nome==="Giovanna Kardeli")||CONVERSAS_WA[0];
+  // Print exibido ao lado do vídeo da Simone (mulher na foto de perfil)
+  const g=CONVERSAS_WA.find(c=>c.nome==="Jossie Oliveira")||CONVERSAS_WA[0];
   const waPrintCard=`
     <div class="wa-video-card">
       <div class="wa-video-wrap">
@@ -926,8 +927,8 @@ function depoSlot(){
       </div>
     </div>`;
 
-  const j=CONVERSAS_WA.find(c=>c.nome==="Jossie Oliveira")||CONVERSAS_WA[0];
-  const waFeed=CONVERSAS_WA.map((c, i)=>`
+  // Lista sem o print que já aparece ao lado do vídeo, para não duplicar
+  const waFeed=CONVERSAS_WA.filter(c=>c!==g).map((c, i)=>`
     <div class="wa-feed-card">
       <div class="wa-feed-head">
         <div class="wa-feed-user">
