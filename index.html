@@ -235,7 +235,6 @@ a.btn:hover{filter:brightness(1.1)}
   display:flex;flex-direction:column;min-width:0;
   position:relative;
 }
-.wa-video-card:last-child:nth-child(odd){grid-column:2}
 .wa-video-top{
   padding:5px 8px;background:#111;border-bottom:1px solid #25d36622;
   display:flex;align-items:center;justify-content:space-between;
@@ -245,6 +244,7 @@ a.btn:hover{filter:brightness(1.1)}
 /* 9:16 vertical ratio */
 .wa-video-wrap{position:relative;width:100%;aspect-ratio:9/16;background:#000;overflow:hidden}
 .wa-video-wrap video{position:absolute;inset:0;width:100%;height:100%;border:none;object-fit:cover;display:block}
+.wa-video-wrap img{position:absolute;inset:0;width:100%;height:100%;border:none;object-fit:cover;object-position:top;display:block;cursor:pointer}
 .wa-video-name{
   padding:6px 8px 3px;background:#141414;
   display:flex;align-items:center;gap:6px;
@@ -876,13 +876,6 @@ const CONVERSAS_WA=[
     destaque:"“Parei de ser trouxa... descobri tudo o que ele escondia de mim no celular.”"
   },
   {
-    avatar:"G",
-    nome:"Giovanna Kardeli",
-    status:"Cliente Verificada",
-    img:"img/depoimento-whatsapp-2.png",
-    destaque:"“Vendo tudo o que ele faz em tempo real... o método realmente funciona.”"
-  },
-  {
     avatar:"M",
     nome:"Maria Helena",
     status:"Cliente Verificada",
@@ -922,6 +915,17 @@ function depoSlot(){
       </div>
     </div>`).join("");
 
+  const g=CONVERSAS_WA.find(c=>c.nome==="Giovanna Kardeli")||CONVERSAS_WA[0];
+  const waPrintCard=`
+    <div class="wa-video-card">
+      <div class="wa-video-wrap">
+        <img src="${g.img}" alt="Conversa de WhatsApp de ${g.nome}" loading="lazy" onclick="openImgModal('${g.img}')" title="Toque para ampliar">
+      </div>
+      <div class="wa-video-cap" style="justify-content:center">
+        <p><em>${g.nome.split(" ")[0]}</em></p>
+      </div>
+    </div>`;
+
   const j=CONVERSAS_WA.find(c=>c.nome==="Jossie Oliveira")||CONVERSAS_WA[0];
   const waFeed=CONVERSAS_WA.map((c, i)=>`
     <div class="wa-feed-card">
@@ -947,7 +951,7 @@ function depoSlot(){
   return `<div class="sect depo-sect">
     <div class="depo-tag"><span class="wa-dot"></span>Depoimentos Reais</div>
     <h3 style="margin-bottom:10px">Quem já descobriu a verdade</h3>
-    <div class="wa-videos-grid">${videoCards}</div>
+    <div class="wa-videos-grid">${videoCards}${waPrintCard}</div>
     <div class="wa-subtitle">Conversas Reais no WhatsApp</div>
     <p style="font-size:12.5px;color:var(--mut);line-height:1.45;margin-bottom:12px">Prints enviados por clientes reais que usaram o método e confirmaram os fatos:</p>
     <div class="wa-feed-list">
