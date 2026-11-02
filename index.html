@@ -600,6 +600,12 @@ const CATS=[
  {ids:["confianca","checar","c_check"],name:"Confiança Abalada"}
 ];
 const app=document.getElementById("app");
+// ==== Medição GTM ====
+function track(ev,params){
+  window.dataLayer=window.dataLayer||[];
+  window.dataLayer.push(Object.assign({event:ev},params||{}));
+}
+let lastView=null;
 let st=null;
 let RESULT=null;
 let calcTimer=null;
@@ -1046,6 +1052,12 @@ function render(){
   void app.offsetWidth;
   app.innerHTML=html;
   app.classList.add("fade");
+  if(st.stage!==lastView){
+    lastView=st.stage;
+    if(st.stage==="intro")track("ck_landing");
+    else if(st.stage==="result")track("ck_result",{percentual:RESULT?RESULT.pct:null,nivel:RESULT&&RESULT.lv?RESULT.lv.t:""});
+    else track("ck_stage",{etapa:st.stage,passo:(st.idx+1)||0,sinais:st.sinais||0});
+  }
   if(st.stage==="reveal"){
     const v=app.querySelector(".feed-video");
     if(v){v.muted=true;v.play().catch(()=>{});}
@@ -1206,6 +1218,7 @@ function submitHandle(){
   }else{
     st.wa=wa;
   }
+  track("ck_handle_submit",{tem_handle:!!raw,tem_whatsapp:!!wa});
   sndBonus();
   st.stage="reveal";
   render();
@@ -1254,6 +1267,7 @@ function openDiscountModal(){
       if(e.target===m||e.target.closest("[data-action='closeModal']")){
         closeDiscountModal();
       }else if(e.target.closest("[data-action='ctaDiscount']")){
+        track("ck_checkout_click");
         document.dispatchEvent(new CustomEvent("ck_cta_click"));
       }
     });
@@ -1309,6 +1323,7 @@ app.addEventListener("click",e=>{
   const action=btn.dataset.action;
   if(action==="start"){
     st=freshState("question");
+    track("ck_start");
     render();
   }else if(action==="answer"){
     if(st.lock)return;
@@ -1316,12 +1331,13 @@ app.addEventListener("click",e=>{
     if(q.id==="gender"&&!btn.dataset.g)return;
     st.lock=true;
     btn.classList.add("sel");
-    if(btn.dataset.g)st.gender=btn.dataset.g;
+    if(btn.dataset.g){st.gender=btn.dataset.g;track("ck_gender",{genero:btn.dataset.g});}
     let v=null;
     if(q.id!=="gender"&&btn.dataset.v!==undefined){
       v=+btn.dataset.v;
       st.answers.push({id:q.id,v:v,s:q.s});
       st.answered++;
+      track("ck_answer",{questao:q.id,valor:v,passo:(st.idx+1)||0});
       if(v>=2){
         st.sinais++;
         setTimeout(bumpSinais,60);
@@ -1347,6 +1363,7 @@ app.addEventListener("click",e=>{
     st.stage="question";
     render();
   }else if(action==="openDiscount"){
+    track("ck_discount_open");
     openDiscountModal();
   }else if(action==="closeModal"){
     closeDiscountModal();
