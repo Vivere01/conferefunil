@@ -37,8 +37,8 @@ R$ 50 de gasto ≈ 7.300 impressões → com CTR de 1% ≈ 73 cliques reais → 
 | 1 | **Criativo** | CTR real * | ≥ 1,0% | < 0,6% | Novo hook nos 2 primeiros segundos; criar 2 variantes novas |
 | 1b | Criativo | Retenção de 3s | ≥ 30% | < 20% | Cortar a introdução do vídeo |
 | 2 | **Funil — entrada** | `ck_landing → ck_start` | 15–30% | < 10% | Encurtar intro / reforçar a promessa |
-| 3 | Funil — vídeo | `ck_start → ck_handle_submit` | 60–80% | < 45% | Pergunta difícil cedo demais? mover o vídeo/@ para depois da 3ª |
-| 4 | Funil — resposta | `ck_handle_submit → ck_result` | 80–95% | < 65% | encurtar perguntas (cansaço) |
+| 3 | Funil — vídeo | `ck_start → ck_stage (após revelar)` | 60–80% | < 45% | Vídeo pesado? encurtar a contagem do reveal |
+| 4 | Funil — resposta | `ck_stage → ck_result` | 80–95% | < 65% | encurtar perguntas (cansaço) |
 | 5 | **Oferta** | `ck_result → ck_discount_open` | 45–65% | < 35% | A oferta não conecta com a dor → reescrever oferta/posição |
 | 6 | Mecânica | `ck_discount_open → ck_checkout_click` | 60–85% | < 50% | Urgência/escassez fraca → reforçar "só hoje" |
 | 7 | **Preço/checkout** | `ck_checkout_click → compra` | 1,5–4% | < 1% (com ≥ 50 cliques) | Fricção no Cakto ou preço — preço é o ÚLTIMO de tudo |
