@@ -604,6 +604,16 @@ const app=document.getElementById("app");
 function track(ev,params){
   window.dataLayer=window.dataLayer||[];
   window.dataLayer.push(Object.assign({event:ev},params||{}));
+  // Encaminha para o pixel do TikTok (otimização na rede)
+  try{
+    if(window.ttq&&typeof window.ttq.track==="function"){
+      if(ev==="ck_checkout_click"){
+        window.ttq.track("InitiateCheckout",{value:50.89,currency:"BRL"});
+      }else{
+        window.ttq.track(ev,params||{});
+      }
+    }
+  }catch(tErr){}
 }
 let lastView=null;
 let st=null;
