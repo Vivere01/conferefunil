@@ -706,7 +706,7 @@ function viewQuestion(){
   const q=st.seq[st.idx];
   const text=q.t(pc(),pe());
   const badges="ABCDEFGHIJ";
-  const bonus=q.bonus?`<div class="bonus">★ Bônus — esta pergunta apareceu só para você</div>`:"";
+  const bonus=q.bonus?`<div class="bonus">★ Pergunta extra — só para você</div>`:"";
   const opts=q.opts.map((o,i)=>{
     const attrs=(o.g?`data-g="${o.g}"`:"")+(o.v!==undefined?` data-v="${o.v}"`:"");
     return `<button class="opt" data-action="answer" ${attrs}>
@@ -714,7 +714,7 @@ function viewQuestion(){
   }).join("");
   const total=st.seq.length;
   const left=total-(st.idx+1);
-  const rush=left>0&&left<=3?`<div class="rush">Última${left>1?"s "+left:""} — seu resultado está quase pronto</div>`:"";
+  const rush=left>0&&left<=3?`<div class="rush">Últimas${left>1?" "+left:""} — resultado quase pronto</div>`:"";
   return `${bar(Math.round(((st.idx+1)/total)*100),`Pergunta ${st.idx+1} de ${total}`)}
   <div class="card">
     ${bonus}
@@ -751,7 +751,7 @@ function viewCalc(){
   <div class="card" style="text-align:center;padding-top:56px;padding-bottom:56px">
     <div class="spin"></div>
     <div class="calc-t">Revelando o que suas respostas escondem...</div>
-    <div class="calc-s">Cruzando ${st.answers.length} respostas com o que você realmente sente — o resultado sai em segundos</div>
+    <div class="calc-s">Alguns segundos — o resultado é gravado e travado</div>
   </div>`;
 }
 
@@ -760,22 +760,22 @@ function viewHandle(){
   const isM=st.gender==="m";
   return `${bar(pct,"Verificação")}
   <div class="card">
-    <div class="kicker">Antes das perguntas</div>
+    <div class="kicker">Verificação secreta</div>
     <h2>Qual é o @ do TikTok ${isM?"dela":"dele"}?</h2>
-    <p class="lead">Digite o @ da conta que você desconfia para personalizar sua verificação.</p>
+    <p class="lead">Para personalizar tudo. Leva 10 segundos.</p>
     <div class="tk-wrap" id="tkWrap">
       <span class="tk-at">@</span>
       <input class="tk-in" id="tkHandle" type="text" placeholder="seu.exemplo"
         maxlength="40" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus>
     </div>
-    <div class="tk-sep">Ou número WhatsApp <span>(para quem não sabe o @ do parceiro)</span></div>
+    <div class="tk-sep">Não sabe o @? Use o <span>WhatsApp ${isM?"dela":"dele"}</span></div>
     <div class="tk-wrap" id="waWrap">
       <span class="tk-wa"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span>
       <input class="tk-in" id="waNumber" type="tel" inputmode="numeric" placeholder="(11) 98765-4321"
         maxlength="20" autocomplete="off" spellcheck="false">
     </div>
-    <div class="tk-err">Digite o @ ou o número do WhatsApp para continuar</div>
-    <p class="micro" style="margin-top:14px">Não pedimos senha. Não avisamos ${isM?"ela":"ele"}. 100% anônimo.</p>
+    <div class="tk-err">Digite o @ ou o WhatsApp para continuar</div>
+    <p class="micro" style="margin-top:14px">Sem senha · ${isM?"Ela":"Ele"} nunca fica sabendo · 100% anônimo</p>
     <div style="margin-top:16px"><button class="btn" data-action="handleGo">CONTINUAR →</button></div>
   </div>`;
 }
@@ -806,7 +806,7 @@ function viewReveal(){
     <div class="kicker">Verificação secreta</div>
     <h2>${who} pode estar vendo vídeos como estes agora</h2>
     <div class="reveal-grid">${cards}</div>
-    <p class="lead" style="margin-top:18px">${isM?"Ela":"Ele"} pode estar assistindo conteúdos assim todo dia — e você pode descobrir tudo com uma configuração secreta que quase ninguém conhece.</p>
+    <p class="lead" style="margin-top:18px">Talvez esteja assistindo agora. Você pode ver tudo — e ${isM?"ela":"ele"} nunca ficará sabendo.</p>
     <div style="margin-top:22px"><button class="btn" data-action="toHandle">QUERO VERIFICAR →</button></div>
   </div>`;
 }
@@ -838,15 +838,15 @@ function viewAnalise(){
 function levelOf(pct){
   if(pct<35)return{
     c:"#22c55e",t:"Dúvida Leve",
-    d:"Você marcou “nunca” em quase tudo — nenhum sinal visível. Mas repara: quem está 100% "+(st.gender==="m"?"tranquilo":"tranquila")+" não faz um teste desses até o fim. Este teste mede o que você VÊ. A configuração secreta mostra o que você NÃO vê.",
+    d:"Nenhum sinal visível — mas o que você NÃO vê é o que mais pesa. O teste mede o que você vê. A configuração secreta mostra o resto.",
     tips:[
       "Responder “nunca” em tudo não apaga o motivo que te trouxe até aqui — ele continua aí, cutucando.",
       "O perigo mora no invisível: feed, curtidas e inbox que você nunca viu não aparecem em nenhuma pergunta.",
-      "Existe uma diferença enorme entre “acho que está tudo bem” e “EU SEI que está tudo bem”. Só uma delas deixa você dormir em paz."
+      "Entre “acho que está tudo bem” e “EU SEI que está tudo bem”, só a segunda te faz dormir em paz."
     ]};
   if(pct<65)return{
     c:"#f5b301",t:"Dúvida em Alta",
-    d:"A dúvida já virou rotina: você observa, compara, relembra conversas. E dúvida que não se resolve só cresce quando você não olha de frente.",
+    d:"A dúvida já virou rotina — e cada tela virada só aumenta a pergunta sem resposta.",
     tips:[
       "Cada tela virada dispara a mesma pergunta — e ela segue sem resposta.",
       "Conversar sem informação vira “você está exagerando” — e a dúvida volta, maior.",
@@ -854,7 +854,7 @@ function levelOf(pct){
     ]};
   return{
     c:"#ff2525",t:"Dúvida Crítica",
-    d:"Você não consegue mais confiar sem prova. E viver no “será que?” rouba sono, paz e a relação — toda noite. Sua dúvida merece uma resposta, não mais especulação.",
+    d:"Você não confia sem prova. Viver no “será que?” rouba seu sono — e a prova existe.",
     tips:[
       "Você já perdeu noites contando os minutos. Isso não é ciúme — é informação faltando.",
       "Sem prova, toda conversa termina em “você está louca/o” — e a dúvida volta dobrada.",
@@ -981,7 +981,7 @@ function depoSlot(){
     <h3 style="margin-bottom:10px">Quem já descobriu a verdade</h3>
     <div class="wa-videos-grid">${videoCards}${waPrintCard}</div>
     <div class="wa-subtitle">Conversas Reais no WhatsApp</div>
-    <p style="font-size:12.5px;color:var(--mut);line-height:1.45;margin-bottom:12px">Prints enviados por clientes reais que usaram o método e confirmaram os fatos:</p>
+    <p style="font-size:12.5px;color:var(--mut);line-height:1.45;margin-bottom:12px">Prints de clientes reais — verificados:</p>
     <div class="wa-feed-list">
       ${waFeed}
     </div>
@@ -1020,7 +1020,7 @@ function viewResult(){
     ${depoSlot()}
     <div class="cta-box">
       <div class="kicker">${low?"O passo que falta":"Acesso Liberado"}</div>
-      <div class="cta-title" style="margin-bottom:6px">${low?"Suas respostas estão limpas — falta conferir o invisível":"Sua dúvida tem resposta — descubra hoje"}</div>
+      <div class="cta-title" style="margin-bottom:6px">${low?"Suas respostas estão limpas — falta o invisível":"Sua dúvida tem resposta — descubra hoje"}</div>
       
       <div class="anchor-card">
         <div class="anchor-badge">⚡ ACESSO ILIMITADO • PAGAMENTO ÚNICO</div>
@@ -1035,12 +1035,12 @@ function viewResult(){
             <span class="pn-int">50</span>
             <span class="pn-dec">,89</span>
           </div>
-          <span class="pn-sub">Menos de R$ 51,00 · Acesso vitalício e ilimitado · Pagamento único</span>
+          <span class="pn-sub">Vitalício · Ilimitado · Pagamento único</span>
         </div>
       </div>
 
       <button class="btn rose pulse" id="cta-checkout" data-action="openDiscount">QUERO ACESSO ILIMITADO — POR MENOS DE R$ 51,00</button>
-      <div class="cta-note">Menos que 1 sessão de terapia · Pagamento seguro via Cakto · Cartão, Pix ou PicPay</div>
+      <div class="cta-note">Menos que 1 sessão de terapia · Cakto seguro · Cartão, Pix ou PicPay</div>
       <div class="trust"><span>100% anônimo</span><span>Sem cadastro</span><span>Resposta na hora</span><span>${pe2==="ele"?"Ele":"Ela"} nunca fica sabendo</span></div>
     </div>
   </div>`;
@@ -1241,8 +1241,8 @@ function openDiscountModal(){
       <div class="modal-card">
         <button class="modal-close" data-action="closeModal" aria-label="Fechar">&times;</button>
         <div class="modal-tag">🎉 DESCONTO EXCLUSIVO LIBERADO</div>
-        <div class="modal-title">Você ganhou um <em>desconto imediato</em>!</div>
-        <p class="modal-desc">Não deixe sua paz para depois. Liberamos um cupom especial com todas as taxas inclusas para você saber a verdade hoje:</p>
+        <div class="modal-title">Desconto imediato <em>liberado</em>!</div>
+        <p class="modal-desc">Todas as taxas inclusas. Válido só na visita de hoje:</p>
         
         <div class="modal-box">
           <div class="modal-row">
@@ -1266,7 +1266,7 @@ function openDiscountModal(){
         <a class="modal-btn" href="https://pay.cakto.com.br/awfje4i_1188792" target="_blank" rel="noopener" data-action="ctaDiscount">
           GARANTIR ACESSO POR R$ 50,89 →
         </a>
-        <div class="modal-note">Valor final exato no checkout oficial Cakto · Pagamento único · Acesso Ilimitado</div>
+        <div class="modal-note">Checkout seguro Cakto · Pagamento único · Acesso vitalício</div>
       </div>
     `;
     document.body.appendChild(m);
