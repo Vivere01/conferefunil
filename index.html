@@ -127,6 +127,11 @@ h2{font-size:25px;line-height:1.2;margin:10px 0 10px}
 .opt:hover{border-color:var(--red);transform:translateY(-2px)}
 .opt:active{transform:scale(.985)}
 .opt.sel{border-color:var(--red);background:#ff25251a}
+.opt.sim{border-color:#2f9e4488}
+.opt.sim:hover{border-color:#2f9e44;transform:translateY(-2px)}
+.opt.sim .badge{background:#2f9e4422;border-color:#2f9e4488;color:#4ade80}
+.opt.sim.sel{border-color:#2f9e44;background:#2f9e4422}
+.opt.sim.sel .badge{background:#2f9e44;color:#fff;border-color:#2f9e44}
 .opt .badge{
   flex:0 0 30px;height:30px;border-radius:10px;background:#ffffff0f;border:1px solid var(--line);
   display:grid;place-items:center;font-size:13.5px;font-weight:800;color:var(--red);
@@ -575,33 +580,33 @@ a.btn:hover{filter:brightness(1.1)}
 <script>
 const BASE=[
  {id:"nome",nome:true,t:()=>"Qual o nome do seu parceiro ou parceira?"},
- {id:"horas",t:p=>`Quantas horas por dia ${p} some no TikTok — longe de você?`,s:"Some horas no TikTok longe de você",
-  opts:[{l:"Quase nenhuma",v:0},{l:"Algumas",v:1},{l:"Muitas",v:2},{l:"Tantas que você já perdeu a conta",v:3}]},
- {id:"tela",t:(p,pe)=>`Já aconteceu de você chegar perto e ${pe} travar, virar ou esconder o celular na hora?`,s:"Trava ou vira o celular quando você chega",
-  opts:[{l:"Nunca",v:0},{l:"Raramente",v:1},{l:"Já aconteceu algumas vezes",v:2},{l:"É o padrão — toda vez",v:3}]},
- {id:"tempo",t:()=>"Quanto o TikTok já roubou do tempo de vocês?",s:"O TikTok já roubou tempo de vocês",
-  opts:[{l:"Nada",v:0},{l:"Um pouco",v:1},{l:"Muito — já sentimos falta",v:2},{l:"Tanto que já brigamos por isso",v:3}]},
- {id:"curtidas",t:(p,pe)=>`Você já pegou ${pe} curtindo ou comentando vídeo de gente atraente?`,s:"Curte vídeo de gente atraente",
-  opts:[{l:"Nunca",v:0},{l:"Uma vez",v:1},{l:"Várias vezes",v:2},{l:"Constantemente — e me incomoda",v:3}]},
- {id:"brigas",t:()=>"Vocês já brigaram por causa do celular ou do TikTok?",s:"Brigas por causa do celular/TikTok",
-  opts:[{l:"Nunca",v:0},{l:"Uma vez",v:1},{l:"Algumas vezes",v:2},{l:"Muitas — e nada mudou",v:3}]},
- {id:"confianca",t:(p,pe)=>`Se você pudesse ver tudo que ${pe} assiste no TikTok, teria coragem de olhar?`,s:"Não teria coragem de olhar",
-  opts:[{l:"Olharia sem medo",v:0},{l:"Teria receio do que ver",v:1},{l:"Não teria coragem",v:2},{l:"Já sei que não confio",v:3}]},
- {id:"checar",t:(p,pe)=>`Você já pensou em verificar o que ${pe} vê no TikTok?`,s:"Quer verificar o que ele/ela vê no TikTok",
-  opts:[{l:"Nunca pensei",v:0},{l:"Passou pela minha cabeça",v:1},{l:"Penso sempre",v:2},{l:"Estou pensando agora",v:3}]},
- {id:"celular",t:(p,pe)=>`Hoje, quem ocupa mais espaço: você ou o celular de ${p}?`,s:"O celular ocupa o espaço de você",
-  opts:[{l:"Eu ocupo",v:0},{l:"Às vezes o celular",v:1},{l:"Mais o celular",v:2},{l:"O celular — e você sabe",v:3}]}
+ {id:"horas",t:p=>`A quantidade de horas que ${p} passa no TikTok longe de você já te incomoda?`,s:"Some horas no TikTok longe de você",
+  opts:[{l:"SIM",sim:true,v:3},{l:"NÃO",v:0}]},
+ {id:"tela",t:(p,pe)=>`Quando você chega perto de repente, ${pe} esconde, trava ou vira o celular?`,s:"Esconde o celular quando você chega",
+  opts:[{l:"SIM",sim:true,v:3},{l:"NÃO",v:0}]},
+ {id:"tempo",t:()=>"O TikTok dele já roubou conversas, jantares ou noites que deveriam ser dos dois?",s:"O TikTok roubou tempo do casal",
+  opts:[{l:"SIM",sim:true,v:2},{l:"NÃO",v:0}]},
+ {id:"curtidas",t:pe=>`Você já viu ${pe} curtindo ou comentando vídeo de mulher atraente?`,s:"Curte vídeo de mulher atraente",
+  opts:[{l:"SIM",sim:true,v:2},{l:"NÃO",v:0}]},
+ {id:"brigas",t:()=>"Vocês já brigaram ou discutiram por causa do celular ou do TikTok?",s:"Brigas por causa do celular/TikTok",
+  opts:[{l:"SIM",sim:true,v:2},{l:"NÃO",v:0}]},
+ {id:"confianca",t:(p,pe)=>`Se você virasse o celular dele agora, acha que acharia algo escondido?`,s:"Acha que acharia algo escondido no celular",
+  opts:[{l:"SIM",sim:true,v:3},{l:"NÃO",v:0}]},
+ {id:"checar",t:(p,pe)=>`Já bateu aquela vontade de ver exatamente o que ${pe} vê no TikTok — e com quem conversa?`,s:"Quer ver o que ele vê no TikTok",
+  opts:[{l:"SIM",sim:true,v:2},{l:"NÃO",v:0}]},
+ {id:"celular",t:p=>`Hoje, o celular dele ocupa um espaço que deveria ser seu no relacionamento?`,s:"O celular ocupa o seu espaço",
+  opts:[{l:"SIM",sim:true,v:2},{l:"NÃO",v:0}]}
 ];
 const CONDS=[
- {id:"c_planos",trigger:"horas",min:2,bonus:true,s:"Cancelou planos de última hora e ficou no celular",
-  t:(p,pe)=>`Nos últimos meses, ${pe} já cancelou planos ou desmarcou saídas de última hora — e depois ficou mexendo no celular?`,
-  opts:[{l:"Nunca",v:0},{l:"Uma vez",v:1},{l:"Algumas vezes",v:2},{l:"Várias vezes e sem explicação",v:3}]},
- {id:"c_tela",trigger:"tela",min:2,bonus:true,s:"Celular sempre de costas ou fora de alcance",
-  t:(p,pe)=>`O celular ${po(pe)} vive de costas, no mudo ou fora do seu alcance?`,
-  opts:[{l:"Não reparei",v:0},{l:"Às vezes",v:1},{l:"Frequentemente",v:2},{l:"Sempre",v:3}]},
- {id:"c_check",trigger:"checar",min:2,bonus:true,s:"Já verificou o celular por desconfiança",
-  t:(p,pe)=>`Você já mexeu no celular ${po(pe)} ou leu notificações escondidas por desconfiança?`,
-  opts:[{l:"Nunca",v:0},{l:"Passei a mão uma vez",v:1},{l:"Várias vezes",v:2},{l:"Sim, com frequência",v:3}]}
+ {id:"c_planos",trigger:"horas",min:3,bonus:true,s:"Cancelou planos de última hora e ficou no celular",
+  t:(p,pe)=>`Ele já cancelou planos ou desmarcou saídas de última hora — e ficou no celular no lugar?`,
+  opts:[{l:"SIM",sim:true,v:3},{l:"NÃO",v:0}]},
+ {id:"c_tela",trigger:"tela",min:3,bonus:true,s:"Celular sempre de costas, no mudo ou fora de alcance",
+  t:(p,pe)=>`O celular dele vive de costas, no mudo ou fora do seu alcance?`,
+  opts:[{l:"SIM",sim:true,v:3},{l:"NÃO",v:0}]},
+ {id:"c_check",trigger:"checar",min:3,bonus:true,s:"Já espiou o celular dele por desconfiança",
+  t:(p,pe)=>`Você já espiou o celular dele escondido, por desconfiança?`,
+  opts:[{l:"SIM",sim:true,v:3},{l:"NÃO",v:0}]}
 ];
 const CATS=[
  {ids:["tela","curtidas","brigas","c_tela"],name:"Tela Fechada"},
@@ -642,7 +647,7 @@ let soundOn=localStorage.getItem("ck_sound")!=="0";
 let ac=null;
 
 function freshState(stage){
-  return {stage:stage||"intro",idx:0,gender:null,answers:[],seq:BASE.slice(),
+  return {stage:stage||"intro",idx:0,gender:"f",answers:[],seq:BASE.slice(),
     answered:0,sinais:0,halfSeen:false,revealSeen:false,handle:"",wa:"",nome:"",handleSeen:false};
 }
 st=freshState();
@@ -714,8 +719,7 @@ function viewIntro(){
     <div class="hero">
       <div class="appicon">${logoSvg(66)}</div>
       <div class="wm hero-wm">Con<i>fere</i></div>
-      <div class="slogan">Descubra a verdade<br>antes que seja tarde.</div>
-      <div class="rule"></div>
+      <div class="rule" style="margin-top:14px"></div>
     </div>
     <h1 style="text-transform:uppercase;text-align:center;margin-top:20px">Espione tudo que ele vê e faz no celular</h1>
     <button class="btn" data-action="start">QUERO SABER A VERDADE →</button>
@@ -737,12 +741,6 @@ function viewQuestion(){
           maxlength="30" autocomplete="off" autocapitalize="words" spellcheck="false" autofocus>
       </div>
       <div class="tk-err">Digite o nome para continuar</div>
-      <p class="lead" style="margin-top:16px">Desconfia de quem? Escolha para o texto falar certo:</p>
-      <div class="opts" id="gChips">
-        <button class="opt" data-action="pickGender" data-g="f"><span class="badge">A</span><span>Parceira</span></button>
-        <button class="opt" data-action="pickGender" data-g="m"><span class="badge">B</span><span>Parceiro</span></button>
-      </div>
-      <div class="tk-err" style="margin-top:6px">Escolha uma opção para continuar</div>
       <div style="margin-top:16px"><button class="btn" data-action="nomeGo">CONTINUAR →</button></div>
       <p class="micro" style="margin-top:14px">Sem senha · 100% anônimo</p>
     </div>`;
@@ -751,7 +749,7 @@ function viewQuestion(){
   const bonus=q.bonus?`<div class="bonus">★ Pergunta extra — só para você</div>`:"";
   const opts=q.opts.map((o,i)=>{
     const attrs=(o.g?`data-g="${o.g}"`:"")+(o.v!==undefined?` data-v="${o.v}"`:"");
-    return `<button class="opt" data-action="answer" ${attrs}>
+    return `<button class="opt${o.sim?" sim":""}" data-action="answer" ${attrs}>
       <span class="badge">${badges[i]}</span><span>${o.l}</span></button>`;
   }).join("");
   const total=st.seq.length;
@@ -1342,22 +1340,12 @@ app.addEventListener("click",e=>{
       if(v!==null)insertConds(q.id,v);
       advance();
     },v===null?140:430);
-  }else if(action==="pickGender"){
-    st.gender=btn.dataset.g==="m"?"m":"f";
-    track("ck_gender",{genero:st.gender});
-    document.querySelectorAll("#gChips .opt").forEach(b=>b.classList.toggle("sel",b===btn));
-    sndAnswer(1);
   }else if(action==="nomeGo"){
     const inp=document.getElementById("nomeIn");
     const nome=inp&&inp.value?String(inp.value).trim().slice(0,30):"";
     if(!nome){
       const w=document.getElementById("nomeWrap");
       if(w){w.classList.remove("err");void w.offsetWidth;w.classList.add("err")}
-      return;
-    }
-    if(!st.gender){
-      const g=document.getElementById("gChips");
-      if(g){g.classList.remove("err");void g.offsetWidth;g.classList.add("err")}
       return;
     }
     st.nome=nome;
@@ -1395,7 +1383,6 @@ document.addEventListener("play", e=>{
 }, true);
 
 app.addEventListener("keydown",e=>{
-  if((e.target.id==="tkHandle"||e.target.id==="waNumber"||e.target.id==="nomeIn")) e.preventDefault();
   if(e.key==="Enter"&&e.target.id==="nomeIn"){
     e.preventDefault();
     submitNomeStep();
