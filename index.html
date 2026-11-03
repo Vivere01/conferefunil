@@ -460,48 +460,6 @@ a.btn:hover{filter:brightness(1.1)}
 }
 /* ===== FIM IMG LIGHTBOX ===== */
 
-.modal-overlay{
-  position:fixed;inset:0;background:#000000d0;backdrop-filter:blur(6px);
-  z-index:999;display:none;place-items:center;padding:18px;animation:fade .25s ease;
-}
-.modal-card{
-  background:linear-gradient(170deg,#1c1212,#0f0707);border:1.5px solid #ff252566;
-  border-radius:24px;padding:24px 20px;max-width:410px;width:100%;text-align:center;
-  box-shadow:0 24px 60px #000000f0,0 0 40px #ff252533;position:relative;animation:modalpop .3s cubic-bezier(.22,1.3,.36,1);
-}
-@keyframes modalpop{from{opacity:0;transform:scale(.85) translateY(20px)}to{opacity:1;transform:none}}
-.modal-close{
-  position:absolute;top:14px;right:16px;width:32px;height:32px;border-radius:50%;
-  background:#ffffff14;border:none;color:#aaa;font-size:20px;cursor:pointer;display:grid;place-items:center;transition:.2s;line-height:1;
-}
-.modal-close:hover{background:#ff252533;color:#fff}
-.modal-tag{
-  display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:900;letter-spacing:1px;
-  text-transform:uppercase;color:#22c55e;background:#22c55e1a;border:1px solid #22c55e44;
-  padding:5px 12px;border-radius:99px;margin-bottom:12px;
-}
-.modal-title{font-size:20px;font-weight:850;line-height:1.25;margin-bottom:8px}
-.modal-title em{font-style:normal;color:#22c55e}
-.modal-desc{font-size:13px;color:var(--mut);line-height:1.45;margin-bottom:16px}
-.modal-box{
-  background:#0a0a0ae6;border:1px solid #282828;border-radius:16px;padding:14px 16px;
-  margin-bottom:18px;text-align:left;
-}
-.modal-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--mut);margin-bottom:7px}
-.modal-row.discount{color:#22c55e;font-weight:750}
-.modal-row.total{
-  border-top:1px dashed #333;padding-top:10px;margin-top:10px;margin-bottom:0;
-  font-size:14.5px;color:#fff;font-weight:800;
-}
-.modal-row.total .m-tot{font-size:24px;font-weight:900;color:#22c55e}
-.modal-btn{
-  width:100%;padding:17px;font-size:16px;font-weight:900;border-radius:15px;
-  background:linear-gradient(90deg,#22c55e,#16a34a);color:#fff;border:none;cursor:pointer;
-  display:block;text-decoration:none;box-shadow:0 8px 24px #22c55e40;letter-spacing:.3px;
-  text-align:center;line-height:1.2;
-}
-.modal-btn:hover{filter:brightness(1.1)}
-.modal-note{font-size:11.5px;color:var(--mut);margin-top:10px;line-height:1.4}
 .depo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
 .depo-card{min-width:0}
 .depo-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:14px;text-align:center;border:1.5px dashed var(--line);color:var(--mut)}
@@ -624,7 +582,7 @@ function track(ev,params){
       const ga={};
       const p=params||{};
       for(const k in p){const v=p[k];if(typeof v==="string"||typeof v==="number"||typeof v==="boolean")ga[k]=v;}
-      if(ev==="ck_checkout_click"){ga.value=50.89;ga.currency="BRL";}
+      if(ev==="ck_checkout_click"){ga.value=28;ga.currency="BRL";}
       window.gtag("event",ev,ga);
     }
   }catch(gErr){}
@@ -632,7 +590,7 @@ function track(ev,params){
   try{
     if(window.ttq&&typeof window.ttq.track==="function"){
       if(ev==="ck_checkout_click"){
-        window.ttq.track("InitiateCheckout",{value:50.89,currency:"BRL"});
+        window.ttq.track("InitiateCheckout",{value:28,currency:"BRL"});
       }else{
         window.ttq.track(ev,params||{});
       }
@@ -1000,7 +958,7 @@ function depoSlot(){
     <div class="wa-feed-list">
       ${waFeed}
     </div>
-    <button class="btn" data-action="openDiscount" style="margin-top:16px">QUERO A RESPOSTA — MENOS DE R$ 51</button>
+    <button class="btn" data-action="checkout" style="margin-top:16px">QUERO A RESPOSTA — MENOS DE R$ 30</button>
   </div>`;
 }
 
@@ -1040,21 +998,21 @@ function viewResult(){
       <div class="anchor-card">
         <div class="anchor-badge">⚡ ACESSO ILIMITADO • PAGAMENTO ÚNICO</div>
         <div class="anchor-prices">
-          <span class="price-old">De <del>R$ 97,00</del></span>
-          <span class="price-pill">Condição Especial</span>
+          <span class="price-old">De <del>R$ 89,90</del></span>
+          <span class="price-pill">Menos de R$ 30</span>
         </div>
         <div class="price-now">
-          <span class="pn-label">Hoje por menos de</span>
+          <span class="pn-label">Hoje por</span>
           <div class="pn-val">
             <span class="pn-cur">R$</span>
-            <span class="pn-int">50</span>
-            <span class="pn-dec">,89</span>
+            <span class="pn-int">28</span>
+            <span class="pn-dec">,00</span>
           </div>
           <span class="pn-sub">Vitalício · Ilimitado · Pagamento único</span>
         </div>
       </div>
 
-      <button class="btn rose pulse" id="cta-checkout" data-action="openDiscount">QUERO ACESSO ILIMITADO — POR MENOS DE R$ 51,00</button>
+      <button class="btn rose pulse" id="cta-checkout" data-action="checkout">QUERO ACESSO ILIMITADO — POR MENOS DE R$ 30</button>
       <div class="cta-note">Menos que 1 sessão de terapia · Cakto seguro · Cartão, Pix ou PicPay</div>
       <div class="trust"><span>100% anônimo</span><span>Sem cadastro</span><span>Resposta na hora</span><span>${pe2==="ele"?"Ele":"Ela"} nunca fica sabendo</span></div>
     </div>
@@ -1217,63 +1175,6 @@ function confetti(){
   requestAnimationFrame(frame);
 }
 
-function openDiscountModal(){
-  let m=document.getElementById("discountModal");
-  if(!m){
-    m=document.createElement("div");
-    m.id="discountModal";
-    m.className="modal-overlay";
-    m.innerHTML=`
-      <div class="modal-card">
-        <button class="modal-close" data-action="closeModal" aria-label="Fechar">&times;</button>
-        <div class="modal-tag">🎉 DESCONTO EXCLUSIVO LIBERADO</div>
-        <div class="modal-title">Desconto imediato <em>liberado</em>!</div>
-        <p class="modal-desc">Todas as taxas inclusas. Válido só na visita de hoje:</p>
-        
-        <div class="modal-box">
-          <div class="modal-row">
-            <span>Valor de tabela:</span>
-            <span><del>R$ 97,00</del></span>
-          </div>
-          <div class="modal-row discount">
-            <span>Cupom exclusivo aplicado:</span>
-            <span>- R$ 47,10 OFF</span>
-          </div>
-          <div class="modal-row">
-            <span>Taxa de serviço Cakto:</span>
-            <span>+ R$ 0,99</span>
-          </div>
-          <div class="modal-row total">
-            <span>TOTAL NO CHECKOUT:</span>
-            <span class="m-tot">R$ 50,89</span>
-          </div>
-        </div>
-
-        <a class="modal-btn" href="https://pay.cakto.com.br/awfje4i_1188792" target="_blank" rel="noopener" data-action="ctaDiscount">
-          GARANTIR ACESSO POR R$ 50,89 →
-        </a>
-        <div class="modal-note">Checkout seguro Cakto · Pagamento único · Acesso vitalício</div>
-      </div>
-    `;
-    document.body.appendChild(m);
-    m.addEventListener("click",e=>{
-      if(e.target===m||e.target.closest("[data-action='closeModal']")){
-        closeDiscountModal();
-      }else if(e.target.closest("[data-action='ctaDiscount']")){
-        track("ck_checkout_click");
-        document.dispatchEvent(new CustomEvent("ck_cta_click"));
-      }
-    });
-  }
-  m.style.display="grid";
-  if(typeof confetti==="function")confetti();
-  if(soundOn)sndBonus();
-}
-function closeDiscountModal(){
-  const m=document.getElementById("discountModal");
-  if(m)m.style.display="none";
-}
-
 /* ===== IMG LIGHTBOX ===== */
 let _imgModalEl=null;
 function openImgModal(src){
@@ -1358,11 +1259,10 @@ app.addEventListener("click",e=>{
   }else if(action==="continue"){
     st.stage="question";
     render();
-  }else if(action==="openDiscount"){
-    track("ck_discount_open");
-    openDiscountModal();
-  }else if(action==="closeModal"){
-    closeDiscountModal();
+  }else if(action==="checkout"){
+    track("ck_checkout_click");
+    document.dispatchEvent(new CustomEvent("ck_cta_click"));
+    window.open("https://pay.cakto.com.br/awfje4i_1188792","_blank","noopener");
   }else if(action==="cta"){
     document.dispatchEvent(new CustomEvent("ck_cta_click"));
   }else if(action==="sound"){
