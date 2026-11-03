@@ -572,8 +572,6 @@ const BASE=[
   opts:[{l:"Nada",v:0},{l:"Um pouco",v:1},{l:"Muito — já sentimos falta",v:2},{l:"Tanto que já brigamos por isso",v:3}]},
  {id:"curtidas",t:(p,pe)=>`Você já pegou ${pe} curtindo ou comentando vídeo de gente atraente?`,s:"Curte vídeo de gente atraente",
   opts:[{l:"Nunca",v:0},{l:"Uma vez",v:1},{l:"Várias vezes",v:2},{l:"Constantemente — e me incomoda",v:3}]},
- {id:"conexao",t:()=>"Como está a conexão de vocês hoje?",s:"Conexão fria, como estranhos",
-  opts:[{l:"Firme",v:0},{l:"Boa",v:1},{l:"Fria",v:2},{l:"Distante como estranhos",v:3}]},
  {id:"brigas",t:()=>"Vocês já brigaram por causa do celular ou do TikTok?",s:"Brigas por causa do celular/TikTok",
   opts:[{l:"Nunca",v:0},{l:"Uma vez",v:1},{l:"Algumas vezes",v:2},{l:"Muitas — e nada mudou",v:3}]},
  {id:"confianca",t:(p,pe)=>`Se você pudesse ver tudo que ${pe} assiste no TikTok, teria coragem de olhar?`,s:"Não teria coragem de olhar",
@@ -596,7 +594,7 @@ const CONDS=[
 ];
 const CATS=[
  {ids:["tela","curtidas","brigas","c_tela"],name:"Tela Fechada"},
- {ids:["horas","tempo","conexao","celular","c_planos"],name:"Conexão Rompida"},
+ {ids:["horas","tempo","celular","c_planos"],name:"Conexão Rompida"},
  {ids:["confianca","checar","c_check"],name:"Confiança Abalada"}
 ];
 const app=document.getElementById("app");
@@ -624,7 +622,7 @@ let ac=null;
 
 function freshState(stage){
   return {stage:stage||"intro",idx:0,gender:null,answers:[],seq:BASE.slice(),
-    answered:0,sinais:0,halfSeen:false,handle:"",wa:"",handleSeen:false};
+    answered:0,sinais:0,halfSeen:false,revealSeen:false,handle:"",wa:"",handleSeen:false};
 }
 st=freshState();
 render();
@@ -809,7 +807,7 @@ function viewReveal(){
     <h2>${who} pode estar vendo vídeos como estes agora</h2>
     <div class="reveal-grid">${cards}</div>
     <p class="lead" style="margin-top:18px">${isM?"Ela":"Ele"} pode estar assistindo conteúdos assim todo dia — e você pode descobrir tudo com uma configuração secreta que quase ninguém conhece.</p>
-    <div style="margin-top:22px"><button class="btn" data-action="toAnalise">QUERO VERIFICAR →</button></div>
+    <div style="margin-top:22px"><button class="btn" data-action="toHandle">QUERO VERIFICAR →</button></div>
   </div>`;
 }
 
@@ -1054,8 +1052,6 @@ function render(){
   else if(st.stage==="question")html=viewQuestion();
   else if(st.stage==="handle")html=viewHandle();
   else if(st.stage==="reveal")html=viewReveal();
-  else if(st.stage==="analise")html=viewAnalise();
-  else if(st.stage==="halfway")html=viewHalf();
   else if(st.stage==="calc")html=viewCalc();
   else html=viewResult();
   app.classList.remove("fade");
@@ -1133,15 +1129,15 @@ function advance(){
   if(st.idx>=st.seq.length){
     computeResult();
     startCalc();
+  }else if(st.gender&&st.answered>=1&&!st.revealSeen){
+    st.revealSeen=true;
+    st.stage="reveal";
+    render();
   }else if(st.gender&&!st.handleSeen){
     st.handleSeen=true;
     st.stage="handle";
     render();
     setTimeout(()=>{const i=document.getElementById("tkHandle");if(i&&i.focus)i.focus();},60);
-  }else if(st.answered===6&&!st.halfSeen){
-    st.halfSeen=true;
-    st.stage="halfway";
-    render();
   }else{
     st.stage="question";
     render();
@@ -1230,7 +1226,8 @@ function submitHandle(){
   }
   track("ck_handle_submit",{tem_handle:!!raw,tem_whatsapp:!!wa});
   sndBonus();
-  st.stage="reveal";
+  st.handleSeen=true;
+  st.stage="question";
   render();
 }
 
@@ -1364,14 +1361,11 @@ app.addEventListener("click",e=>{
     render();
   }else if(action==="handleGo"){
     submitHandle();
-  }else if(action==="toAnalise"){
+  }else if(action==="toHandle"){
     sndBonus();
-    st.stage="analise";
+    st.stage="handle";
     render();
-  }else if(action==="toQuestions"){
-    sndBonus();
-    st.stage="question";
-    render();
+    setTimeout(()=>{const i=document.getElementById("tkHandle");if(i&&i.focus)i.focus();},60);
   }else if(action==="openDiscount"){
     track("ck_discount_open");
     openDiscountModal();
