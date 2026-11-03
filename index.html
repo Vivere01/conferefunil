@@ -1349,8 +1349,7 @@ document.addEventListener("play", e=>{
 }, true);
 
 app.addEventListener("keydown",e=>{
-  if(!(e.key==="Enter"&&(e.target.id==="tkHandle"||e.target.id==="waNumber")))return;
-  e.preventDefault();
+  if((e.target.id==="tkHandle"||e.target.id==="waNumber")) e.preventDefault();
 });
 
 render();
