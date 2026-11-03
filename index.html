@@ -204,6 +204,8 @@ a.btn:hover{filter:brightness(1.1)}
 .tk-in::placeholder{color:#666;font-weight:600}
 .tk-err{color:#ff2525;font-size:13px;margin-top:8px;display:none}
 .tk-wrap.err~.tk-err{display:block}
+.opts.err~.tk-err{display:block}
+.opts.err{animation:shake .55s ease}
 .chat{background:#0d0d0d;border:1px solid var(--line);border-radius:16px;margin-top:16px;overflow:hidden}
 .chat-head{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
 .chat-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#ff2525,#7a0e0e);display:grid;place-items:center;font-weight:800;color:#fff;font-size:14px}
@@ -572,7 +574,7 @@ a.btn:hover{filter:brightness(1.1)}
 <div id="app"></div>
 <script>
 const BASE=[
- {id:"gender",t:()=>"Você é?",opts:[{l:"Homem",g:"m"},{l:"Mulher",g:"f"}]},
+ {id:"nome",nome:true,t:()=>"Qual o nome do seu parceiro ou parceira?"},
  {id:"horas",t:p=>`Quantas horas por dia ${p} some no TikTok — longe de você?`,s:"Some horas no TikTok longe de você",
   opts:[{l:"Quase nenhuma",v:0},{l:"Algumas",v:1},{l:"Muitas",v:2},{l:"Tantas que você já perdeu a conta",v:3}]},
  {id:"tela",t:(p,pe)=>`Já aconteceu de você chegar perto e ${pe} travar, virar ou esconder o celular na hora?`,s:"Trava ou vira o celular quando você chega",
@@ -641,7 +643,7 @@ let ac=null;
 
 function freshState(stage){
   return {stage:stage||"intro",idx:0,gender:null,answers:[],seq:BASE.slice(),
-    answered:0,sinais:0,halfSeen:false,revealSeen:false,handle:"",wa:"",handleSeen:false};
+    answered:0,sinais:0,halfSeen:false,revealSeen:false,handle:"",wa:"",nome:"",handleSeen:false};
 }
 st=freshState();
 render();
@@ -715,7 +717,7 @@ function viewIntro(){
       <div class="slogan">Descubra a verdade<br>antes que seja tarde.</div>
       <div class="rule"></div>
     </div>
-    <h1 style="text-transform:uppercase;text-align:center;margin-top:20px">Espione tudo que ele vê e faz no celular pelo Tiktok</h1>
+    <h1 style="text-transform:uppercase;text-align:center;margin-top:20px">Espione tudo que ele vê e faz no celular</h1>
     <button class="btn" data-action="start">QUERO SABER A VERDADE →</button>
   </div>
   <p class="disc">Privacidade e segurança de dados 🔒</p>`;
@@ -724,6 +726,27 @@ function viewIntro(){
 function viewQuestion(){
   const q=st.seq[st.idx];
   const text=q.t(pc(),pe());
+  if(q.nome){
+    return `${bar(Math.round(((st.idx+1)/st.seq.length)*100),"Antes de começar")}
+    <div class="card">
+      <div class="kicker">Verificação licenciada</div>
+      <h2>Qual o nome do seu parceiro ou parceira?</h2>
+      <p class="lead">Para personalizar toda a verificação.</p>
+      <div class="tk-wrap" id="nomeWrap">
+        <input class="tk-in" id="nomeIn" type="text" placeholder="Maria / João"
+          maxlength="30" autocomplete="off" autocapitalize="words" spellcheck="false" autofocus>
+      </div>
+      <div class="tk-err">Digite o nome para continuar</div>
+      <p class="lead" style="margin-top:16px">Desconfia de quem? Escolha para o texto falar certo:</p>
+      <div class="opts" id="gChips">
+        <button class="opt" data-action="pickGender" data-g="f"><span class="badge">A</span><span>Parceira</span></button>
+        <button class="opt" data-action="pickGender" data-g="m"><span class="badge">B</span><span>Parceiro</span></button>
+      </div>
+      <div class="tk-err" style="margin-top:6px">Escolha uma opção para continuar</div>
+      <div style="margin-top:16px"><button class="btn" data-action="nomeGo">CONTINUAR →</button></div>
+      <p class="micro" style="margin-top:14px">Sem senha · 100% anônimo</p>
+    </div>`;
+  }
   const badges="ABCDEFGHIJ";
   const bonus=q.bonus?`<div class="bonus">★ Pergunta extra — só para você</div>`:"";
   const opts=q.opts.map((o,i)=>{
@@ -775,7 +798,7 @@ function viewCalc(){
 }
 
 function viewReveal(){
-  const who=st.handle?"@"+st.handle:"Seu cônjuge";
+  const who=st.nome?st.nome:(st.handle?"@"+st.handle:"Seu cônjuge");
   const isM=st.gender==="m";
   const imgs=isM
     ?["prova%20-%20homem%20-%20confere.png","prova%202%20-%20homens%20-%20confere.png","prova%203%20-%20homens%20-%20confere.png"]
@@ -1300,12 +1323,10 @@ app.addEventListener("click",e=>{
   }else if(action==="answer"){
     if(st.lock)return;
     const q=st.seq[st.idx];
-    if(q.id==="gender"&&!btn.dataset.g)return;
     st.lock=true;
     btn.classList.add("sel");
-    if(btn.dataset.g){st.gender=btn.dataset.g;track("ck_gender",{genero:btn.dataset.g});}
     let v=null;
-    if(q.id!=="gender"&&btn.dataset.v!==undefined){
+    if(btn.dataset.v!==undefined){
       v=+btn.dataset.v;
       st.answers.push({id:q.id,v:v,s:q.s});
       st.answered++;
@@ -1321,6 +1342,31 @@ app.addEventListener("click",e=>{
       if(v!==null)insertConds(q.id,v);
       advance();
     },v===null?140:430);
+  }else if(action==="pickGender"){
+    st.gender=btn.dataset.g==="m"?"m":"f";
+    track("ck_gender",{genero:st.gender});
+    document.querySelectorAll("#gChips .opt").forEach(b=>b.classList.toggle("sel",b===btn));
+    sndAnswer(1);
+  }else if(action==="nomeGo"){
+    const inp=document.getElementById("nomeIn");
+    const nome=inp&&inp.value?String(inp.value).trim().slice(0,30):"";
+    if(!nome){
+      const w=document.getElementById("nomeWrap");
+      if(w){w.classList.remove("err");void w.offsetWidth;w.classList.add("err")}
+      return;
+    }
+    if(!st.gender){
+      const g=document.getElementById("gChips");
+      if(g){g.classList.remove("err");void g.offsetWidth;g.classList.add("err")}
+      return;
+    }
+    st.nome=nome;
+    track("ck_nome_submit",{tem_nome:true,passo:1});
+    sndBonus();
+    st.idx++;
+    st.lock=false;
+    st.stage="question";
+    render();
   }else if(action==="continue"){
     st.stage="question";
     render();
@@ -1349,8 +1395,17 @@ document.addEventListener("play", e=>{
 }, true);
 
 app.addEventListener("keydown",e=>{
-  if((e.target.id==="tkHandle"||e.target.id==="waNumber")) e.preventDefault();
+  if((e.target.id==="tkHandle"||e.target.id==="waNumber"||e.target.id==="nomeIn")) e.preventDefault();
+  if(e.key==="Enter"&&e.target.id==="nomeIn"){
+    e.preventDefault();
+    submitNomeStep();
+  }
 });
+
+function submitNomeStep(){
+  const b=document.querySelector('[data-action="nomeGo"]');
+  if(b) b.click();
+}
 
 render();
 </script>
