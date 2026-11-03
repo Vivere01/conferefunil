@@ -23,6 +23,15 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M2D2LMKX');</script>
 <!-- End Google Tag Manager -->
+<!-- Google Analytics (gtag.js) - GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EL9GCDDXVZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-EL9GCDDXVZ');
+</script>
+<!-- End Google Analytics -->
 <style>
 :root{
   --bg:#050505;
@@ -602,6 +611,16 @@ const app=document.getElementById("app");
 function track(ev,params){
   window.dataLayer=window.dataLayer||[];
   window.dataLayer.push(Object.assign({event:ev},params||{}));
+  // Encaminha para o Google Analytics 4 (gtag.js direto no site)
+  try{
+    if(typeof window.gtag==="function"){
+      const ga={};
+      const p=params||{};
+      for(const k in p){const v=p[k];if(typeof v==="string"||typeof v==="number"||typeof v==="boolean")ga[k]=v;}
+      if(ev==="ck_checkout_click"){ga.value=50.89;ga.currency="BRL";}
+      window.gtag("event",ev,ga);
+    }
+  }catch(gErr){}
   // Encaminha para o pixel do TikTok (otimização na rede)
   try{
     if(window.ttq&&typeof window.ttq.track==="function"){
