@@ -32,6 +32,20 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
   gtag('config', 'G-EL9GCDDXVZ');
 </script>
 <!-- End Google Analytics -->
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2095096681372346');
+fbq('track', 'PageView');
+</script>
+<!-- End Meta Pixel Code -->
 <style>
 :root{
   --bg:#050505;
@@ -532,6 +546,11 @@ a.btn:hover{filter:brightness(1.1)}
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M2D2LMKX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
+<!-- Meta Pixel noscript -->
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2095096681372346&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel noscript -->
 <div class="bg fx1"></div>
 <div class="bg fx2"></div>
 <div id="app"></div>
@@ -586,6 +605,18 @@ function track(ev,params){
       window.gtag("event",ev,ga);
     }
   }catch(gErr){}
+  // Encaminha para o Pixel da Meta (Facebook/Instagram)
+  try{
+    if(window.fbq&&typeof window.fbq==="function"){
+      if(ev==="ck_result"){
+        window.fbq("track","ViewContent",{content_name:"Acesso Confere",value:28,currency:"BRL"});
+      }else if(ev==="ck_checkout_click"){
+        window.fbq("track","InitiateCheckout",{value:28,currency:"BRL"});
+      }else{
+        window.fbq("trackCustom",ev);
+      }
+    }
+  }catch(fErr){}
   // Encaminha para o pixel do TikTok (otimização na rede)
   try{
     if(window.ttq&&typeof window.ttq.track==="function"){
