@@ -557,19 +557,19 @@ src="https://www.facebook.com/tr?id=2095096681372346&ev=PageView&noscript=1"
 <script>
 const BASE=[
  {id:"nome",nome:true,t:()=>"Qual o nome do seu parceiro ou parceira?"},
- {id:"horas",t:p=>`A quantidade de horas que ${p} passa no TikTok longe de você já te incomoda?`,s:"Some horas no TikTok longe de você",
+ {id:"horas",t:p=>`A quantidade de horas que ${p} passa no celular longe de você já te incomoda?`,s:"Some horas no celular longe de você",
   opts:[{l:"SIM",sim:true,v:3},{l:"NÃO",v:0}]},
  {id:"tela",t:(p,pe)=>`Quando você chega perto de repente, ${pe} esconde, trava ou vira o celular?`,s:"Esconde o celular quando você chega",
   opts:[{l:"SIM",sim:true,v:3},{l:"NÃO",v:0}]},
- {id:"tempo",t:()=>"O TikTok dele já roubou conversas, jantares ou noites que deveriam ser dos dois?",s:"O TikTok roubou tempo do casal",
+ {id:"tempo",t:()=>"O celular dele já roubou conversas, jantares ou noites que deveriam ser dos dois?",s:"O celular roubou tempo do casal",
   opts:[{l:"SIM",sim:true,v:2},{l:"NÃO",v:0}]},
  {id:"curtidas",t:pe=>`Você já viu ${pe} curtindo ou comentando vídeo de mulher atraente?`,s:"Curte vídeo de mulher atraente",
   opts:[{l:"SIM",sim:true,v:2},{l:"NÃO",v:0}]},
- {id:"brigas",t:()=>"Vocês já brigaram ou discutiram por causa do celular ou do TikTok?",s:"Brigas por causa do celular/TikTok",
+ {id:"brigas",t:()=>"Vocês já brigaram ou discutiram por causa do celular?",s:"Brigas por causa do celular",
   opts:[{l:"SIM",sim:true,v:2},{l:"NÃO",v:0}]},
  {id:"confianca",t:(p,pe)=>`Se você virasse o celular dele agora, acha que acharia algo escondido?`,s:"Acha que acharia algo escondido no celular",
   opts:[{l:"SIM",sim:true,v:3},{l:"NÃO",v:0}]},
- {id:"checar",t:(p,pe)=>`Já bateu aquela vontade de ver exatamente o que ${pe} vê no TikTok — e com quem conversa?`,s:"Quer ver o que ele vê no TikTok",
+ {id:"checar",t:(p,pe)=>`Já bateu aquela vontade de ver exatamente o que ${pe} vê no celular — e com quem conversa?`,s:"Quer ver o que ele vê no celular",
   opts:[{l:"SIM",sim:true,v:2},{l:"NÃO",v:0}]},
  {id:"celular",t:p=>`Hoje, o celular dele ocupa um espaço que deveria ser seu no relacionamento?`,s:"O celular ocupa o seu espaço",
   opts:[{l:"SIM",sim:true,v:2},{l:"NÃO",v:0}]}
@@ -767,7 +767,7 @@ function viewHalf(){
     <div class="instinto">Se você chegou até aqui, seu instinto já falou. Agora falta a prova.</div>
     <div class="mech">
       <div class="mech-t">COMO A DÚVIDA SE RESOLVE</div>
-      <div class="mech-row"><b>1</b><span>Você descobre onde fica um botão simples que mostra todos os vídeos, curtidas e comentários que ${par} vê no TikTok</span></div>
+      <div class="mech-row"><b>1</b><span>Você descobre onde fica um botão simples que mostra todos os vídeos, curtidas e comentários que ${par} vê no celular</span></div>
       <div class="mech-row"><b>2</b><span>Você confere com os próprios olhos o que ${p} realmente assiste — sem perguntar, sem brigar</span></div>
       <div class="mech-row"><b>3</b><span>E a dúvida morre na hora, substituída por certeza</span></div>
     </div>
@@ -828,7 +828,7 @@ function viewAnalise(){
     <h2>É assim que começa — um comentário vira conversa no inbox</h2>
     <div class="chat">
       <div class="chat-head"><div class="chat-av">TT</div>
-        <div><div class="chat-name">Inbox do TikTok</div><div class="chat-on"><i></i>online agora</div></div>
+        <div><div class="chat-name">Inbox do celular</div><div class="chat-on"><i></i>online agora</div></div>
       </div>
       <div class="bub-out">${t1}<span class="tm">23:41</span></div>
       <div class="bub-in">${t2}<span class="tm">23:47</span></div>
@@ -918,7 +918,7 @@ const CONVERSAS_WA=[
     nome:"Roberto Silva",
     status:"Cliente Verificado",
     img:"img/depoimento-whatsapp-4.jpg",
-    destaque:"“Peguei conversas e vídeos no TikTok sem que ninguém desconfiasse.”"
+    destaque:"“Peguei conversas e vídeos no celular dele sem que ninguém desconfiasse.”"
   }
 ];
 
