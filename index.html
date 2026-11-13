@@ -561,28 +561,28 @@ const BASE=[
   opts:[{l:"SIM",sim:true,v:3},{l:"NÃO",v:0}]},
  {id:"tela",t:(p,pe)=>`Quando você chega perto de repente, ${pe} esconde, trava ou vira o celular?`,s:"Esconde o celular quando você chega",
   opts:[{l:"SIM",sim:true,v:3},{l:"NÃO",v:0}]},
- {id:"tempo",t:()=>"O celular dele já roubou conversas, jantares ou noites que deveriam ser dos dois?",s:"O celular roubou tempo do casal",
+ {id:"tempo",t:(p,pe)=>`O celular ${po(pe)} já roubou conversas, jantares ou noites que deveriam ser dos dois?`,s:"O celular roubou tempo do casal",
   opts:[{l:"SIM",sim:true,v:2},{l:"NÃO",v:0}]},
  {id:"curtidas",t:pe=>`Você já viu ${pe} curtindo ou comentando vídeo de mulher atraente?`,s:"Curte vídeo de mulher atraente",
   opts:[{l:"SIM",sim:true,v:2},{l:"NÃO",v:0}]},
  {id:"brigas",t:()=>"Vocês já brigaram ou discutiram por causa do celular?",s:"Brigas por causa do celular",
   opts:[{l:"SIM",sim:true,v:2},{l:"NÃO",v:0}]},
- {id:"confianca",t:(p,pe)=>`Se você virasse o celular dele agora, acha que acharia algo escondido?`,s:"Acha que acharia algo escondido no celular",
+ {id:"confianca",t:(p,pe)=>`Se você virasse o celular ${po(pe)} agora, acha que acharia algo escondido?`,s:"Acha que acharia algo escondido no celular",
   opts:[{l:"SIM",sim:true,v:3},{l:"NÃO",v:0}]},
  {id:"checar",t:(p,pe)=>`Já bateu aquela vontade de ver exatamente o que ${pe} vê no celular — e com quem conversa?`,s:"Quer ver o que ele vê no celular",
   opts:[{l:"SIM",sim:true,v:2},{l:"NÃO",v:0}]},
- {id:"celular",t:p=>`Hoje, o celular dele ocupa um espaço que deveria ser seu no relacionamento?`,s:"O celular ocupa o seu espaço",
+ {id:"celular",t:(p,pe)=>`Hoje, o celular ${po(pe)} ocupa um espaço que deveria ser seu no relacionamento?`,s:"O celular ocupa o seu espaço",
   opts:[{l:"SIM",sim:true,v:2},{l:"NÃO",v:0}]}
 ];
 const CONDS=[
  {id:"c_planos",trigger:"horas",min:3,bonus:true,s:"Cancelou planos de última hora e ficou no celular",
-  t:(p,pe)=>`Ele já cancelou planos ou desmarcou saídas de última hora — e ficou no celular no lugar?`,
+  t:(p,pe)=>`${pe==="ela"?"Ela":"Ele"} já cancelou planos ou desmarcou saídas de última hora — e ficou no celular no lugar?`,
   opts:[{l:"SIM",sim:true,v:3},{l:"NÃO",v:0}]},
  {id:"c_tela",trigger:"tela",min:3,bonus:true,s:"Celular sempre de costas, no mudo ou fora de alcance",
-  t:(p,pe)=>`O celular dele vive de costas, no mudo ou fora do seu alcance?`,
+  t:(p,pe)=>`O celular ${po(pe)} vive de costas, no mudo ou fora do seu alcance?`,
   opts:[{l:"SIM",sim:true,v:3},{l:"NÃO",v:0}]},
  {id:"c_check",trigger:"checar",min:3,bonus:true,s:"Já espiou o celular dele por desconfiança",
-  t:(p,pe)=>`Você já espiou o celular dele escondido, por desconfiança?`,
+  t:(p,pe)=>`Você já espiou o celular ${po(pe)} escondido, por desconfiança?`,
   opts:[{l:"SIM",sim:true,v:3},{l:"NÃO",v:0}]}
 ];
 const CATS=[
@@ -643,8 +643,18 @@ function freshState(stage){
 st=freshState();
 render();
 
-function pc(){return st.gender==="m"?"sua esposa/namorada":"seu marido/namorado"}
+function pc(){return st.nome|| (st.gender==="m"?"sua esposa/namorada":"seu marido/namorado")}
 function pe(){return st.gender==="m"?"ela":"ele"}
+// Infere o gênero do PARCEIRO pelo nome digitado (comunicação voltada p/ homem se nome masculino)
+function inferirGeneroNome(n){
+  const s=String(n||"").trim().toLowerCase().replace(/\s+/g,"");
+  if(!s)return"f";
+  const fems=["ana","maria","julia","júlia","gabriela","camila","leticia","letícia","fernanda","vanessa","jessica","jéssica","patricia","patrícia","bruna","aline","raquel","bia","carol","carolina","larissa","amanda","sabrina","isabela","isabella","laura","sara","sofia","beatriz","yasmin","milena","bianca","monica","mônica","tania","tânia","elaine","evelyn","samantha","nataly","natalia","natália","mariana","daniela","danielle","paula","luana","karina","priscila","priscilla","simone","andreia","adriana","fabiana","tabata","mirela","nicole","angela","juliana","vitoria","vitória","claudia","cláudia","regina","silvana","erica","érica","manuela","lucia","lúcia","solange","helena","dayane","michele","michelle","kelly","denise","silvia","sílvia","carla","rosa","marlene","elaine","marta","lorena","zaneta"];
+  const mascA=["cauã","kauã","joshua"];
+  if(fems.includes(s))return"m";
+  if(/a$/.test(s)&&!mascA.includes(s))return"m";
+  return"f";
+}
 function po(x){return x==="ele"?"dele":"dela"}
 
 function tone(f,d,type,vol,delay){
@@ -1282,6 +1292,8 @@ app.addEventListener("click",e=>{
       return;
     }
     st.nome=nome;
+    st.gender=inferirGeneroNome(nome);
+    track("ck_gender",{genero:st.gender});
     track("ck_nome_submit",{tem_nome:true,passo:1});
     sndBonus();
     st.idx++;
