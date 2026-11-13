@@ -591,6 +591,7 @@ const CATS=[
  {ids:["confianca","checar","c_check"],name:"Confiança Abalada"}
 ];
 const app=document.getElementById("app");
+const CHECKOUT_URL="https://pay.cakto.com.br/3eisr3u_1320943";
 // ==== Medição GTM ====
 function track(ev,params){
   window.dataLayer=window.dataLayer||[];
@@ -1293,7 +1294,7 @@ app.addEventListener("click",e=>{
   }else if(action==="checkout"){
     track("ck_checkout_click");
     document.dispatchEvent(new CustomEvent("ck_cta_click"));
-    window.open("https://pay.cakto.com.br/3eisr3u_1320943","_blank","noopener");
+    window.open(CHECKOUT_URL,"_blank","noopener");
   }else if(action==="cta"){
     document.dispatchEvent(new CustomEvent("ck_cta_click"));
   }else if(action==="sound"){
