@@ -435,6 +435,39 @@ a.btn:hover{filter:brightness(1.1)}
 .pn-dec{font-size:22px;font-weight:800;color:#fff;margin-top:4px}
 .pn-sub{font-size:11.5px;color:var(--mut);font-weight:600}
 
+/* ===== CONTADOR AO VIVO (intro) ===== */
+.verif{
+  display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:750;
+  color:#4ade80;background:#22c55e14;border:1px solid #22c55e33;
+  padding:6px 13px;border-radius:99px;
+}
+.verif i{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 6px #4ade80;animation:feedpulse 1.2s infinite ease-in-out}
+.verif b{color:#fff}
+
+/* ===== CLIPPING DE NOTÍCIA (resultado) ===== */
+.news-card{margin-top:22px;background:#141414;border:1px solid var(--line);border-radius:18px;overflow:hidden;text-align:left}
+.news-head{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;background:#0d0d0d;border-bottom:1px solid var(--line)}
+.news-tag{font-size:10.5px;font-weight:850;letter-spacing:1px;text-transform:uppercase;color:#f5b301;background:#f5b30118;border:1px solid #f5b30144;padding:3px 9px;border-radius:99px}
+.news-date{font-size:10.5px;color:var(--mut)}
+.news-img-wrap{position:relative;cursor:pointer;border-bottom:1px solid #25d36620}
+.news-img-wrap:active{opacity:.85}
+.news-img-wrap img{width:100%;display:block;aspect-ratio:16/10;object-fit:cover}
+.news-body{padding:14px 15px 15px}
+.news-title{font-size:17.5px;font-weight:850;line-height:1.25;letter-spacing:-.2px;color:#fff}
+.news-sub{font-size:13.5px;color:var(--mut);line-height:1.5;margin-top:7px}
+.news-curio{
+  margin-top:11px;font-size:13.5px;font-weight:700;color:#ffb4b4;line-height:1.45;
+  background:#ff25250f;border:1px dashed #ff252544;border-radius:12px;padding:10px 12px;
+}
+.news-src{font-size:10.5px;color:#7a7a7a;margin-top:10px;line-height:1.5}
+
+/* ===== LINHAS DE ESCANEAMENTO (calculando) ===== */
+.calc-scan{display:grid;gap:9px;margin:22px auto 0;max-width:290px;text-align:left}
+.calc-scan span{display:flex;gap:9px;align-items:center;font-size:13.5px;font-weight:650;color:#d6d6d6;opacity:.28;transition:opacity .35s}
+.calc-scan span.on{opacity:1}
+.calc-scan .dot{flex:0 0 8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 8px #ff2525}
+
+
 /* ===== IMG LIGHTBOX MODAL ===== */
 .img-modal-overlay{
   position:fixed;inset:0;background:#000000f0;backdrop-filter:blur(8px);
@@ -489,7 +522,7 @@ a.btn:hover{filter:brightness(1.1)}
 #stickyCta{position:fixed;left:12px;right:12px;bottom:12px;z-index:9;display:flex;align-items:center;justify-content:space-between;gap:10px;background:#160808f2;border:1px solid #ff252555;border-radius:14px;padding:10px 12px 10px 16px;box-shadow:0 10px 30px #000c}
 #stickyCta .sp{font-size:13px;font-weight:800}
 #stickyCta .sp small{display:block;font-size:11px;color:var(--mut);font-weight:600}
-#stickyCta .go{background:var(--rose);color:#fff;font-weight:800;border-radius:10px;padding:11px 18px;text-decoration:none;font-size:14px;white-space:nowrap}
+#stickyCta .go{background:var(--rose);color:#fff;font-weight:800;border-radius:10px;padding:11px 18px;text-decoration:none;font-size:14px;white-space:nowrap;cursor:pointer;border:none}
 .reveal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
 .feed-card{
   position:relative;aspect-ratio:9/16;border-radius:16px;overflow:hidden;
@@ -602,7 +635,7 @@ function track(ev,params){
       const ga={};
       const p=params||{};
       for(const k in p){const v=p[k];if(typeof v==="string"||typeof v==="number"||typeof v==="boolean")ga[k]=v;}
-      if(ev==="ck_checkout_click"){ga.value=28;ga.currency="BRL";}
+      if(ev==="ck_checkout_click"){ga.value=47;ga.currency="BRL";}
       window.gtag("event",ev,ga);
     }
   }catch(gErr){}
@@ -610,9 +643,9 @@ function track(ev,params){
   try{
     if(window.fbq&&typeof window.fbq==="function"){
       if(ev==="ck_result"){
-        window.fbq("track","ViewContent",{content_name:"Acesso Confere",value:28,currency:"BRL"});
+        window.fbq("track","ViewContent",{content_name:"Acesso Confere",value:47,currency:"BRL"});
       }else if(ev==="ck_checkout_click"){
-        window.fbq("track","InitiateCheckout",{value:28,currency:"BRL"});
+        window.fbq("track","InitiateCheckout",{value:47,currency:"BRL"});
       }else{
         window.fbq("trackCustom",ev);
       }
@@ -622,7 +655,7 @@ function track(ev,params){
   try{
     if(window.ttq&&typeof window.ttq.track==="function"){
       if(ev==="ck_checkout_click"){
-        window.ttq.track("InitiateCheckout",{value:28,currency:"BRL"});
+        window.ttq.track("InitiateCheckout",{value:47,currency:"BRL"});
       }else{
         window.ttq.track(ev,params||{});
       }
@@ -633,12 +666,15 @@ let lastView=null;
 let st=null;
 let RESULT=null;
 let calcTimer=null;
+let calcScanTimer=null;
+let verifTimer=null;
+let verifN=Math.floor(1180+new Date().getHours()*11+new Date().getMinutes()*.4);
 let soundOn=localStorage.getItem("ck_sound")!=="0";
 let ac=null;
 
 function freshState(stage){
   return {stage:stage||"intro",idx:0,gender:"f",answers:[],seq:BASE.slice(),
-    answered:0,sinais:0,halfSeen:false,revealSeen:false,handle:"",wa:"",nome:"",handleSeen:false};
+    answered:0,sinais:0,halfSeen:false,revealSeen:false,analiseSeen:false,handle:"",wa:"",nome:"",handleSeen:false};
 }
 st=freshState();
 render();
@@ -722,7 +758,8 @@ function viewIntro(){
       <div class="rule" style="margin-top:14px"></div>
     </div>
     <h1 style="text-transform:uppercase;text-align:center;margin-top:20px">Espione tudo que ele vê e faz no celular</h1>
-    <button class="btn" data-action="start">QUERO SABER A VERDADE →</button>
+    <div class="verif"><i></i><span><b id="verifN">${verifN.toLocaleString("pt-BR")}</b> verificações feitas hoje</span></div>
+    <button class="btn" data-action="start" style="margin-top:14px">QUERO SABER A VERDADE →</button>
   </div>
   <p class="disc">Privacidade e segurança de dados 🔒</p>`;
 }
@@ -788,10 +825,16 @@ function viewHalf(){
 
 function viewCalc(){
   return `${bar(100,"Calculando")}
-  <div class="card" style="text-align:center;padding-top:56px;padding-bottom:56px">
+  <div class="card" style="text-align:center;padding-top:46px;padding-bottom:56px">
     <div class="spin"></div>
     <div class="calc-t">Revelando o que suas respostas escondem...</div>
-    <div class="calc-s">Alguns segundos — o resultado é gravado e travado</div>
+    <div class="calc-scan" id="calcScan">
+      <span><i class="dot"></i>Analisando padrões de curtidas...</span>
+      <span><i class="dot"></i>Cruzando os sinais do feed...</span>
+      <span><i class="dot"></i>Verificando padrões de inbox...</span>
+      <span><i class="dot"></i>Fechando o Índice de Dúvida...</span>
+    </div>
+    <div class="calc-s" style="margin-top:20px">O resultado é gravado e travado ao final</div>
   </div>`;
 }
 
@@ -1009,6 +1052,23 @@ function videoSlot(){
   return `<div class="vslot"><div class="vslot-t">Assista antes de decidir — 1 minuto</div><div class="vwrap">${renderVideoEmbed(VIDEO_URL, "Assista antes de decidir")}</div></div>`;
 }
 
+function newsSlot(){
+  const p=pe();
+  return `<div class="news-card">
+    <div class="news-head"><span class="news-tag">📰 Notícia de hoje</span><span class="news-date">Pesquisa Gleeden · jul 2022</span></div>
+    <div class="news-img-wrap" onclick="openImgModal('img/noticia-infidelidade.jpg')" title="Toque para ampliar">
+      <img src="img/noticia-infidelidade.jpg" alt="Pesquisa: 8 a cada 10 brasileiros já traíram seus parceiros" loading="lazy">
+      <span class="wa-feed-zoom-hint">🔍 Toque p/ ampliar</span>
+    </div>
+    <div class="news-body">
+      <div class="news-title">Infidelidade: 8 a cada 10 brasileiros já traíram seus parceiros</div>
+      <p class="news-sub">Levantamento do aplicativo Gleeden mediu a infidelidade no Brasil — apontado como o país mais infiel da América Latina — e mapeou onde os casos se concentram.</p>
+      <div class="news-curio">Se a estatística é essa, a resposta sobre ${pc()} não está no que você imagina — está no que ${p} vê e conversa no celular.</div>
+      <div class="news-src">Fonte: pesquisa Gleeden, coberta por Metrópoles · Terra · Band (jul/2022)</div>
+    </div>
+  </div>`;
+}
+
 function viewResult(){
   const {pct,lv,highlights,profile,strong,answeredN}=RESULT;
   const hi=highlights.length
@@ -1033,6 +1093,7 @@ function viewResult(){
     </div>
     ${videoSlot()}
     ${depoSlot()}
+    ${newsSlot()}
     <div class="cta-box">
       <div class="kicker">${low?"O passo que falta":"Acesso Liberado"}</div>
       <div class="cta-title" style="margin-bottom:6px">${low?"Suas respostas estão limpas — falta o invisível":"Sua dúvida tem resposta — descubra hoje"}</div>
@@ -1058,6 +1119,10 @@ function viewResult(){
       <div class="cta-note">Menos que 1 sessão de terapia · Cakto seguro · Cartão, Pix ou PicPay</div>
       <div class="trust"><span>100% anônimo</span><span>Sem cadastro</span><span>Resposta na hora</span><span>${pe2==="ele"?"Ele":"Ela"} nunca fica sabendo</span></div>
     </div>
+  </div>
+  <div id="stickyCta">
+    <div class="sp">ÍNDICE DE DÚVIDA: ${RESULT.pct}% <small>Não deixe a dúvida vencer</small></div>
+    <button class="go" data-action="checkout">VER A RESPOSTA →</button>
   </div>`;
 }
 
@@ -1066,6 +1131,7 @@ function render(){
   if(st.stage==="intro")html=viewIntro();
   else if(st.stage==="question")html=viewQuestion();
   else if(st.stage==="reveal")html=viewReveal();
+  else if(st.stage==="analise")html=viewAnalise();
   else if(st.stage==="calc")html=viewCalc();
   else html=viewResult();
   app.classList.remove("fade");
@@ -1083,6 +1149,21 @@ function render(){
     if(v){v.muted=true;v.play().catch(()=>{});}
   }
   if(st.stage==="result")animateResult();
+  if(st.stage==="calc"){
+    const spans=[...app.querySelectorAll("#calcScan span")];
+    spans.forEach((s,i)=>s.classList.toggle("on",i===0));
+    let ci=0;
+    if(calcScanTimer)clearInterval(calcScanTimer);
+    calcScanTimer=setInterval(()=>{ci++;if(ci<spans.length)spans[ci].classList.add("on")},420);
+  }else if(calcScanTimer){clearInterval(calcScanTimer);calcScanTimer=null;}
+  if(st.stage==="intro"){
+    if(verifTimer)clearInterval(verifTimer);
+    verifTimer=setInterval(()=>{
+      verifN++;
+      const el=document.getElementById("verifN");
+      if(el)el.textContent=verifN.toLocaleString("pt-BR");
+    },2600);
+  }else if(verifTimer){clearInterval(verifTimer);verifTimer=null;}
 }
 
 function animateResult(){
@@ -1146,6 +1227,10 @@ function advance(){
   }else if(st.gender&&st.answered>=1&&!st.revealSeen){
     st.revealSeen=true;
     st.stage="reveal";
+    render();
+  }else if(st.gender&&st.answered>=2&&!st.analiseSeen){
+    st.analiseSeen=true;
+    st.stage="analise";
     render();
   }else{
     st.stage="question";
@@ -1301,6 +1386,9 @@ app.addEventListener("click",e=>{
     st.stage="question";
     render();
   }else if(action==="continue"){
+    st.stage="question";
+    render();
+  }else if(action==="toQuestions"){
     st.stage="question";
     render();
   }else if(action==="checkout"){

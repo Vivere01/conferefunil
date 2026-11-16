@@ -39,6 +39,7 @@ R$ 28 de gasto ≈ 4.000 impressões → com CTR de 1% ≈ 40 cliques reais → 
 | 1b | Criativo | Retenção de 3s | ≥ 30% | < 20% | Cortar a introdução do vídeo |
 | 2 | **Funil — entrada** | `ck_landing → ck_start` | 15–30% | < 10% | Encurtar intro / reforçar a promessa |
 | 3 | Funil — vídeo | `ck_start → ck_stage (após revelar)` | 60–80% | < 45% | Vídeo pesado? encurtar a contagem do reveal |
+| 3b | Funil — inbox (curiosidade) | `ck_stage (etapa analise) → próxima pergunta` | 70–90% | < 55% | Encurtar texto do inbox / reforçar "e se fosse no inbox dele?" |
 | 4 | Funil — resposta | `ck_stage → ck_result` | 80–95% | < 65% | encurtar perguntas (cansaço) |
 | 5 | **Oferta/CTA** | `ck_result → ck_checkout_click` | 25–50% | < 15% | Oferta não conecta com a dor → reescrever âncora/preço do CTA (não existe mais popup: o resultado leva direto ao checkout) |
 | 6 | **Checkout/preço** | `ck_checkout_click → compra` | 8–12% | < 5% (com ≥ 50 cliques) | Fricção no Cakto ou preço — preço é o ÚLTIMO de tudo |
