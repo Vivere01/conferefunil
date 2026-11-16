@@ -600,14 +600,22 @@ const BASE=[
  {id:"nome",nome:true,t:()=>"Qual o nome do seu parceiro ou parceira?"},
  {id:"horas",t:p=>`A quantidade de horas que ${p} passa no celular longe de você já te incomoda?`,s:"Some horas no celular longe de você",
   opts:[{l:"SIM",sim:true,v:3},{l:"NÃO",v:0}]},
+ {id:"demora",t:(p,pe)=>`Nos últimos meses, ${pe} passou a voltar mais tarde do trabalho — e sem explicação boa?`,s:"Passou a voltar mais tarde do trabalho sem explicação",
+  opts:[{l:"SIM",sim:true,v:3},{l:"NÃO",v:0}]},
  {id:"tela",t:(p,pe)=>`Quando você chega perto de repente, ${pe} esconde, trava ou vira o celular?`,s:"Esconde o celular quando você chega",
   opts:[{l:"SIM",sim:true,v:3},{l:"NÃO",v:0}]},
  {id:"tempo",t:(p,pe)=>`O celular ${po(pe)} já roubou conversas, jantares ou noites que deveriam ser dos dois?`,s:"O celular roubou tempo do casal",
   opts:[{l:"SIM",sim:true,v:2},{l:"NÃO",v:0}]},
+ {id:"amigos",t:(p,pe)=>`Os amigos mais próximos de ${pe} são solteiros — e ${pe} sai com eles com frequência?`,s:"Rodeia de amigos solteiros e sai com eles",
+  opts:[{l:"SIM",sim:true,v:2},{l:"NÃO",v:0}]},
  {id:"curtidas",t:pe=>`Você já viu ${pe} curtindo ou comentando vídeo de mulher atraente?`,s:"Curte vídeo de mulher atraente",
+  opts:[{l:"SIM",sim:true,v:2},{l:"NÃO",v:0}]},
+ {id:"arranjo",t:(p,pe)=>`${pe==="ela"?"Ela":"Ele"} mudou do nada: academia, roupa nova, perfume novo antes de sair?`,s:"Mudou o visual do nada antes de sair",
   opts:[{l:"SIM",sim:true,v:2},{l:"NÃO",v:0}]},
  {id:"brigas",t:()=>"Vocês já brigaram ou discutiram por causa do celular?",s:"Brigas por causa do celular",
   opts:[{l:"SIM",sim:true,v:2},{l:"NÃO",v:0}]},
+ {id:"saidas",t:(p,pe)=>`Você costuma descobrir as saídas de ${pe} depois — por amigos, stories ou um 'esqueci de te contar'?`,s:"Fica sabendo das saídas por terceiros",
+  opts:[{l:"SIM",sim:true,v:3},{l:"NÃO",v:0}]},
  {id:"confianca",t:(p,pe)=>`Se você virasse o celular ${po(pe)} agora, acha que acharia algo escondido?`,s:"Acha que acharia algo escondido no celular",
   opts:[{l:"SIM",sim:true,v:3},{l:"NÃO",v:0}]},
  {id:"checar",t:(p,pe)=>`Já bateu aquela vontade de ver exatamente o que ${pe} vê no celular — e com quem conversa?`,s:"Quer ver o que ele vê no celular",
@@ -629,7 +637,8 @@ const CONDS=[
 const CATS=[
  {ids:["tela","curtidas","brigas","c_tela"],name:"Tela Fechada"},
  {ids:["horas","tempo","celular","c_planos"],name:"Conexão Rompida"},
- {ids:["confianca","checar","c_check"],name:"Confiança Abalada"}
+ {ids:["confianca","checar","c_check"],name:"Confiança Abalada"},
+ {ids:["demora","amigos","arranjo","saidas"],name:"Rotina Oculta"}
 ];
 const app=document.getElementById("app");
 const CHECKOUT_URL="https://pay.cakto.com.br/3eisr3u_1320943";
