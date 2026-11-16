@@ -691,7 +691,7 @@ let ac=null;
 
 function freshState(stage){
   return {stage:stage||"intro",idx:0,gender:"f",answers:[],seq:BASE.slice(),
-    answered:0,sinais:0,halfSeen:false,revealSeen:false,analiseSeen:false,handle:"",wa:"",nome:"",handleSeen:false};
+    answered:0,sinais:0,halfSeen:false,revealSeen:false,analiseSeen:false,noticiaSeen:false,handle:"",wa:"",nome:"",handleSeen:false};
 }
 st=freshState();
 render();
@@ -1064,20 +1064,25 @@ function videoSlot(){
   return `<div class="vslot"><div class="vslot-t">Assista antes de decidir — 1 minuto</div><div class="vwrap">${renderVideoEmbed(VIDEO_URL, "Assista antes de decidir")}</div></div>`;
 }
 
-function newsSlot(){
+function viewNoticia(){
   const p=pe();
-  return `<div class="news-card">
-    <div class="news-head"><span class="news-tag">📰 Notícia de hoje</span><span class="news-date">Pesquisa Gleeden · jul 2022</span></div>
-    <div class="news-img-wrap" onclick="openImgModal('img/noticia-infidelidade.jpg')" title="Toque para ampliar">
-      <img src="img/noticia-infidelidade.jpg" alt="Pesquisa: 8 a cada 10 brasileiros já traíram seus parceiros" loading="lazy">
-      <span class="wa-feed-zoom-hint">🔍 Toque p/ ampliar</span>
+  return `${bar(100,"Notícia de hoje")}
+  <div class="card">
+    <div class="news-card" style="margin-top:0">
+      <div class="news-head"><span class="news-tag">📰 Notícia de hoje</span><span class="news-date">Pesquisa Gleeden · jul 2022</span></div>
+      <div class="news-img-wrap" onclick="openImgModal(this.querySelector('img').src)" title="Toque para ampliar">
+        <img src="img/noticia-infidelidade.jpg" alt="Pesquisa: 8 a cada 10 brasileiros já traíram seus parceiros" loading="lazy">
+        <span class="wa-feed-zoom-hint">🔍 Toque p/ ampliar</span>
+      </div>
+      <div class="news-body">
+        <div class="news-title">Infidelidade: 8 a cada 10 brasileiros já traíram seus parceiros</div>
+        <p class="news-sub">Levantamento do aplicativo Gleeden mediu a infidelidade no Brasil — apontado como o país mais infiel da América Latina — e mapeou onde os casos se concentram.</p>
+        <div class="news-curio">Se a estatística é essa, a resposta sobre ${pc()} não está no que você imagina — está no que ${p} vê e conversa no celular.</div>
+        <div class="news-src">Fonte: pesquisa Gleeden, coberta por Metrópoles · Terra · Band (jul/2022)</div>
+      </div>
     </div>
-    <div class="news-body">
-      <div class="news-title">Infidelidade: 8 a cada 10 brasileiros já traíram seus parceiros</div>
-      <p class="news-sub">Levantamento do aplicativo Gleeden mediu a infidelidade no Brasil — apontado como o país mais infiel da América Latina — e mapeou onde os casos se concentram.</p>
-      <div class="news-curio">Se a estatística é essa, a resposta sobre ${pc()} não está no que você imagina — está no que ${p} vê e conversa no celular.</div>
-      <div class="news-src">Fonte: pesquisa Gleeden, coberta por Metrópoles · Terra · Band (jul/2022)</div>
-    </div>
+    <p class="lead" style="text-align:center;margin-top:16px">O seu Índice de Dúvida já está calculado — e travado.</p>
+    <div style="margin-top:14px"><button class="btn" data-action="calcGo">QUERO O MEU ÍNDICE →</button></div>
   </div>`;
 }
 
@@ -1105,7 +1110,6 @@ function viewResult(){
     </div>
     ${videoSlot()}
     ${depoSlot()}
-    ${newsSlot()}
     <div class="cta-box">
       <div class="kicker">${low?"O passo que falta":"Acesso Liberado"}</div>
       <div class="cta-title" style="margin-bottom:6px">${low?"Suas respostas estão limpas — falta o invisível":"Sua dúvida tem resposta — descubra hoje"}</div>
@@ -1144,6 +1148,7 @@ function render(){
   else if(st.stage==="question")html=viewQuestion();
   else if(st.stage==="reveal")html=viewReveal();
   else if(st.stage==="analise")html=viewAnalise();
+  else if(st.stage==="noticia")html=viewNoticia();
   else if(st.stage==="calc")html=viewCalc();
   else html=viewResult();
   app.classList.remove("fade");
@@ -1235,7 +1240,13 @@ function advance(){
   st.idx++;
   if(st.idx>=st.seq.length){
     computeResult();
-    startCalc();
+    if(!st.noticiaSeen){
+      st.noticiaSeen=true;
+      st.stage="noticia";
+      render();
+    }else{
+      startCalc();
+    }
   }else if(st.gender&&st.answered>=1&&!st.revealSeen){
     st.revealSeen=true;
     st.stage="reveal";
@@ -1403,6 +1414,8 @@ app.addEventListener("click",e=>{
   }else if(action==="toQuestions"){
     st.stage="question";
     render();
+  }else if(action==="calcGo"){
+    startCalc();
   }else if(action==="checkout"){
     track("ck_checkout_click");
     document.dispatchEvent(new CustomEvent("ck_cta_click"));
