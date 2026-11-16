@@ -685,13 +685,14 @@ let RESULT=null;
 let calcTimer=null;
 let calcScanTimer=null;
 let verifTimer=null;
+let waTimer=null;
 let verifN=Math.floor(1180+new Date().getHours()*11+new Date().getMinutes()*.4);
 let soundOn=localStorage.getItem("ck_sound")!=="0";
 let ac=null;
 
 function freshState(stage){
   return {stage:stage||"intro",idx:0,gender:"f",answers:[],seq:BASE.slice(),
-    answered:0,sinais:0,halfSeen:false,revealSeen:false,analiseSeen:false,noticiaSeen:false,handle:"",wa:"",nome:"",handleSeen:false};
+    answered:0,sinais:0,halfSeen:false,revealSeen:false,analiseSeen:false,noticiaSeen:false,waStarted:false,handle:"",wa:"",nome:"",handleSeen:false};
 }
 st=freshState();
 render();
@@ -905,6 +906,38 @@ function viewAnalise(){
   </div>`;
 }
 
+function viewWa(){
+  const pct=Math.round((st.idx/st.seq.length)*100);
+  if(!st.waStarted){
+    return `${bar(100,"Último passo")}
+    <div class="card">
+      <div class="kicker">Acesso ao Confere</div>
+      <h2>Para onde enviamos o seu resultado?</h2>
+      <p class="lead">Confirme seu WhatsApp — é por aí que chega o Índice de Dúvida e o acesso aos sinais.</p>
+      <div class="tk-wrap" id="waWrap">
+        <span class="tk-wa"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.6-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.6-1.2.1-.2 0-.4 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.2.8 3 .6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2 0-.1-.2-.2-.5-.3z"/></svg></span>
+        <input class="tk-in" id="waIn" type="tel" inputmode="numeric" placeholder="(11) 9XXXX-XXXX" maxlength="15" autocomplete="tel">
+      </div>
+      <div class="tk-err">Digite um número válido com DDD</div>
+      <div style="margin-top:16px"><button class="btn" data-action="waGo">INICIAR VERIFICAÇÃO →</button></div>
+      <p class="micro" style="margin-top:14px">Você recebe tudo por aí · ${pe()==="ele"?"Ele":"Ela"} nunca fica sabendo</p>
+    </div>`;
+  }
+  return `${bar(100,"Verificando")}
+  <div class="card" style="text-align:center;padding-top:46px;padding-bottom:56px">
+    <div class="spin"></div>
+    <div class="calc-t">Verificando o número...</div>
+    <div class="calc-scan" id="waScan">
+      <span><i class="dot"></i>Conectando ao servidor...</span>
+      <span><i class="dot"></i>Verificando disponibilidade de acesso...</span>
+      <span><i class="dot"></i>Cruzando os sinais do seu teste...</span>
+      <span><i class="dot"></i>Preparando o envio do resultado...</span>
+    </div>
+    <div class="progress" style="margin-top:26px"><i id="waBar" style="width:0%"></i></div>
+    <div class="calc-s" style="margin-top:14px">Não feche esta tela — o resultado é travado ao final</div>
+  </div>`;
+}
+
 function levelOf(pct){
   if(pct<35)return{
     c:"#22c55e",t:"Dúvida Leve",
@@ -1082,7 +1115,7 @@ function viewNoticia(){
       </div>
     </div>
     <p class="lead" style="text-align:center;margin-top:16px">O seu Índice de Dúvida já está calculado — e travado.</p>
-    <div style="margin-top:14px"><button class="btn" data-action="calcGo">QUERO O MEU ÍNDICE →</button></div>
+    <div style="margin-top:14px"><button class="btn" data-action="toWa">QUERO O MEU ÍNDICE →</button></div>
   </div>`;
 }
 
@@ -1149,6 +1182,7 @@ function render(){
   else if(st.stage==="reveal")html=viewReveal();
   else if(st.stage==="analise")html=viewAnalise();
   else if(st.stage==="noticia")html=viewNoticia();
+  else if(st.stage==="wa")html=viewWa();
   else if(st.stage==="calc")html=viewCalc();
   else html=viewResult();
   app.classList.remove("fade");
@@ -1173,6 +1207,22 @@ function render(){
     if(calcScanTimer)clearInterval(calcScanTimer);
     calcScanTimer=setInterval(()=>{ci++;if(ci<spans.length)spans[ci].classList.add("on")},420);
   }else if(calcScanTimer){clearInterval(calcScanTimer);calcScanTimer=null;}
+  if(st.stage==="wa"&&st.waStarted){
+    const spans=[...app.querySelectorAll("#waScan span")];
+    spans.forEach((s,i)=>s.classList.toggle("on",i===0));
+    const barEl=document.getElementById("waBar");
+    let wi=0,wp=0;
+    if(waTimer)clearInterval(waTimer);
+    waTimer=setInterval(()=>{
+      wp+=2;wi=Math.floor(wp/26);
+      if(wi<spans.length&&wp>=wi*26)spans[wi].classList.add("on");
+      if(barEl)barEl.style.width=Math.min(100,wp)+"%";
+      if(wp>=100){
+        clearInterval(waTimer);waTimer=null;
+        setTimeout(()=>{if(st.stage==="wa")startCalc()},400);
+      }
+    },80);
+  }else if(waTimer){clearInterval(waTimer);waTimer=null;}
   if(st.stage==="intro"){
     if(verifTimer)clearInterval(verifTimer);
     verifTimer=setInterval(()=>{
@@ -1243,6 +1293,9 @@ function advance(){
     if(!st.noticiaSeen){
       st.noticiaSeen=true;
       st.stage="noticia";
+      render();
+    }else if(!st.waStarted){
+      st.stage="wa";
       render();
     }else{
       startCalc();
@@ -1414,6 +1467,24 @@ app.addEventListener("click",e=>{
   }else if(action==="toQuestions"){
     st.stage="question";
     render();
+  }else if(action==="toWa"){
+    st.stage="wa";
+    render();
+  }else if(action==="waGo"){
+    const inp=document.getElementById("waIn");
+    const d=(inp&&inp.value?inp.value:"").replace(/\D/g,"");
+    if(d.length<10||d.length>11){
+      const w=document.getElementById("waWrap");
+      if(w){w.classList.remove("err");void w.offsetWidth;w.classList.add("err")}
+      return;
+    }
+    st.wa=d.length===11
+      ?`(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`
+      :`(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}`;
+    st.waStarted=true;
+    track("ck_wa_submit");
+    sndBonus();
+    render();
   }else if(action==="calcGo"){
     startCalc();
   }else if(action==="checkout"){
@@ -1443,6 +1514,11 @@ app.addEventListener("keydown",e=>{
   if(e.key==="Enter"&&e.target.id==="nomeIn"){
     e.preventDefault();
     submitNomeStep();
+  }
+  if(e.key==="Enter"&&e.target.id==="waIn"){
+    e.preventDefault();
+    const b=document.querySelector('[data-action="waGo"]');
+    if(b)b.click();
   }
 });
 
