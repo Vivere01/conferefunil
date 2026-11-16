@@ -475,6 +475,13 @@ a.btn:hover{filter:brightness(1.1)}
 .calc-scan span.on{opacity:1}
 .calc-scan .dot{flex:0 0 8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 8px #ff2525}
 
+/* ===== CADEADOS (alerta pos-analise) ===== */
+.lock-row{display:flex;justify-content:center;gap:16px;margin:4px 0 16px}
+.lock-row span{font-size:36px;filter:drop-shadow(0 0 10px #ff252566);animation:lockpulse 1.6s infinite ease-in-out}
+.lock-row span:nth-child(2){animation-delay:.3s}
+.lock-row span:nth-child(3){animation-delay:.6s}
+@keyframes lockpulse{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.18);opacity:1}}
+
 
 /* ===== IMG LIGHTBOX MODAL ===== */
 .img-modal-overlay{
@@ -694,7 +701,7 @@ let ac=null;
 
 function freshState(stage){
   return {stage:stage||"intro",idx:0,gender:"f",answers:[],seq:BASE.slice(),
-    answered:0,sinais:0,halfSeen:false,revealSeen:false,analiseSeen:false,noticiaSeen:false,waStarted:false,handle:"",wa:"",nome:"",handleSeen:false};
+    answered:0,sinais:0,halfSeen:false,revealSeen:false,analiseSeen:false,noticiaSeen:false,waStarted:false,waRevealed:false,handle:"",wa:"",nome:"",handleSeen:false};
 }
 st=freshState();
 render();
@@ -910,6 +917,20 @@ function viewAnalise(){
 
 function viewWa(){
   const pct=Math.round((st.idx/st.seq.length)*100);
+  if(st.waRevealed){
+    const alvo=pc();
+    return `${bar(100,"Alerta da IA")}
+    <div class="card" style="text-align:center">
+      <div class="lock-row"><span>🔒</span><span>🔒</span><span>🔒</span></div>
+      <div class="kicker" style="color:#f5b301">⚠ Alerta de padrão</div>
+      <h2>Existe — nossa IA identificou possíveis conversas trancadas</h2>
+      <p class="lead">Os ${st.answered} sinais do seu teste são compatíveis com conversas protegidas por bloqueio no celular de ${alvo} — do tipo que ninguém vê por fora.</p>
+      <div class="half-sinais"><b>${st.sinais}</b> sinais · padrão de ocultação detectado</div>
+      <div class="instinto">A contagem continua no próximo passo — e o que está trancado só se abre com o acesso certo.</div>
+      <div style="margin-top:22px"><button class="btn pulse" data-action="calcGo">QUERO VERIFICAR AGORA →</button></div>
+      <p class="micro" style="margin-top:14px">${pe()==="ele"?"Ele":"Ela"} nunca fica sabendo</p>
+    </div>`;
+  }
   if(!st.waStarted){
     return `${bar(100,"Último passo")}
     <div class="card">
@@ -1210,7 +1231,7 @@ function render(){
     if(calcScanTimer)clearInterval(calcScanTimer);
     calcScanTimer=setInterval(()=>{ci++;if(ci<spans.length)spans[ci].classList.add("on")},420);
   }else if(calcScanTimer){clearInterval(calcScanTimer);calcScanTimer=null;}
-  if(st.stage==="wa"&&st.waStarted){
+  if(st.stage==="wa"&&st.waStarted&&!st.waRevealed){
     const spans=[...app.querySelectorAll("#waScan span")];
     spans.forEach((s,i)=>s.classList.toggle("on",i===0));
     const barEl=document.getElementById("waBar");
@@ -1222,7 +1243,7 @@ function render(){
       if(barEl)barEl.style.width=Math.min(100,wp)+"%";
       if(wp>=100){
         clearInterval(waTimer);waTimer=null;
-        setTimeout(()=>{if(st.stage==="wa")startCalc()},400);
+        setTimeout(()=>{if(st.stage==="wa"){st.waRevealed=true;sndBonus();render()}},400);
       }
     },80);
   }else if(waTimer){clearInterval(waTimer);waTimer=null;}
