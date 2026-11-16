@@ -9,13 +9,14 @@
 
 | Indicador | Valor | Como calcular |
 |---|---|---|
-| Preço na página | R$ 28,00 | tabelado (âncora R$ 89,90 → "Menos de R$ 30") |
-| Receita líquida pós-Cakto | ~R$ 24–25 | preço − (taxa Cakto + taxa fixa) |
-| **CPA break-even** | **~R$ 24** | acima disso = perde dinheiro |
-| **CPA alvo (com lucro)** | **≤ R$ 12–14** | ~50% de margem |
+| Preço na página | R$ 47,00 | tabelado (âncora R$ 89,90 → "Menos de R$ 50") |
+| Receita líquida pós-Cakto | ~R$ 42–43 | preço − (taxa Cakto ~4,99% + R$ 2 fixo) |
+| **CPA break-even** | **~R$ 42** | acima disso = perde dinheiro |
+| **CPA alvo (com lucro)** | **≤ R$ 20–22** | ~50% de margem |
 
 **Matemática reversa (com seu CPM atual de R$ 7):**
-R$ 28 de gasto ≈ 4.100 impressões → com CTR de 1% ≈ 41 cliques reais → se 12–15% chegam ao clique de checkout e 8–10% compram no checkout → **CPA ≈ R$ 14–18 → espaço apertado; cada etapa do funil precisa performar** ✓
+R$ 28 de gasto ≈ 4.000 impressões → com CTR de 1% ≈ 40 cliques reais → se 12–15% chegam ao clique de checkout e 8–10% compram no checkout → **CPA ≈ R$ 14–18 (o CPA depende do funil, não do preço)**. Com receita líquida de ~R$ 42 por venda, o lucro por venda passa a ≈ R$ 24–28 → **antes era espaço apertado, agora há folga real** ✓
+⚠️ Ressalva: preço maior pode derrubar a conversão no checkout (etapa 6, saudável 8–12%) — monitorar antes de celebrar.
 
 **Conclusão:** a oferta é matematicamente lucrativa SE o funil se comporta. Cada etapa tem um gatilho numérico abaixo — quando ela quebra, você sabe ONDE agir.
 
@@ -55,7 +56,7 @@ R$ 28 de gasto ≈ 4.100 impressões → com CTR de 1% ≈ 41 cliques reais → 
 | **D0–D3** | Fase de aprendizado | ❌ NADA estrutural. Duas únicas exceções: (a) tráfego bot evidente (desligar Pangle), (b) evento de otimização errado (mudar para InitiateCheckout). Todo o resto = COLETAR DADOS. |
 | **D3** | Checkpoint 1 | Com ~R$ 35–50 gastos: ler SLEP → diagnosticar gargalo → escolher 1 alavanca da seção 3. Hipótese ANOTADA antes de mexer. |
 | **D5** | Checkpoint 2 | A variável mexida reverteu a etapa-alvo? SIM = mantém. NÃO = volta atrás e sobe para a alavanca `n+1` da ordem. |
-| **D7** | Sentença | 3 cenários: (A) ≥ 1 venda com CPA ≤ R$ 16 → **ESCALAR** (+20–50% por dia no anúncio vencedor, não na campanha toda); (B) funil até checkout saudável e compra fraca → pixel de compra ausente → conectar pixel no Cakto ANTES de julgar; (C) funil inteiro saudável e zero inits → problema de OFERTA/criativo → novo vértice. |
+| **D7** | Sentença | 3 cenários: (A) ≥ 1 venda com CPA ≤ R$ 22 → **ESCALAR** (+20–50% por dia no anúncio vencedor, não na campanha toda); (B) funil até checkout saudável e compra fraca → pixel de compra ausente → conectar pixel no Cakto ANTES de julgar; (C) funil inteiro saudável e zero inits → problema de OFERTA/criativo → novo vértice. |
 | **D10+** | Iteração | Máximo 1 mudança por ciclo por nível. Nunca mexer em 2 alavancas no mesmo ciclo. |
 
 ---
@@ -63,8 +64,8 @@ R$ 28 de gasto ≈ 4.100 impressões → com CTR de 1% ≈ 41 cliques reais → 
 ## 5. Kills e escala (regras duras)
 
 - **PAUSAR criativo:** R$ 15–20 gastos no anúncio sem 1 único `ck_start` → pausa, sem dó.
-- **PAUSAR campanha:** R$ 50 gastos (≈ 2× o CPA break-even) sem 1 `ck_checkout_click` real → pausa e reconstrói com outro vértice/ângulo.
-- **ESCALAR:** a 1ª venda com CPA ≤ R$ 14 → duplicar o anúncio vencedor em NOVO conjunto de anúncios (não mexer no original) e aumentar orçamento 20% a cada 24h conforme o CPA se mantém.
+- **PAUSAR campanha:** R$ 85 gastos (≈ 2× o CPA break-even) sem 1 `ck_checkout_click` real → pausa e reconstrói com outro vértice/ângulo.
+- **ESCALAR:** a 1ª venda com CPA ≤ R$ 22 → duplicar o anúncio vencedor em NOVO conjunto de anúncios (não mexer no original) e aumentar orçamento 20% a cada 24h conforme o CPA se mantém.
 - **Nunca escalar** com base em 1 dia de sorte: exigir 3 dias consecutivos lucrativos.
 
 ---
