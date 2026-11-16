@@ -913,27 +913,28 @@ function viewWa(){
   if(!st.waStarted){
     return `${bar(100,"Último passo")}
     <div class="card">
-      <div class="kicker">Acesso ao Confere</div>
-      <h2>Para onde enviamos o seu resultado?</h2>
-      <p class="lead">Confirme seu WhatsApp — é por aí que chega o Índice de Dúvida e o acesso aos sinais.</p>
+      <div class="kicker">Verificação com IA</div>
+      <h2>A IA Confere vai analisar os sinais do seu teste</h2>
+      <p class="lead">Confirme o WhatsApp para ativar a verificação — é por aí que chega o acesso ao diagnóstico completo.</p>
       <div class="tk-wrap" id="waWrap">
         <span class="tk-wa"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.6-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.6-1.2.1-.2 0-.4 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.2.8 3 .6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2 0-.1-.2-.2-.5-.3z"/></svg></span>
         <input class="tk-in" id="waIn" type="tel" inputmode="numeric" placeholder="(11) 9XXXX-XXXX" maxlength="15" autocomplete="tel">
       </div>
       <div class="tk-err">Digite um número válido com DDD</div>
-      <div style="margin-top:16px"><button class="btn" data-action="waGo">INICIAR VERIFICAÇÃO →</button></div>
-      <p class="micro" style="margin-top:14px">Você recebe tudo por aí · ${pe()==="ele"?"Ele":"Ela"} nunca fica sabendo</p>
+      <div style="margin-top:16px"><button class="btn" data-action="waGo">ANALISAR COM IA →</button></div>
+      <p class="micro" style="margin-top:14px">Diagnóstico gerado com IA a partir dos seus ${st.answered} sinais · ${pe()==="ele"?"Ele":"Ela"} nunca fica sabendo</p>
     </div>`;
   }
-  return `${bar(100,"Verificando")}
+  const alvo=pc();
+  return `${bar(100,"Analisando")}
   <div class="card" style="text-align:center;padding-top:46px;padding-bottom:56px">
     <div class="spin"></div>
-    <div class="calc-t">Verificando o número...</div>
+    <div class="calc-t">IA analisando os sinais de ${alvo}...</div>
     <div class="calc-scan" id="waScan">
-      <span><i class="dot"></i>Conectando ao servidor...</span>
-      <span><i class="dot"></i>Verificando disponibilidade de acesso...</span>
-      <span><i class="dot"></i>Cruzando os sinais do seu teste...</span>
-      <span><i class="dot"></i>Preparando o envio do resultado...</span>
+      <span><i class="dot"></i>Conectando a IA Confere...</span>
+      <span><i class="dot"></i>Cruzando os ${st.answered} sinais do seu teste...</span>
+      <span><i class="dot"></i>Analisando padrões de comportamento...</span>
+      <span><i class="dot"></i>Gerando seu diagnóstico com IA...</span>
     </div>
     <div class="progress" style="margin-top:26px"><i id="waBar" style="width:0%"></i></div>
     <div class="calc-s" style="margin-top:14px">Não feche esta tela — o resultado é travado ao final</div>
