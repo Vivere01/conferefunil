@@ -598,6 +598,8 @@ src="https://www.facebook.com/tr?id=2095096681372346&ev=PageView&noscript=1"
 <script>
 const BASE=[
  {id:"nome",nome:true,t:()=>"Qual o nome do seu parceiro ou parceira?"},
+ {id:"sonho",t:p=>`Você sonha ou já sonhou que ${p} estava te traindo?`,s:"Sonha ou já sonhou que era traído",
+  opts:[{l:"SIM",sim:true,v:2},{l:"NÃO",v:0}]},
  {id:"horas",t:p=>`A quantidade de horas que ${p} passa no celular longe de você já te incomoda?`,s:"Some horas no celular longe de você",
   opts:[{l:"SIM",sim:true,v:3},{l:"NÃO",v:0}]},
  {id:"demora",t:(p,pe)=>`Nos últimos meses, ${pe} passou a voltar mais tarde do trabalho — e sem explicação boa?`,s:"Passou a voltar mais tarde do trabalho sem explicação",
